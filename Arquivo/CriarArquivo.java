@@ -65,7 +65,7 @@ public class CriarArquivo extends Arquivo{
         frutas.put("amora", new int[] {6, 4});
         frutas.put("goiaba", new int[] {1, 1});
         
-        String nomeArquivo = "arqs" + System.getProperty("file.separator") + "teste.txt";
+        String nomeArquivo = "arqs" + System.getProperty("file.separator") + "ConfigCataFruta.txt";
     	CriarArquivo arquivo = new CriarArquivo(nomeArquivo, 6, 12, frutas, 3, 10);
 
         boolean arquivoCriado = arquivo.criarArquivo(arquivo.getNomeArquivo());

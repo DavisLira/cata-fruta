@@ -1,2 +1,11 @@
-Este é o conteúdo que estou escrevendo.
-Adicionando mais uma linha.
+dimensao 6
+pedras 6
+abacate 2 1
+acerola 3 3
+maracuja 6 1
+coco 1 1
+amora 6 4
+laranja 3 2
+goiaba 1 1
+bichadas 3
+mochila 10
