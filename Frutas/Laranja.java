@@ -1,4 +1,4 @@
-package CataFrutas;
+package Frutas;
 
 public class Laranja extends FrutaComPoder {
     public Laranja(String nome, int[] posicao, boolean bichada) {

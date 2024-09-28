@@ -1,4 +1,6 @@
-package CataFrutas;
+package Frutas;
+
+import Jogador.Jogador;
 
 public abstract class Fruta {
     private String nome;

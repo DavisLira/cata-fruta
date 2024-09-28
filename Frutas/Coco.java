@@ -1,4 +1,4 @@
-package CataFrutas;
+package Frutas;
 
 public class Coco extends FrutaComPoder {
     public Coco(String nome, int[] posicao, boolean bichada) {

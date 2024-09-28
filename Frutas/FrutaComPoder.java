@@ -1,4 +1,6 @@
-package CataFrutas;
+package Frutas;
+
+import Jogador.Jogador;
 
 public abstract class FrutaComPoder extends Fruta {
     private int poder;
