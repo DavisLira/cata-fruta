@@ -39,15 +39,55 @@ public class LerArquivo extends Arquivo{
                         this.setPedras(validarNumero(linha, "pedras"));
                         break;
                     case 3:
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                    case 8:
-                    case 9:
-           
+                        if (!linha.startsWith("maracuja ")) {
+                            System.out.println("Pedras tem que estar no formado 'maracuja x y'!");
+                            return false;
+                        }
                         validarFrutas(linha);
                         break;
+                    case 4:
+                        if (!linha.startsWith("laranja ")) {
+                            System.out.println("Pedras tem que estar no formado 'laranja x y'!");
+                            return false;
+                        }
+                        validarFrutas(linha);
+                        break;
+                    case 5:
+                        if (!linha.startsWith("abacate ")) {
+                            System.out.println("Pedras tem que estar no formado 'abacate x y'!");
+                            return false;
+                        }
+                        validarFrutas(linha);
+                        break;
+                    case 6:
+                        if (!linha.startsWith("coco ")) {
+                            System.out.println("Pedras tem que estar no formado 'coco x y'!");
+                            return false;
+                        }
+                        validarFrutas(linha);
+                        break;
+                    case 7:
+                        if (!linha.startsWith("acerola ")) {
+                            System.out.println("Pedras tem que estar no formado 'acerola x y'!");
+                            return false;
+                        }
+                        validarFrutas(linha);
+                        break;
+                    case 8:
+                        if (!linha.startsWith("amora ")) {
+                            System.out.println("Pedras tem que estar no formado 'amora x y'!");
+                            return false;
+                        }
+                        validarFrutas(linha);
+                        break;
+                    case 9:
+                        if (!linha.startsWith("goiaba ")) {
+                            System.out.println("Pedras tem que estar no formado 'goiaba x y '!");
+                            return false;
+                        }
+                        validarFrutas(linha);
+                        break;
+                        
                     case 10:
                         if (!linha.startsWith("bichadas ")) {
                             System.out.println("Bichadas tem que estar no formado 'bichadas x'!");
