@@ -290,6 +290,7 @@ public class Menu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                	
                     // Escreve no arquivo configs.txt
                     BufferedWriter writer = new BufferedWriter(new FileWriter(caminho));
 

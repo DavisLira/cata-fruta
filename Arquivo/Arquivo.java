@@ -2,13 +2,14 @@ package Arquivo;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class Arquivo {
 	private File arquivo;
 	private String nomeArquivo;
     private int dimensao;
     private int pedras;
-    private HashMap<String, int[]> frutas = new HashMap<>(); 
+    private LinkedHashMap<String, int[]> frutas = new LinkedHashMap<>(); 
     private int bichadas = 0;
     private int capacidadeMochila = 0;
     
@@ -16,7 +17,7 @@ public class Arquivo {
 	public Arquivo( String nomeArquivo,
 					int dimensao,
 					int pedras,
-					HashMap<String, int[]> frutas,
+					LinkedHashMap<String, int[]> frutas,
 					int bichadas,
 					int capacidadeMochila)
 	{
@@ -70,7 +71,7 @@ public class Arquivo {
         return frutas;
     }
 
-    public void setFrutas(HashMap<String, int[]> frutas) {
+    public void setFrutas(LinkedHashMap<String, int[]> frutas) {
         this.frutas = frutas;
     }
 
