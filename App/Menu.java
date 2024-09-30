@@ -1,16 +1,22 @@
 package App;
 
 import javax.swing.*;
+
+import Arquivo.CriarArquivo;
+import Arquivo.Arquivo;
+import Arquivo.LerArquivo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.LinkedHashMap;
 import java.awt.*;
 
 
 public class Menu {
-
+	static CriarArquivo arquivo = new CriarArquivo();
+	
     public static void main(String[] args) {
 
         JFrame tela = new JFrame("Cata Frutas - Menu inicial");
@@ -52,7 +58,6 @@ public class Menu {
         botaoEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	tela.dispose();
                 abrirFormularioEdicao(caminho);
             }
         });
@@ -85,6 +90,14 @@ public class Menu {
                         JOptionPane.showMessageDialog(tela, "Por favor, escolha um arquivo .txt.", "Erro", JOptionPane.ERROR_MESSAGE);
                     }
                 }
+            }
+        });
+        
+        // Ação do botão "Editar Configs"
+        botaoSalvar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Menu.arquivo.escreverNoArquivo();
             }
         });
 
@@ -314,20 +327,22 @@ public class Menu {
                     String bichadas = fieldBichadas.getText().isEmpty() ? "25" : fieldBichadas.getText();
                     String mochila = fieldMochila.getText().isEmpty() ? "10" : fieldMochila.getText();
 
-                    // Escreve os valores no arquivo
-                    writer.write("dimensao " + dimensao + "\n");
-                    writer.write("pedras " + pedras + "\n");
-                    writer.write("maracuja " + maracujaInicio + " " + maracujaTotal + "\n");
-                    writer.write("laranja " + laranjaArvores + " " + laranjaInicio + "\n");
-                    writer.write("abacate " + abacateArvores + " " + abacateInicio + "\n");
-                    writer.write("coco " + cocoArvores + " " + cocoInicio + "\n");
-                    writer.write("acerola " + acerolaArvores + " " + acerolaInicio + "\n");
-                    writer.write("amora " + amoraArvores + " " + amoraInicio + "\n");
-                    writer.write("goiaba " + goiabaArvores + " " + goiabaInicio + "\n");
-                    writer.write("bichadas " + bichadas + "\n");
-                    writer.write("mochila " + mochila + "\n");
+                    //colocar essa parte no local certo de salvar arquivo
+                	LinkedHashMap<String, String[]> frutas = new LinkedHashMap<>();
 
-                    writer.close();
+                    frutas.put("maracuja", new String[] {maracujaInicio, maracujaTotal});
+                    frutas.put("laranja", new String[] {laranjaArvores, laranjaInicio});
+                    frutas.put("abacate", new String[] {abacateArvores, abacateInicio});
+                    frutas.put("coco", new String[] {cocoArvores, cocoInicio});
+                    frutas.put("acerola", new String[] {acerolaArvores, acerolaInicio});
+                    frutas.put("amora", new String[] {amoraArvores, amoraInicio});
+                    frutas.put("goiaba", new String[] {goiabaArvores, goiabaInicio});
+                    
+
+                    String nomeArquivo = "arqs" + System.getProperty("file.separator") + "ConfigCataFruta.txt";
+                	CriarArquivo arquivo = new CriarArquivo(nomeArquivo, dimensao, pedras, frutas, bichadas, mochila);
+                    arquivo.escreverNoArquivo();
+                    
 
                     // Mensagem de sucesso e fechar o formulário
                     JOptionPane.showMessageDialog(telaForm, "Configurações salvas com sucesso!");

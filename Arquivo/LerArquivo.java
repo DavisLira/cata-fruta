@@ -5,9 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class LerArquivo extends Arquivo{
+public class LerArquivo extends Arquivo {
     public LerArquivo(String caminho_arquivo) {
-    	super(new File(caminho_arquivo));
+        super(new File(caminho_arquivo));
     }
 
     public boolean ValidaArquivo() {
@@ -15,89 +15,88 @@ public class LerArquivo extends Arquivo{
             System.out.println("Não foi possível ler o arquivo selecionado!");
             return false;
         }
-        
+
         try (BufferedReader leitor = new BufferedReader(new FileReader(this.getArquivo()))) {
             String linha;
             int contador = 0;
-            
+
             while ((linha = leitor.readLine()) != null) {
                 contador++;
 
                 switch (contador) {
                     case 1:
                         if (!linha.startsWith("dimensao ")) {
-                            System.out.println("Dimensao tem que estar no formado 'dimensao x'!");
+                            System.out.println("Dimensão tem que estar no formato 'dimensao x'!");
                             return false;
                         }
                         this.setDimensao(validarNumero(linha, "dimensao"));
                         break;
                     case 2:
                         if (!linha.startsWith("pedras ")) {
-                            System.out.println("Pedras tem que estar no formado 'pedras x'!");
+                            System.out.println("Pedras tem que estar no formato 'pedras x'!");
                             return false;
                         }
                         this.setPedras(validarNumero(linha, "pedras"));
                         break;
                     case 3:
                         if (!linha.startsWith("maracuja ")) {
-                            System.out.println("Pedras tem que estar no formado 'maracuja x y'!");
+                            System.out.println("Maracuja tem que estar no formato 'maracuja x y'!");
                             return false;
                         }
                         validarFrutas(linha);
                         break;
                     case 4:
                         if (!linha.startsWith("laranja ")) {
-                            System.out.println("Pedras tem que estar no formado 'laranja x y'!");
+                            System.out.println("Laranja tem que estar no formato 'laranja x y'!");
                             return false;
                         }
                         validarFrutas(linha);
                         break;
                     case 5:
                         if (!linha.startsWith("abacate ")) {
-                            System.out.println("Pedras tem que estar no formado 'abacate x y'!");
+                            System.out.println("Abacate tem que estar no formato 'abacate x y'!");
                             return false;
                         }
                         validarFrutas(linha);
                         break;
                     case 6:
                         if (!linha.startsWith("coco ")) {
-                            System.out.println("Pedras tem que estar no formado 'coco x y'!");
+                            System.out.println("Coco tem que estar no formato 'coco x y'!");
                             return false;
                         }
                         validarFrutas(linha);
                         break;
                     case 7:
                         if (!linha.startsWith("acerola ")) {
-                            System.out.println("Pedras tem que estar no formado 'acerola x y'!");
+                            System.out.println("Acerola tem que estar no formato 'acerola x y'!");
                             return false;
                         }
                         validarFrutas(linha);
                         break;
                     case 8:
                         if (!linha.startsWith("amora ")) {
-                            System.out.println("Pedras tem que estar no formado 'amora x y'!");
+                            System.out.println("Amora tem que estar no formato 'amora x y'!");
                             return false;
                         }
                         validarFrutas(linha);
                         break;
                     case 9:
                         if (!linha.startsWith("goiaba ")) {
-                            System.out.println("Pedras tem que estar no formado 'goiaba x y '!");
+                            System.out.println("Goiaba tem que estar no formato 'goiaba x y'!");
                             return false;
                         }
                         validarFrutas(linha);
                         break;
-                        
                     case 10:
                         if (!linha.startsWith("bichadas ")) {
-                            System.out.println("Bichadas tem que estar no formado 'bichadas x'!");
+                            System.out.println("Bichadas tem que estar no formato 'bichadas x'!");
                             return false;
                         }
                         this.setBichadas(validarNumero(linha, "bichadas"));
                         break;
                     case 11:
                         if (!linha.startsWith("mochila ")) {
-                            System.out.println("Mochila tem que estar no formado 'mochila x'!");
+                            System.out.println("Mochila tem que estar no formato 'mochila x'!");
                             return false;
                         }
                         this.setCapacidadeMochila(validarNumero(linha, "mochila"));
@@ -112,26 +111,23 @@ public class LerArquivo extends Arquivo{
             e.printStackTrace();
             return false;
         }
-        
 
         return true;
     }
 
-
-    private int validarNumero(String linha, String chave) {
+    private String validarNumero(String linha, String chave) {
         try {
             String[] partes = linha.split(" ");
             if (partes.length != 2) {
                 System.out.println(chave + "Formato correto: " + chave + " X");
-                return -1;
+                return "-1";
             }
-            return Integer.parseInt(partes[1]);
+            return partes[1];
         } catch (NumberFormatException e) {
-            System.out.println(chave + "não é um número válido.");
-            return -1;
+            System.out.println(chave + " não é um número válido.");
+            return "-1";
         }
     }
-
 
     private void validarFrutas(String linha) {
         try {
@@ -141,21 +137,20 @@ public class LerArquivo extends Arquivo{
                 return;
             }
             String nomeFruta = partes[0];
-            int quantidade = Integer.parseInt(partes[1]);
-            int valor = Integer.parseInt(partes[2]);
-            getFrutas().put(nomeFruta, new int[]{quantidade, valor});
+            String quantidade = partes[1];
+            String valor = partes[2];
+            getFrutas().put(nomeFruta, new String[]{quantidade, valor});
         } catch (NumberFormatException e) {
             System.out.println("Erro na linha de frutas: Quantidade ou valor não são números válidos. Linha: " + linha);
         }
     }
-
 
     public void imprimirAtributos() {
         System.out.println("Dimensão: " + this.getDimensao());
         System.out.println("Pedras: " + this.getPedras());
         System.out.println("Frutas: ");
         for (String fruta : getFrutas().keySet()) {
-            int[] valores = getFrutas().get(fruta);
+            String[] valores = getFrutas().get(fruta);
             System.out.println("  " + fruta + " - Quantidade: " + valores[0] + ", Valor: " + valores[1]);
         }
         System.out.println("Bichadas: " + this.getBichadas());
@@ -163,10 +158,11 @@ public class LerArquivo extends Arquivo{
     }
 
     public static void main(String[] args) {
-        String caminhoArquivo = "arqs" + System.getProperty("file.separator") + "teste.txt";
+        String caminhoArquivo = "arqs" + System.getProperty("file.separator") + "ConfigCataFruta.txt";
+
         LerArquivo abridor = new LerArquivo(caminhoArquivo);
         boolean result = abridor.ValidaArquivo();
-        
+
         if (result) {
             System.out.println("Arquivo válido!");
             abridor.imprimirAtributos();
