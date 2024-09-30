@@ -3,8 +3,7 @@ package App;
 import javax.swing.*;
 
 import Arquivo.CriarArquivo;
-import Arquivo.Arquivo;
-import Arquivo.LerArquivo;
+import Arquivo.ArquivoHandler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -15,7 +14,7 @@ import java.awt.*;
 
 
 public class Menu {
-	static CriarArquivo arquivo = new CriarArquivo();
+	static ArquivoHandler arquivoHandler = new ArquivoHandler();
 	
     public static void main(String[] args) {
 
@@ -77,7 +76,8 @@ public class Menu {
                     // Verifica se o arquivo tem a extensão .txt
                     if (selectedFile.getName().endsWith(".txt")) {
                         File destino = new File("arqs/configs.txt");
-                        
+                        Menu.arquivoHandler.ler("arqs" + System.getProperty("file.separator") + selectedFile.getName());
+                        System.out.println(selectedFile.getName());
                         try {
                             // Copia o arquivo selecionado para o destino
                             Files.copy(selectedFile.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -97,7 +97,7 @@ public class Menu {
         botaoSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Menu.arquivo.escreverNoArquivo();
+                Menu.arquivoHandler.escreverNoArquivo();
             }
         });
 
@@ -108,7 +108,7 @@ public class Menu {
     
     public static void iniciarJogo() {
         JFrame telaJogo = new JFrame("Jogo");
-        int matriz = 9;
+        int matriz = Integer.parseInt(Menu.arquivoHandler.getDimensao());
         final int tamanhoImagem;
 
         if (matriz > 14) {
@@ -303,9 +303,7 @@ public class Menu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                	
-                    // Escreve no arquivo configs.txt
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(caminho));
+
 
                     // Verifica se os campos estão vazios e insere o valor padrão, se necessário
                     String dimensao = fieldDimensao.getText().isEmpty() ? "6" : fieldDimensao.getText();
@@ -338,16 +336,18 @@ public class Menu {
                     frutas.put("amora", new String[] {amoraArvores, amoraInicio});
                     frutas.put("goiaba", new String[] {goiabaArvores, goiabaInicio});
                     
-
-                    String nomeArquivo = "arqs" + System.getProperty("file.separator") + "ConfigCataFruta.txt";
-                	CriarArquivo arquivo = new CriarArquivo(nomeArquivo, dimensao, pedras, frutas, bichadas, mochila);
-                    arquivo.escreverNoArquivo();
                     
-
+                    Menu.arquivoHandler.setDimensao(dimensao); 
+                    Menu.arquivoHandler.setPedras(pedras); 
+                    Menu.arquivoHandler.setFrutas(frutas);
+                    Menu.arquivoHandler.setBichadas(bichadas); 
+                    Menu.arquivoHandler.setCapacidadeMochila(mochila);
+                    
+                    
                     // Mensagem de sucesso e fechar o formulário
                     JOptionPane.showMessageDialog(telaForm, "Configurações salvas com sucesso!");
                     telaForm.dispose(); // Fecha o formulário após salvar
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }

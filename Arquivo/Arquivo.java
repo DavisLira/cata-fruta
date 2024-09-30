@@ -13,34 +13,12 @@ public class Arquivo {
     private String bichadas = "25";
     private String capacidadeMochila = "10";
     
-    //para a classe de escrever o arquivo
-	public Arquivo( String nomeArquivo,
-					String dimensao,
-					String pedras,
-					LinkedHashMap<String, String[]> frutas,
-					String bichadas,
-					String capacidadeMochila)
-	{
-		this.nomeArquivo = nomeArquivo;
-		this.dimensao = dimensao;
-		this.pedras = pedras;
-		this.frutas = frutas;
-		this.bichadas = bichadas;
-		this.capacidadeMochila = capacidadeMochila;
-		
-	}
 	
     //para a classe de escrever o arquivo
     public Arquivo() {
 	}
 
-	//para a classe ler o arquivo do usuario
-    public Arquivo(File arquivo) {
-    	this.arquivo = arquivo;
-	}
-    
-
-
+   
 	private LinkedHashMap<String, String[]> FrutasPadrao() {
 	    LinkedHashMap<String, String[]> frutas = new LinkedHashMap<>();
 		

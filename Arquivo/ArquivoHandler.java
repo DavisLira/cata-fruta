@@ -3,20 +3,23 @@ package Arquivo;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
-public class LerArquivo extends Arquivo {
-    public LerArquivo(String caminho_arquivo) {
-        super(new File(caminho_arquivo));
-    }
-
-    public boolean ValidaArquivo() {
-        if (!this.getArquivo().exists() || !this.getArquivo().canRead()) {
+public class ArquivoHandler extends Arquivo {  
+    
+	public ArquivoHandler() {
+		super();
+	}
+    
+    public boolean ler(String caminho) {
+    	File arquivo = new File(caminho);
+        if (!arquivo.exists() || !arquivo.canRead()) {
             System.out.println("Não foi possível ler o arquivo selecionado!");
             return false;
         }
 
-        try (BufferedReader leitor = new BufferedReader(new FileReader(this.getArquivo()))) {
+        try (BufferedReader leitor = new BufferedReader(new FileReader(caminho))) {
             String linha;
             int contador = 0;
 
@@ -145,27 +148,82 @@ public class LerArquivo extends Arquivo {
         }
     }
 
-    public void imprimirAtributos() {
-        System.out.println("Dimensão: " + this.getDimensao());
-        System.out.println("Pedras: " + this.getPedras());
-        System.out.println("Frutas: ");
-        for (String fruta : getFrutas().keySet()) {
-            String[] valores = getFrutas().get(fruta);
-            System.out.println("  " + fruta + " - Quantidade: " + valores[0] + ", Valor: " + valores[1]);
+    
+    
+    
+    
+	private void LimparArquivo() {
+        try (FileWriter escritor = new FileWriter(this.getNomeArquivo(), false)) {
+            escritor.write("");
+        } catch (IOException e) {
+            System.out.println("Erro ao abrir o arquivo.");
+            e.printStackTrace();
         }
-        System.out.println("Bichadas: " + this.getBichadas());
-        System.out.println("Capacidade da Mochila: " + this.getCapacidadeMochila());
     }
 
+    private boolean criarArquivo() {
+        try {
+            File arquivo = new File(this.getNomeArquivo());
+            if (arquivo.createNewFile()) {
+                System.out.println("Arquivo criado");
+                return true;
+            } else {
+                System.out.println("O arquivo já existe.");
+                this.LimparArquivo();
+                return false;
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao criar o arquivo.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private void __escreverNoArquivo(String conteudo) {
+        try (FileWriter escritor = new FileWriter(this.getNomeArquivo(), true)) {
+            escritor.write(conteudo);
+            escritor.write("\n");
+            System.out.println("Conteúdo escrito no arquivo.");
+        } catch (IOException e) {
+            System.out.println("Erro ao escrever no arquivo.");
+            e.printStackTrace();
+        }
+    }
+
+    public void escreverNoArquivo() {
+        boolean arquivoCriado = this.criarArquivo();
+
+        if (arquivoCriado || new File(this.getNomeArquivo()).exists()) {
+            this.__escreverNoArquivo("dimensao " + this.getDimensao());
+            this.__escreverNoArquivo("pedras " + this.getPedras());
+
+            for (String fruta : this.getFrutas().keySet()) {
+                String[] valores = this.getFrutas().get(fruta);
+
+                if (valores.length == 2) {
+                    String quantidade = valores[0];
+                    String valor = valores[1];
+                    this.__escreverNoArquivo(fruta + " " + quantidade + " " + valor);
+                } else {
+                    System.out.println("Erro: O número de valores para a fruta " + fruta + " está incorreto.");
+                }
+            }
+
+            this.__escreverNoArquivo("bichadas " + this.getBichadas());
+            this.__escreverNoArquivo("mochila " + this.getCapacidadeMochila());
+        }
+        System.out.println("Conteúdo escrito no arquivo.");
+    }
+    
+    
     public static void main(String[] args) {
         String caminhoArquivo = "arqs" + System.getProperty("file.separator") + "ConfigCataFruta.txt";
 
-        LerArquivo abridor = new LerArquivo(caminhoArquivo);
-        boolean result = abridor.ValidaArquivo();
+        ArquivoHandler abridor = new ArquivoHandler();
+        boolean result = abridor.ler(caminhoArquivo);
 
         if (result) {
             System.out.println("Arquivo válido!");
-            abridor.imprimirAtributos();
         } else {
             System.out.println("Erro na validação do arquivo.");
         }

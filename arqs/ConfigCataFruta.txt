@@ -1,5 +1,5 @@
-dimensao 10000
-pedras 7
+dimensao 3
+pedras 234
 maracuja 3 1
 laranja 2 1
 abacate 2 3
