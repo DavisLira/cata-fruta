@@ -2,13 +2,10 @@ package App;
 
 import javax.swing.*;
 
-import Arquivo.CriarArquivo;
 import Arquivo.ArquivoHandler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.LinkedHashMap;
 import java.awt.*;
 
@@ -74,21 +71,23 @@ public class Menu {
                     File selectedFile = fileChooser.getSelectedFile();
                     
                     // Verifica se o arquivo tem a extensão .txt
-                    if (selectedFile.getName().endsWith(".txt")) {
-                        File destino = new File("arqs/configs.txt");
-                        Menu.arquivoHandler.ler("arqs" + System.getProperty("file.separator") + selectedFile.getName());
-                        System.out.println(selectedFile.getName());
-                        try {
-                            // Copia o arquivo selecionado para o destino
-                            Files.copy(selectedFile.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                            JOptionPane.showMessageDialog(tela, "Arquivo de configurações substituído com sucesso!");
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                            JOptionPane.showMessageDialog(tela, "Erro ao copiar o arquivo: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(tela, "Por favor, escolha um arquivo .txt.", "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
+                    try {
+                    	boolean resultado_arquivo = Menu.arquivoHandler.ler("arqs" + System.getProperty("file.separator") + selectedFile.getName()); 
+                    	System.out.println(resultado_arquivo);
+
+	                		if(resultado_arquivo) {
+	                			// Copia o arquivo selecionado para o destino
+	                			//Files.copy(selectedFile.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+	                			JOptionPane.showMessageDialog(tela, "Arquivo de configurações substituído com sucesso!");
+	                		} else{
+	                			//que armengue absurdo mds do ceu
+	                			Menu.arquivoHandler.reiniciarAtributos();
+	                			JOptionPane.showMessageDialog(tela, "Por favor, escolha um arquivo formato correto.", "Erro", JOptionPane.ERROR_MESSAGE);
+	                		}
+
+                    } catch (Exception ex) {
+                    	JOptionPane.showMessageDialog(tela, "Por favor, escolha um arquivo .txt no formato correto.", "Erro", JOptionPane.ERROR_MESSAGE);
+	                }
                 }
             }
         });

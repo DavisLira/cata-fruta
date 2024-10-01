@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+
 public class ArquivoHandler extends Arquivo {  
     
 	public ArquivoHandler() {
@@ -28,94 +29,97 @@ public class ArquivoHandler extends Arquivo {
 
                 switch (contador) {
                     case 1:
-                        if (!linha.startsWith("dimensao ")) {
-                            System.out.println("Dimensão tem que estar no formato 'dimensao x'!");
-                            return false;
+                    	String dimensao = validarNumero(linha, "dimensao");
+                        if (linha.startsWith("dimensao ") && dimensao != "-1") {
+                            this.setDimensao(dimensao);
+                            break;
                         }
-                        this.setDimensao(validarNumero(linha, "dimensao"));
-                        break;
+                        System.out.println("Dimensão tem que estar no formato 'dimensao x'!");
+                        return false;
                     case 2:
-                        if (!linha.startsWith("pedras ")) {
-                            System.out.println("Pedras tem que estar no formato 'pedras x'!");
-                            return false;
+                    	String pedras = validarNumero(linha, "pedras");
+                        if (linha.startsWith("pedras ") && pedras != "-1") {
+                            this.setPedras(pedras);
+                            break;
                         }
-                        this.setPedras(validarNumero(linha, "pedras"));
-                        break;
+                        System.out.println("Pedras tem que estar no formato 'pedras x'!");
+                        return false;
                     case 3:
-                        if (!linha.startsWith("maracuja ")) {
-                            System.out.println("Maracuja tem que estar no formato 'maracuja x y'!");
-                            return false;
+                        if (linha.startsWith("maracuja ") && validarFrutas(linha)) {
+                        	break;
                         }
-                        validarFrutas(linha);
-                        break;
+                        System.out.println("Maracuja tem que estar no formato 'maracuja x y'!");
+                        return false;
                     case 4:
-                        if (!linha.startsWith("laranja ")) {
-                            System.out.println("Laranja tem que estar no formato 'laranja x y'!");
-                            return false;
-                        }
-                        validarFrutas(linha);
-                        break;
+                        if (linha.startsWith("laranja ") && validarFrutas(linha)) {
+                        	break;
+                        }                        
+                        System.out.println("Laranja tem que estar no formato 'laranja x y'!");
+                        return false;
                     case 5:
-                        if (!linha.startsWith("abacate ")) {
-                            System.out.println("Abacate tem que estar no formato 'abacate x y'!");
-                            return false;
+                        if (linha.startsWith("abacate ") && validarFrutas(linha)) {
+                            break;
                         }
-                        validarFrutas(linha);
-                        break;
+                        System.out.println("Abacate tem que estar no formato 'abacate x y'!");
+                        return false;
+                        
                     case 6:
-                        if (!linha.startsWith("coco ")) {
-                            System.out.println("Coco tem que estar no formato 'coco x y'!");
-                            return false;
+                        if (linha.startsWith("coco ") && validarFrutas(linha)) {
+                            break;
                         }
-                        validarFrutas(linha);
-                        break;
+                        System.out.println("Coco tem que estar no formato 'coco x y'!");
+                        return false;
+                        
                     case 7:
-                        if (!linha.startsWith("acerola ")) {
-                            System.out.println("Acerola tem que estar no formato 'acerola x y'!");
-                            return false;
+                        if (linha.startsWith("acerola ") && validarFrutas(linha)) {
+                            break;
                         }
-                        validarFrutas(linha);
-                        break;
+                        System.out.println("Acerola tem que estar no formato 'acerola x y'!");
+                        return false;
+                        
                     case 8:
-                        if (!linha.startsWith("amora ")) {
-                            System.out.println("Amora tem que estar no formato 'amora x y'!");
-                            return false;
+                        if (linha.startsWith("amora ") && validarFrutas(linha)) {
+                            break;
                         }
-                        validarFrutas(linha);
-                        break;
+                        System.out.println("Amora tem que estar no formato 'amora x y'!");
+                        return false;
+                        
                     case 9:
-                        if (!linha.startsWith("goiaba ")) {
-                            System.out.println("Goiaba tem que estar no formato 'goiaba x y'!");
-                            return false;
+                        if (linha.startsWith("goiaba ") && validarFrutas(linha)) {
+                            break;
                         }
-                        validarFrutas(linha);
-                        break;
+                        System.out.println("Goiaba tem que estar no formato 'goiaba x y'!");
+                        return false;
+                        
                     case 10:
-                        if (!linha.startsWith("bichadas ")) {
-                            System.out.println("Bichadas tem que estar no formato 'bichadas x'!");
-                            return false;
+                    	String bichada = validarNumero(linha, "bichada");
+                        if (linha.startsWith("bichadas ") && bichada != "-1") {
+                            this.setBichadas(bichada);
+                            break;
                         }
-                        this.setBichadas(validarNumero(linha, "bichadas"));
-                        break;
+                        System.out.println("Bichadas tem que estar no formato 'bichadas x'!");
+                        return false;
                     case 11:
-                        if (!linha.startsWith("mochila ")) {
-                            System.out.println("Mochila tem que estar no formato 'mochila x'!");
-                            return false;
+                    	String capacidade = validarNumero(linha, "mochila");
+                        if (linha.startsWith("mochila ") && capacidade != "-1") {
+                        	this.setCapacidadeMochila(capacidade);
+                        	break;
                         }
-                        this.setCapacidadeMochila(validarNumero(linha, "mochila"));
-                        break;
+                        System.out.println("Mochila tem que estar no formato 'mochila x'!");
+                        return false;
                     default:
                         System.out.println("Arquivo diferente do modelo!");
                         return false;
                 }
             }
 
+        
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
 
-        return true;
+		return true;
     }
 
     private String validarNumero(String linha, String chave) {
@@ -132,12 +136,12 @@ public class ArquivoHandler extends Arquivo {
         }
     }
 
-    private void validarFrutas(String linha) {
+    private boolean validarFrutas(String linha) {
         try {
             String[] partes = linha.split(" ");
             if (partes.length != 3) {
                 System.out.println("Erro na linha de frutas: Formato incorreto. Esperado: 'nome quantidade valor'. Linha: " + linha);
-                return;
+                return false;
             }
             String nomeFruta = partes[0];
             String quantidade = partes[1];
@@ -145,7 +149,9 @@ public class ArquivoHandler extends Arquivo {
             getFrutas().put(nomeFruta, new String[]{quantidade, valor});
         } catch (NumberFormatException e) {
             System.out.println("Erro na linha de frutas: Quantidade ou valor não são números válidos. Linha: " + linha);
+            return false;
         }
+        return true;
     }
 
     

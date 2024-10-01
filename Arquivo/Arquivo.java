@@ -32,6 +32,15 @@ public class Arquivo {
 		return frutas;
 	}
 	
+	public void reiniciarAtributos() {
+		this.nomeArquivo = "arqs" + System.getProperty("file.separator") + "ConfigCataFruta.txt";
+	    this.dimensao = "6";
+	    this.pedras = "7";
+	   	this.frutas = FrutasPadrao(); 
+	   	this.bichadas = "25";
+	   	this.capacidadeMochila = "10";
+	}
+	
 	public File getArquivo() {
         return arquivo;
     }
