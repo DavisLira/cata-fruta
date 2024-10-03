@@ -7,36 +7,44 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class Menu {
 	static ArquivoHandler arquivoHandler = new ArquivoHandler();
 	
-    public static void main(String[] args) {
+	public static void main(String[] args) {
+		mostrarMenuInicial();
+	}
+	
+    public static void mostrarMenuInicial() {
 
-        JFrame tela = new JFrame("Cata Frutas - Menu inicial");
-        tela.setBounds(500, 50, 500, 600);
-        tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        tela.setLayout(null);
+    	JFrame menuInicial = new JFrame("Cata Frutas - Menu inicial");
+    	menuInicial.setBounds(500, 50, 500, 600);
+        menuInicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        menuInicial.setLayout(null);
+        menuInicial.setResizable(false);
 
         // Cria o botão "Ler Configs"
         JButton botaoIniciar = new JButton("Iniciar jogo");
         botaoIniciar.setBounds(150, 100, 200, 50);
-        tela.add(botaoIniciar);
+        menuInicial.add(botaoIniciar);
 
         // Cria o botão "Editar Configs"
         JButton botaoEditar = new JButton("Editar Configurações");
         botaoEditar.setBounds(150, 200, 200, 50);
-        tela.add(botaoEditar);
+        menuInicial.add(botaoEditar);
 
         JButton botaoEscolher = new JButton("Escolher Configurações");
         botaoEscolher.setBounds(150, 300, 200, 50);
-        tela.add(botaoEscolher);
+        menuInicial.add(botaoEscolher);
         
-        JButton botaoSalvar = new JButton("Salvar Configurações");
-        botaoSalvar.setBounds(150, 400, 200, 50);
-        tela.add(botaoSalvar);
+        JButton botaoBaixar = new JButton("Baixar Configurações");
+        botaoBaixar.setBounds(150, 400, 200, 50);
+        menuInicial.add(botaoBaixar);
         
         // Caminho do arquivo configs.txt
         String caminho = "arqs/configs.txt";
@@ -45,7 +53,7 @@ public class Menu {
         botaoIniciar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	tela.dispose();
+            	menuInicial.dispose();
                 iniciarJogo();
             }
         });
@@ -78,22 +86,22 @@ public class Menu {
 	                		if(resultado_arquivo) {
 	                			// Copia o arquivo selecionado para o destino
 	                			//Files.copy(selectedFile.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
-	                			JOptionPane.showMessageDialog(tela, "Arquivo de configurações substituído com sucesso!");
+	                			JOptionPane.showMessageDialog(menuInicial, "Arquivo de configurações substituído com sucesso!");
 	                		} else{
 	                			//que armengue absurdo mds do ceu
 	                			Menu.arquivoHandler.reiniciarAtributos();
-	                			JOptionPane.showMessageDialog(tela, "Por favor, escolha um arquivo formato correto.", "Erro", JOptionPane.ERROR_MESSAGE);
+	                			JOptionPane.showMessageDialog(menuInicial, "Por favor, escolha um arquivo formato correto.", "Erro", JOptionPane.ERROR_MESSAGE);
 	                		}
 
                     } catch (Exception ex) {
-                    	JOptionPane.showMessageDialog(tela, "Por favor, escolha um arquivo .txt no formato correto.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    	JOptionPane.showMessageDialog(menuInicial, "Por favor, escolha um arquivo .txt no formato correto.", "Erro", JOptionPane.ERROR_MESSAGE);
 	                }
                 }
             }
         });
         
         // Ação do botão "Editar Configs"
-        botaoSalvar.addActionListener(new ActionListener() {
+        botaoBaixar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Menu.arquivoHandler.escreverNoArquivo();
@@ -102,11 +110,12 @@ public class Menu {
 
 
         // Exibe a janela principal
-        tela.setVisible(true);
+        menuInicial.setVisible(true);
     }
     
     public static void iniciarJogo() {
         JFrame telaJogo = new JFrame("Jogo");
+        
         int matriz = Integer.parseInt(Menu.arquivoHandler.getDimensao());
         final int tamanhoImagem;
 
@@ -125,70 +134,100 @@ public class Menu {
         telaJogo.setResizable(false);
 
         // Cria um JPanel personalizado para desenhar a imagem
-        JPanel painel = new JPanel() {
+        JPanel painelJogo  = new JPanel() {
             private static final long serialVersionUID = 1L; // Adicionando serialVersionUID
 
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 
-                // Carrega a imagem
-                ImageIcon pedraIcon = new ImageIcon(Menu.class.getResource("/sprites/pedra.jpg"));
-                ImageIcon bananaIcon = new ImageIcon(Menu.class.getResource("/sprites/banana.jpg"));
-                ImageIcon cocoIcon = new ImageIcon(Menu.class.getResource("/sprites/coco.jpg"));
-                ImageIcon goiabaIcon = new ImageIcon(Menu.class.getResource("/sprites/goiaba.jpg"));
-                ImageIcon gramaIcon = new ImageIcon(Menu.class.getResource("/sprites/grama.jpg"));
-                Image pedraImg = pedraIcon.getImage();
-                Image bananaImg = bananaIcon.getImage();
-                Image cocoImg = cocoIcon.getImage();
-                Image goiabaImg = goiabaIcon.getImage();
-                Image gramaImg = gramaIcon.getImage();
-
-                // Defina o novo tamanho desejado para a imagem
-                int Largura = tamanhoImagem; // Largura desejada
-                int Altura = tamanhoImagem; // Altura desejada
-
-                int c;
-                // Desenha a imagem em uma matriz
-                for (int i = 0; i < matriz; i++) {
-                    for (int j = 0; j < matriz; j++) {
-                        // Calcula a posição para desenhar a imagem
-                        int x = j * Largura;
-                        int y = i * Altura;
-                        
-                        c = (int)(Math.random() * 5) + 1;
-                        
-                        switch (c) {
-                        case 1:
-                        	g.drawImage(pedraImg, x, y, Largura, Altura, null);
-                        	break;
-                        
-                        case 2:
-                        	g.drawImage(bananaImg, x, y, Largura, Altura, null);
-                        	break;
-                        	
-                        case 3:
-                        	g.drawImage(cocoImg, x, y, Largura, Altura, null);
-                        	break;
-                        
-                        case 4:
-                        	g.drawImage(goiabaImg, x, y, Largura, Altura, null);
-                        	break;
-                        	
-                        case 5:
-                        	g.drawImage(gramaImg, x, y, Largura, Altura, null);
-                        }
-                    }
-                }
+                gerarMapa(g, matriz, tamanhoImagem);
             }
         };
 
         // Define o tamanho do painel para preencher a janela
-        painel.setPreferredSize(new Dimension(tamanhoTela, tamanhoTela));
-        painel.setLayout(null); // Não usar layout para posicionar manualmente os componentes
-        telaJogo.add(painel);
-        telaJogo.pack(); // Ajusta a janela com base no tamanho do painel
+        painelJogo.setPreferredSize(new Dimension(tamanhoTela, tamanhoTela));
+        painelJogo.setLayout(null); // Não usar layout para posicionar manualmente os componentes
+        
+        JPanel painelBotoes = new JPanel();
+        painelBotoes.setLayout(new FlowLayout());
+        
+        JButton gerarNovamenteButton = new JButton("Gerar Novamente");
+        gerarNovamenteButton.addActionListener(e -> painelJogo.repaint());
+        
+        JButton voltarMenuButton = new JButton("Voltar ao Menu Inicial");
+        voltarMenuButton.addActionListener(e -> {
+            telaJogo.dispose();  // Fecha a tela do jogo
+            mostrarMenuInicial(); // Volta para o menu inicial
+        });
+        
+        painelBotoes.add(gerarNovamenteButton);
+        painelBotoes.add(voltarMenuButton);
+        
+        telaJogo.add(painelJogo, BorderLayout.CENTER);
+        telaJogo.add(painelBotoes, BorderLayout.SOUTH);
+        
+        telaJogo.pack();
         telaJogo.setVisible(true);
+    }
+    
+    public static void gerarMapa(Graphics g, int matriz, int tamanhoImagem) {
+    	// carrega as imagens
+    	ImageIcon pedraIcon = new ImageIcon(Menu.class.getResource("/sprites/pedra.jpg"));
+        ImageIcon bananaIcon = new ImageIcon(Menu.class.getResource("/sprites/banana.jpg"));
+        ImageIcon cocoIcon = new ImageIcon(Menu.class.getResource("/sprites/coco.jpg"));
+        ImageIcon goiabaIcon = new ImageIcon(Menu.class.getResource("/sprites/goiaba.jpg"));
+        ImageIcon gramaIcon = new ImageIcon(Menu.class.getResource("/sprites/grama.jpg"));
+        Image pedraImg = pedraIcon.getImage();
+        Image bananaImg = bananaIcon.getImage();
+        Image cocoImg = cocoIcon.getImage();
+        Image goiabaImg = goiabaIcon.getImage();
+        Image gramaImg = gramaIcon.getImage();
+    	
+        
+        // Desenha o mapa todo de grama
+        for (int i = 0; i < matriz; i++) {
+            for (int j = 0; j < matriz; j++) {
+                // Calcula a posição para desenhar a imagem
+                int x = j * tamanhoImagem;
+                int y = i * tamanhoImagem;
+                
+                g.drawImage(gramaImg, x, y, tamanhoImagem, tamanhoImagem, null);
+            }
+        }
+        
+        java.util.Set<Point> posicoesSet = new java.util.HashSet<>();
+        for (int i = 0; i < matriz; i++) {
+            for (int j = 0; j < matriz; j++) {
+                posicoesSet.add(new Point(j, i)); // Adiciona as coordenadas (coluna, linha)
+            }
+        }
+        
+
+        List<Point> posicoes = new ArrayList<>(posicoesSet);
+        
+        Collections.shuffle((List<?>) posicoes);
+        
+        // colocarElemento(g, jogador1Img, posicoes.remove(0), tamanhoImagem);
+        // colocarElemento(g, jogador2Img, posicoes.remove(0), tamanhoImagem);
+
+        // for (int i = 0; i < 3; i++) {  // Coloca 3 bananeiras
+        //    colocarElemento(g, bananeiraImg, posicoes.remove(0), tamanhoImagem);
+        // }
+
+        // for (int i = 0; i < 2; i++) {  // Coloca 2 bananas
+        //    colocarElemento(g, bananaImg, posicoes.remove(0), tamanhoImagem);
+        // }
+
+        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+            colocarElemento(g, pedraImg, posicoes.remove(0), tamanhoImagem);
+        }
+    }
+    
+    public static void colocarElemento(Graphics g, Image imagem, Point posicao, int tamanho) {
+        int x = posicao.x * tamanho;
+        int y = posicao.y * tamanho;
+        g.drawImage(imagem, x, y, tamanho, tamanho, null);
     }
 
 
