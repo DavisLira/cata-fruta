@@ -173,16 +173,41 @@ public class Menu {
     
     public static void gerarMapa(Graphics g, int matriz, int tamanhoImagem) {
     	// carrega as imagens
-    	ImageIcon pedraIcon = new ImageIcon(Menu.class.getResource("/sprites/pedra.jpg"));
+        ImageIcon abacateIcon = new ImageIcon(Menu.class.getResource("/sprites/abacate.jpg"));
+        ImageIcon abacateiraIcon = new ImageIcon(Menu.class.getResource("/sprites/abacateira.jpg"));
+        ImageIcon amoraIcon = new ImageIcon(Menu.class.getResource("/sprites/amora.jpg"));
+        ImageIcon amoreiraIcon = new ImageIcon(Menu.class.getResource("/sprites/amoreira.jpg"));
         ImageIcon bananaIcon = new ImageIcon(Menu.class.getResource("/sprites/banana.jpg"));
+        ImageIcon bananeiraIcon = new ImageIcon(Menu.class.getResource("/sprites/bananeira.jpg"));
         ImageIcon cocoIcon = new ImageIcon(Menu.class.getResource("/sprites/coco.jpg"));
+        ImageIcon coqueiroIcon = new ImageIcon(Menu.class.getResource("/sprites/coqueiro.jpg"));
         ImageIcon goiabaIcon = new ImageIcon(Menu.class.getResource("/sprites/goiaba.jpg"));
+        ImageIcon goiabeiraIcon = new ImageIcon(Menu.class.getResource("/sprites/goiabeira.jpg"));
         ImageIcon gramaIcon = new ImageIcon(Menu.class.getResource("/sprites/grama.jpg"));
-        Image pedraImg = pedraIcon.getImage();
+        ImageIcon jogador1Icon = new ImageIcon(Menu.class.getResource("/sprites/jogador1.jpg"));
+        ImageIcon jogador2Icon = new ImageIcon(Menu.class.getResource("/sprites/jogador2.jpg"));
+        ImageIcon laranjaIcon = new ImageIcon(Menu.class.getResource("/sprites/laranja.jpg"));
+        ImageIcon laranjeiraIcon = new ImageIcon(Menu.class.getResource("/sprites/laranjeira.jpg"));
+        ImageIcon maracujaIcon = new ImageIcon(Menu.class.getResource("/sprites/maracuja.jpg"));
+    	ImageIcon pedraIcon = new ImageIcon(Menu.class.getResource("/sprites/pedra.jpg"));
+    	ImageIcon pedra2Icon = new ImageIcon(Menu.class.getResource("/sprites/pedra2.jpg"));
+        Image abacateImg = abacateIcon.getImage();
+        Image abacateiraImg = abacateiraIcon.getImage();
+        Image amoraImg = amoraIcon.getImage();
+        Image amoreiraImg = amoreiraIcon.getImage();
         Image bananaImg = bananaIcon.getImage();
+        Image bananeiraImg = bananeiraIcon.getImage();
         Image cocoImg = cocoIcon.getImage();
+        Image coqueiroImg = coqueiroIcon.getImage();
         Image goiabaImg = goiabaIcon.getImage();
+        Image goiabeirImg = goiabeiraIcon.getImage();
         Image gramaImg = gramaIcon.getImage();
+        Image jogador1Img = jogador1Icon.getImage();
+        Image jogador2Img = jogador2Icon.getImage();
+        Image laranjaImg = laranjaIcon.getImage();
+        Image maracujaImg = maracujaIcon.getImage();
+        Image pedraImg = pedraIcon.getImage();
+        Image pedra2Img = pedra2Icon.getImage();
     	
         
         // Desenha o mapa todo de grama
@@ -208,19 +233,63 @@ public class Menu {
         
         Collections.shuffle((List<?>) posicoes);
         
-        // colocarElemento(g, jogador1Img, posicoes.remove(0), tamanhoImagem);
-        // colocarElemento(g, jogador2Img, posicoes.remove(0), tamanhoImagem);
-
-        // for (int i = 0; i < 3; i++) {  // Coloca 3 bananeiras
-        //    colocarElemento(g, bananeiraImg, posicoes.remove(0), tamanhoImagem);
-        // }
-
-        // for (int i = 0; i < 2; i++) {  // Coloca 2 bananas
-        //    colocarElemento(g, bananaImg, posicoes.remove(0), tamanhoImagem);
-        // }
+        colocarElemento(g, jogador1Img, posicoes.remove(0), tamanhoImagem);
+        colocarElemento(g, jogador2Img, posicoes.remove(0), tamanhoImagem);
 
         for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
-            colocarElemento(g, pedraImg, posicoes.remove(0), tamanhoImagem);
+        	colocarElemento(g, abacateImg, posicoes.remove(0), tamanhoImagem);
+        }
+        
+        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, abacateiraImg, posicoes.remove(0), tamanhoImagem);
+        }
+        
+        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, amoraImg, posicoes.remove(0), tamanhoImagem);
+        }
+        
+        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, amoreiraImg, posicoes.remove(0), tamanhoImagem);
+        }
+        
+        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, bananaImg, posicoes.remove(0), tamanhoImagem);
+        }
+        
+        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, bananeiraImg, posicoes.remove(0), tamanhoImagem);
+        }
+        
+        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, cocoImg, posicoes.remove(0), tamanhoImagem);
+        }
+        
+        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, coqueiroImg, posicoes.remove(0), tamanhoImagem);
+        }
+        
+        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, goiabaImg, posicoes.remove(0), tamanhoImagem);
+        }
+        
+        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, goiabeirImg, posicoes.remove(0), tamanhoImagem);
+        }
+        
+        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, laranjaImg, posicoes.remove(0), tamanhoImagem);
+        }
+        
+        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, maracujaImg, posicoes.remove(0), tamanhoImagem);
+        }
+        
+
+        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+            // Alterna entre pedraImg e pedraImg2 com base no índice
+            Image pedra = (i % 2 == 0) ? pedraImg : pedra2Img;
+
+            colocarElemento(g, pedra, posicoes.remove(0), tamanhoImagem);
         }
     }
     
