@@ -116,7 +116,7 @@ public class Menu {
     public static void iniciarJogo() {
         JFrame telaJogo = new JFrame("Jogo");
         
-        int matriz = Integer.parseInt(Menu.arquivoHandler.getDimensao());
+        int matriz = (Menu.arquivoHandler.getDimensao());
         final int tamanhoImagem;
 
         if (matriz > 14) {
@@ -177,8 +177,8 @@ public class Menu {
         ImageIcon abacateiraIcon = new ImageIcon(Menu.class.getResource("/sprites/abacateira.jpg"));
         ImageIcon amoraIcon = new ImageIcon(Menu.class.getResource("/sprites/amora.jpg"));
         ImageIcon amoreiraIcon = new ImageIcon(Menu.class.getResource("/sprites/amoreira.jpg"));
-        ImageIcon bananaIcon = new ImageIcon(Menu.class.getResource("/sprites/banana.jpg"));
-        ImageIcon bananeiraIcon = new ImageIcon(Menu.class.getResource("/sprites/bananeira.jpg"));
+        ImageIcon acerolaIcon = new ImageIcon(Menu.class.getResource("/sprites/acerola.jpg"));
+        ImageIcon aceroleiraIcon = new ImageIcon(Menu.class.getResource("/sprites/aceroleira.jpg"));
         ImageIcon cocoIcon = new ImageIcon(Menu.class.getResource("/sprites/coco.jpg"));
         ImageIcon coqueiroIcon = new ImageIcon(Menu.class.getResource("/sprites/coqueiro.jpg"));
         ImageIcon goiabaIcon = new ImageIcon(Menu.class.getResource("/sprites/goiaba.jpg"));
@@ -195,8 +195,8 @@ public class Menu {
         Image abacateiraImg = abacateiraIcon.getImage();
         Image amoraImg = amoraIcon.getImage();
         Image amoreiraImg = amoreiraIcon.getImage();
-        Image bananaImg = bananaIcon.getImage();
-        Image bananeiraImg = bananeiraIcon.getImage();
+        Image acerolaImg = acerolaIcon.getImage();
+        Image aceroleiraImg = aceroleiraIcon.getImage();
         Image cocoImg = cocoIcon.getImage();
         Image coqueiroImg = coqueiroIcon.getImage();
         Image goiabaImg = goiabaIcon.getImage();
@@ -205,6 +205,7 @@ public class Menu {
         Image jogador1Img = jogador1Icon.getImage();
         Image jogador2Img = jogador2Icon.getImage();
         Image laranjaImg = laranjaIcon.getImage();
+        Image laranjeiraImg = laranjeiraIcon.getImage();
         Image maracujaImg = maracujaIcon.getImage();
         Image pedraImg = pedraIcon.getImage();
         Image pedra2Img = pedra2Icon.getImage();
@@ -236,56 +237,60 @@ public class Menu {
         colocarElemento(g, jogador1Img, posicoes.remove(0), tamanhoImagem);
         colocarElemento(g, jogador2Img, posicoes.remove(0), tamanhoImagem);
 
-        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
         	colocarElemento(g, abacateImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
         	colocarElemento(g, abacateiraImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
         	colocarElemento(g, amoraImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
         	colocarElemento(g, amoreiraImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
-        	colocarElemento(g, bananaImg, posicoes.remove(0), tamanhoImagem);
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, acerolaImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
-        	colocarElemento(g, bananeiraImg, posicoes.remove(0), tamanhoImagem);
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, aceroleiraImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
         	colocarElemento(g, cocoImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
         	colocarElemento(g, coqueiroImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
         	colocarElemento(g, goiabaImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
         	colocarElemento(g, goiabeirImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
         	colocarElemento(g, laranjaImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+        	colocarElemento(g, laranjeiraImg, posicoes.remove(0), tamanhoImagem);
+        }
+        
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
         	colocarElemento(g, maracujaImg, posicoes.remove(0), tamanhoImagem);
         }
         
 
-        for (int i = 0; i < Integer.parseInt(Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
             // Alterna entre pedraImg e pedraImg2 com base no índice
             Image pedra = (i % 2 == 0) ? pedraImg : pedra2Img;
 
@@ -311,7 +316,7 @@ public class Menu {
         listaFrutas[0] = "Laranja";
         listaFrutas[1] = "Abacate";
         listaFrutas[2] = "Coco";
-        listaFrutas[3] = "Banana";
+        listaFrutas[3] = "Acerola";
         listaFrutas[4] = "Amora";
         listaFrutas[5] = "Goiaba";
 
@@ -363,14 +368,14 @@ public class Menu {
         JTextField fieldCocoInicio = new JTextField();
         fieldCocoInicio.setBounds(320, 160, 50, 20);
         
-        JLabel labelBanana = new JLabel("Banana - Árvores:");
-        labelBanana.setBounds(10, 190, 150, 20);
-        JTextField fieldBananaArvores = new JTextField();
-        fieldBananaArvores.setBounds(160, 190, 100, 20);
-        JLabel labelBananaInicio = new JLabel("Início:");
-        labelBananaInicio.setBounds(270, 190, 50, 20);
-        JTextField fieldBananaInicio = new JTextField();
-        fieldBananaInicio.setBounds(320, 190, 50, 20);
+        JLabel labelAcerola = new JLabel("Acerola - Árvores:");
+        labelAcerola.setBounds(10, 190, 150, 20);
+        JTextField fieldAcerolaArvores = new JTextField();
+        fieldAcerolaArvores.setBounds(160, 190, 100, 20);
+        JLabel labelAcerolaInicio = new JLabel("Início:");
+        labelAcerolaInicio.setBounds(270, 190, 50, 20);
+        JTextField fieldAcerolaInicio = new JTextField();
+        fieldAcerolaInicio.setBounds(320, 190, 50, 20);
         
         JLabel labelAmora = new JLabel("Amora - Árvores:");
         labelAmora.setBounds(10, 220, 150, 20);
@@ -423,8 +428,8 @@ public class Menu {
                     String abacateInicio = fieldAbacateInicio.getText().isEmpty() ? "3" : fieldAbacateInicio.getText();
                     String cocoArvores = fieldCocoArvores.getText().isEmpty() ? "2" : fieldCocoArvores.getText();
                     String cocoInicio = fieldCocoInicio.getText().isEmpty() ? "1" : fieldCocoInicio.getText();
-                    String bananaArvores = fieldBananaArvores.getText().isEmpty() ? "1" : fieldBananaArvores.getText();
-                    String bananaInicio = fieldBananaInicio.getText().isEmpty() ? "2" : fieldBananaInicio.getText();
+                    String acerolaArvores = fieldAcerolaArvores.getText().isEmpty() ? "1" : fieldAcerolaArvores.getText();
+                    String acerolaInicio = fieldAcerolaInicio.getText().isEmpty() ? "2" : fieldAcerolaInicio.getText();
                     String amoraArvores = fieldAmoraArvores.getText().isEmpty() ? "1" : fieldAmoraArvores.getText();
                     String amoraInicio = fieldAmoraInicio.getText().isEmpty() ? "1" : fieldAmoraInicio.getText();
                     String goiabaArvores = fieldGoiabaArvores.getText().isEmpty() ? "1" : fieldGoiabaArvores.getText();
@@ -439,11 +444,11 @@ public class Menu {
                     frutas.put("laranja", new String[] {laranjaArvores, laranjaInicio});
                     frutas.put("abacate", new String[] {abacateArvores, abacateInicio});
                     frutas.put("coco", new String[] {cocoArvores, cocoInicio});
-                    frutas.put("banana", new String[] {bananaArvores, bananaInicio});
+                    frutas.put("acerola", new String[] {acerolaArvores, acerolaInicio});
                     frutas.put("amora", new String[] {amoraArvores, amoraInicio});
                     frutas.put("goiaba", new String[] {goiabaArvores, goiabaInicio});
                     
-                    
+                   
                     Menu.arquivoHandler.setDimensao(dimensao); 
                     Menu.arquivoHandler.setPedras(pedras); 
                     Menu.arquivoHandler.setFrutas(frutas);
@@ -482,10 +487,10 @@ public class Menu {
         telaForm.add(fieldCocoArvores);
         telaForm.add(labelCocoInicio);
         telaForm.add(fieldCocoInicio);
-        telaForm.add(labelBanana);
-        telaForm.add(fieldBananaArvores);
-        telaForm.add(labelBananaInicio);
-        telaForm.add(fieldBananaInicio);
+        telaForm.add(labelAcerola);
+        telaForm.add(fieldAcerolaArvores);
+        telaForm.add(labelAcerolaInicio);
+        telaForm.add(fieldAcerolaInicio);
         telaForm.add(labelAmora);
         telaForm.add(fieldAmoraArvores);
         telaForm.add(labelAmoraInicio);
