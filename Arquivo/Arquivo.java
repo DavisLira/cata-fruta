@@ -26,7 +26,7 @@ public class Arquivo {
 	    frutas.put("laranja", new String[]{"2", "1"});
 	    frutas.put("abacate", new String[]{"2", "3"});
 	    frutas.put("coco", new String[]{"2", "1"});
-	    frutas.put("acerola", new String[]{"1", "2"});
+	    frutas.put("banana", new String[]{"1", "2"});
 	    frutas.put("amora", new String[]{"1", "1"});
 	    frutas.put("goiaba", new String[]{"1", "1"});
 		return frutas;

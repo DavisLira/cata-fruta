@@ -71,10 +71,10 @@ public class ArquivoHandler extends Arquivo {
                         return false;
                         
                     case 7:
-                        if (linha.startsWith("acerola ") && validarFrutas(linha)) {
+                        if (linha.startsWith("banana ") && validarFrutas(linha)) {
                             break;
                         }
-                        System.out.println("Acerola tem que estar no formato 'acerola x y'!");
+                        System.out.println("Banana tem que estar no formato 'banana x y'!");
                         return false;
                         
                     case 8:

@@ -203,7 +203,7 @@ public class Menu {
         listaFrutas[0] = "Laranja";
         listaFrutas[1] = "Abacate";
         listaFrutas[2] = "Coco";
-        listaFrutas[3] = "Acerola";
+        listaFrutas[3] = "Banana";
         listaFrutas[4] = "Amora";
         listaFrutas[5] = "Goiaba";
 
@@ -255,14 +255,14 @@ public class Menu {
         JTextField fieldCocoInicio = new JTextField();
         fieldCocoInicio.setBounds(320, 160, 50, 20);
         
-        JLabel labelAcerola = new JLabel("Acerola - Árvores:");
-        labelAcerola.setBounds(10, 190, 150, 20);
-        JTextField fieldAcerolaArvores = new JTextField();
-        fieldAcerolaArvores.setBounds(160, 190, 100, 20);
-        JLabel labelAcerolaInicio = new JLabel("Início:");
-        labelAcerolaInicio.setBounds(270, 190, 50, 20);
-        JTextField fieldAcerolaInicio = new JTextField();
-        fieldAcerolaInicio.setBounds(320, 190, 50, 20);
+        JLabel labelBanana = new JLabel("Banana - Árvores:");
+        labelBanana.setBounds(10, 190, 150, 20);
+        JTextField fieldBananaArvores = new JTextField();
+        fieldBananaArvores.setBounds(160, 190, 100, 20);
+        JLabel labelBananaInicio = new JLabel("Início:");
+        labelBananaInicio.setBounds(270, 190, 50, 20);
+        JTextField fieldBananaInicio = new JTextField();
+        fieldBananaInicio.setBounds(320, 190, 50, 20);
         
         JLabel labelAmora = new JLabel("Amora - Árvores:");
         labelAmora.setBounds(10, 220, 150, 20);
@@ -315,8 +315,8 @@ public class Menu {
                     String abacateInicio = fieldAbacateInicio.getText().isEmpty() ? "3" : fieldAbacateInicio.getText();
                     String cocoArvores = fieldCocoArvores.getText().isEmpty() ? "2" : fieldCocoArvores.getText();
                     String cocoInicio = fieldCocoInicio.getText().isEmpty() ? "1" : fieldCocoInicio.getText();
-                    String acerolaArvores = fieldAcerolaArvores.getText().isEmpty() ? "1" : fieldAcerolaArvores.getText();
-                    String acerolaInicio = fieldAcerolaInicio.getText().isEmpty() ? "2" : fieldAcerolaInicio.getText();
+                    String bananaArvores = fieldBananaArvores.getText().isEmpty() ? "1" : fieldBananaArvores.getText();
+                    String bananaInicio = fieldBananaInicio.getText().isEmpty() ? "2" : fieldBananaInicio.getText();
                     String amoraArvores = fieldAmoraArvores.getText().isEmpty() ? "1" : fieldAmoraArvores.getText();
                     String amoraInicio = fieldAmoraInicio.getText().isEmpty() ? "1" : fieldAmoraInicio.getText();
                     String goiabaArvores = fieldGoiabaArvores.getText().isEmpty() ? "1" : fieldGoiabaArvores.getText();
@@ -331,7 +331,7 @@ public class Menu {
                     frutas.put("laranja", new String[] {laranjaArvores, laranjaInicio});
                     frutas.put("abacate", new String[] {abacateArvores, abacateInicio});
                     frutas.put("coco", new String[] {cocoArvores, cocoInicio});
-                    frutas.put("acerola", new String[] {acerolaArvores, acerolaInicio});
+                    frutas.put("banana", new String[] {bananaArvores, bananaInicio});
                     frutas.put("amora", new String[] {amoraArvores, amoraInicio});
                     frutas.put("goiaba", new String[] {goiabaArvores, goiabaInicio});
                     
@@ -374,10 +374,10 @@ public class Menu {
         telaForm.add(fieldCocoArvores);
         telaForm.add(labelCocoInicio);
         telaForm.add(fieldCocoInicio);
-        telaForm.add(labelAcerola);
-        telaForm.add(fieldAcerolaArvores);
-        telaForm.add(labelAcerolaInicio);
-        telaForm.add(fieldAcerolaInicio);
+        telaForm.add(labelBanana);
+        telaForm.add(fieldBananaArvores);
+        telaForm.add(labelBananaInicio);
+        telaForm.add(fieldBananaInicio);
         telaForm.add(labelAmora);
         telaForm.add(fieldAmoraArvores);
         telaForm.add(labelAmoraInicio);
