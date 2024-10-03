@@ -121,10 +121,40 @@ public class ArquivoHandler extends Arquivo {
             e.printStackTrace();
             return false;
         }
-        this.setElementos(this.Elementos);
-		return true;
+        if (!this.validarGeracaoMapa(20)) {
+        	return false;
+        } else {        	
+        	this.setElementos(this.Elementos);
+        	return true;
+        }
+        
     }
 
+    public boolean validarGeracaoMapa(int porcentagemGrama) {
+    	String[] frutas = {"laranja", "abacate", "coco", "banana", "amora", "goiaba"};
+    	int soma = 2; //começa em dois por sao dois players
+    	
+    	int dimensao = Integer.parseInt(this.Elementos.get("dimensao")[0]);
+    	int maracuja = Integer.parseInt(this.Elementos.get("maracuja")[1]);
+    	int pedras = Integer.parseInt(this.Elementos.get("pedras")[0]);
+    	soma = soma + maracuja + pedras;
+    	int matriz = dimensao * dimensao;
+    	
+    	for (String fruta : frutas) {
+    		String[] valores = this.Elementos.get(fruta);
+    		int arvores = Integer.parseInt(valores[0]);
+    		int fruta_chao = Integer.parseInt(valores[1]);
+    		soma = soma + arvores + fruta_chao;
+    	}
+    	
+    	double porcentagem = (double) soma / matriz * 100;
+    	System.out.println(soma);
+    	System.out.println(porcentagem);
+    	return porcentagem <= (100 - porcentagemGrama) ? true : false;
+    }
+    
+    
+    
     private String validarNumero(String linha, String chave) {
         try {
             String[] partes = linha.split(" ");
@@ -156,9 +186,6 @@ public class ArquivoHandler extends Arquivo {
         }
         return true;
     }
-
-    
-    
     
     
 	private void LimparArquivo() {
