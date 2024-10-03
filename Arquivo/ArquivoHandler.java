@@ -5,15 +5,18 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.util.LinkedHashMap;
 
 public class ArquivoHandler extends Arquivo {  
+	LinkedHashMap<String, String[]> Elementos;
     
 	public ArquivoHandler() {
 		super();
+		Elementos = new LinkedHashMap<>();
 	}
     
     public boolean ler(String caminho) {
+    	
     	File arquivo = new File(caminho);
         if (!arquivo.exists() || !arquivo.canRead()) {
             System.out.println("Não foi possível ler o arquivo selecionado!");
@@ -31,7 +34,7 @@ public class ArquivoHandler extends Arquivo {
                     case 1:
                     	String dimensao = validarNumero(linha, "dimensao");
                         if (linha.startsWith("dimensao ") && dimensao != "-1") {
-                            this.setDimensao(dimensao);
+                            this.Elementos.put("dimensao", new String[]{dimensao});
                             break;
                         }
                         System.out.println("Dimensão tem que estar no formato 'dimensao x'!");
@@ -39,7 +42,7 @@ public class ArquivoHandler extends Arquivo {
                     case 2:
                     	String pedras = validarNumero(linha, "pedras");
                         if (linha.startsWith("pedras ") && pedras != "-1") {
-                            this.setPedras(pedras);
+                        	this.Elementos.put("pedras", new String[]{pedras});
                             break;
                         }
                         System.out.println("Pedras tem que estar no formato 'pedras x'!");
@@ -94,7 +97,7 @@ public class ArquivoHandler extends Arquivo {
                     case 10:
                     	String bichada = validarNumero(linha, "bichada");
                         if (linha.startsWith("bichadas ") && bichada != "-1") {
-                            this.setBichadas(bichada);
+                        	this.Elementos.put("bichadas", new String[]{bichada});
                             break;
                         }
                         System.out.println("Bichadas tem que estar no formato 'bichadas x'!");
@@ -102,7 +105,7 @@ public class ArquivoHandler extends Arquivo {
                     case 11:
                     	String capacidade = validarNumero(linha, "mochila");
                         if (linha.startsWith("mochila ") && capacidade != "-1") {
-                        	this.setCapacidadeMochila(capacidade);
+                        	this.Elementos.put("mochila", new String[]{capacidade});
                         	break;
                         }
                         System.out.println("Mochila tem que estar no formato 'mochila x'!");
@@ -118,7 +121,7 @@ public class ArquivoHandler extends Arquivo {
             e.printStackTrace();
             return false;
         }
-
+        this.setElementos(this.Elementos);
 		return true;
     }
 
@@ -146,7 +149,7 @@ public class ArquivoHandler extends Arquivo {
             String nomeFruta = partes[0];
             String quantidade = partes[1];
             String valor = partes[2];
-            getFrutas().put(nomeFruta, new String[]{quantidade, valor});
+            this.Elementos.put(nomeFruta, new String[]{quantidade, valor});
         } catch (NumberFormatException e) {
             System.out.println("Erro na linha de frutas: Quantidade ou valor não são números válidos. Linha: " + linha);
             return false;
@@ -200,23 +203,17 @@ public class ArquivoHandler extends Arquivo {
         boolean arquivoCriado = this.criarArquivo();
 
         if (arquivoCriado || new File(this.getNomeArquivo()).exists()) {
-            this.__escreverNoArquivo("dimensao " + this.getDimensao());
+            this.__escreverNoArquivo("dimensao " + this.getBichadas());
             this.__escreverNoArquivo("pedras " + this.getPedras());
-
-            for (String fruta : this.getFrutas().keySet()) {
-                String[] valores = this.getFrutas().get(fruta);
-
-                if (valores.length == 2) {
-                    String quantidade = valores[0];
-                    String valor = valores[1];
-                    this.__escreverNoArquivo(fruta + " " + quantidade + " " + valor);
-                } else {
-                    System.out.println("Erro: O número de valores para a fruta " + fruta + " está incorreto.");
-                }
-            }
-
+            this.__escreverNoArquivo("maracuja " + this.getMaracujaVitoria() + " "+ this.getMaracujaTotal());
+            this.__escreverNoArquivo("laranja " + this.getLaranjeiras() + " "+ this.getLaranja());
+            this.__escreverNoArquivo("abacate " + this.getAbacateiras() + " "+ this.getAbacate());
+            this.__escreverNoArquivo("coco " + this.getCoqueiro() + " "+ this.getCoco());
+            this.__escreverNoArquivo("banana " + this.getBananeira() + " "+ this.getBanana());
+            this.__escreverNoArquivo("amora " + this.getAmoreira() + " "+ this.getAmora());
+            this.__escreverNoArquivo("goiaba " + this.getGoiabeira() + " "+ this.getGoiaba());
             this.__escreverNoArquivo("bichadas " + this.getBichadas());
-            this.__escreverNoArquivo("mochila " + this.getCapacidadeMochila());
+            this.__escreverNoArquivo("mochila " + this.getMochila());
         }
         System.out.println("Conteúdo escrito no arquivo.");
     }
