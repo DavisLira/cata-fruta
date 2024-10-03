@@ -5,14 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedHashMap;
 
 public class ArquivoHandler extends Arquivo {  
-	LinkedHashMap<String, String[]> Elementos;
     
 	public ArquivoHandler() {
 		super();
-		Elementos = new LinkedHashMap<>();
 	}
     
     public boolean ler(String caminho) {
@@ -34,7 +31,7 @@ public class ArquivoHandler extends Arquivo {
                     case 1:
                     	String dimensao = validarNumero(linha, "dimensao");
                         if (linha.startsWith("dimensao ") && dimensao != "-1") {
-                            this.Elementos.put("dimensao", new String[]{dimensao});
+                            this.setElemento("dimensao", new String[] {dimensao});
                             break;
                         }
                         System.out.println("Dimensão tem que estar no formato 'dimensao x'!");
@@ -42,7 +39,7 @@ public class ArquivoHandler extends Arquivo {
                     case 2:
                     	String pedras = validarNumero(linha, "pedras");
                         if (linha.startsWith("pedras ") && pedras != "-1") {
-                        	this.Elementos.put("pedras", new String[]{pedras});
+                        	this.setElemento("pedras", new String[] {pedras});
                             break;
                         }
                         System.out.println("Pedras tem que estar no formato 'pedras x'!");
@@ -97,7 +94,7 @@ public class ArquivoHandler extends Arquivo {
                     case 10:
                     	String bichada = validarNumero(linha, "bichada");
                         if (linha.startsWith("bichadas ") && bichada != "-1") {
-                        	this.Elementos.put("bichadas", new String[]{bichada});
+                        	this.setElemento("bichadas", new String[] {bichada});
                             break;
                         }
                         System.out.println("Bichadas tem que estar no formato 'bichadas x'!");
@@ -105,7 +102,7 @@ public class ArquivoHandler extends Arquivo {
                     case 11:
                     	String capacidade = validarNumero(linha, "mochila");
                         if (linha.startsWith("mochila ") && capacidade != "-1") {
-                        	this.Elementos.put("mochila", new String[]{capacidade});
+                        	this.setElemento("mochila", new String[] {capacidade});
                         	break;
                         }
                         System.out.println("Mochila tem que estar no formato 'mochila x'!");
@@ -124,7 +121,7 @@ public class ArquivoHandler extends Arquivo {
         if (!this.validarGeracaoMapa(20)) {
         	return false;
         } else {        	
-        	this.setElementos(this.Elementos);
+        	this.setElementos(this.getElementos());
         	return true;
         }
         
@@ -133,15 +130,18 @@ public class ArquivoHandler extends Arquivo {
     public boolean validarGeracaoMapa(int porcentagemGrama) {
     	String[] frutas = {"laranja", "abacate", "coco", "banana", "amora", "goiaba"};
     	int soma = 2; //começa em dois por sao dois players
-    	
-    	int dimensao = Integer.parseInt(this.Elementos.get("dimensao")[0]);
-    	int maracuja = Integer.parseInt(this.Elementos.get("maracuja")[1]);
-    	int pedras = Integer.parseInt(this.Elementos.get("pedras")[0]);
+    	System.out.println("to aqui");
+    	//int dimensao = Integer.parseInt(this.Elementos.get("dimensao")[0]);
+    	int dimensao = Integer.parseInt(this.getElementos().get("dimensao")[0]);
+    	//int maracuja = Integer.parseInt(this.Elementos.get("maracuja")[1]);
+    	int maracuja = Integer.parseInt(this.getElementos().get("maracuja")[1]);
+    	//int pedras = Integer.parseInt(this.Elementos.get("pedras")[0]);
+    	int pedras = Integer.parseInt(this.getElementos().get("pedras")[0]);
     	soma = soma + maracuja + pedras;
     	int matriz = dimensao * dimensao;
     	
     	for (String fruta : frutas) {
-    		String[] valores = this.Elementos.get(fruta);
+    		String[] valores = this.getElementos().get(fruta);
     		int arvores = Integer.parseInt(valores[0]);
     		int fruta_chao = Integer.parseInt(valores[1]);
     		soma = soma + arvores + fruta_chao;
@@ -179,7 +179,7 @@ public class ArquivoHandler extends Arquivo {
             String nomeFruta = partes[0];
             String quantidade = partes[1];
             String valor = partes[2];
-            this.Elementos.put(nomeFruta, new String[]{quantidade, valor});
+            this.setElemento(nomeFruta, new String[]{quantidade, valor});
         } catch (NumberFormatException e) {
             System.out.println("Erro na linha de frutas: Quantidade ou valor não são números válidos. Linha: " + linha);
             return false;
@@ -247,10 +247,8 @@ public class ArquivoHandler extends Arquivo {
     
     
     public static void main(String[] args) {
-        String caminhoArquivo = "arqs" + System.getProperty("file.separator") + "ConfigCataFruta.txt";
-
         ArquivoHandler abridor = new ArquivoHandler();
-        boolean result = abridor.ler(caminhoArquivo);
+        boolean result = abridor.validarGeracaoMapa(30);
 
         if (result) {
             System.out.println("Arquivo válido!");

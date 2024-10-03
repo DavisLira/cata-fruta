@@ -53,8 +53,12 @@ public class Menu {
         botaoIniciar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                menuInicial.dispose();
-                iniciarJogo();
+            	if (Menu.arquivoHandler.validarGeracaoMapa(20)){
+            		menuInicial.dispose();
+            		iniciarJogo();
+            	}else {
+            		JOptionPane.showMessageDialog(menuInicial, "Não foi possível gerar um mapa com essas configurações!", "Erro", JOptionPane.ERROR_MESSAGE);
+            	}
             }
         });
 
@@ -90,11 +94,11 @@ public class Menu {
 	                		} else{
 	                			//que armengue absurdo mds do ceu
 	                			Menu.arquivoHandler.reiniciarAtributos();
-	                			JOptionPane.showMessageDialog(menuInicial, "Por favor, escolha um arquivo formato correto.", "Erro", JOptionPane.ERROR_MESSAGE);
+	                			JOptionPane.showMessageDialog(menuInicial, "Não é possível gerar um mapa com essas configurações!", "Erro", JOptionPane.ERROR_MESSAGE);
 	                		}
 
                     } catch (Exception ex) {
-                    	JOptionPane.showMessageDialog(menuInicial, "Por favor, escolha um arquivo .txt no formato correto.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    	JOptionPane.showMessageDialog(menuInicial, "Por favor, escolha um arquivo .txt no formato correto!", "Erro", JOptionPane.ERROR_MESSAGE);
 	                }
                 }
             }
@@ -457,12 +461,14 @@ public class Menu {
                     frutas.put("mochila", new String[] {mochila});
                     
                     Menu.arquivoHandler.setElementos(frutas);
-
-                    	
-                    
+                    if (!Menu.arquivoHandler.validarGeracaoMapa(20)) {
+                    	Menu.arquivoHandler.reiniciarAtributos();
+                    	JOptionPane.showMessageDialog(telaForm, "Não é possível gerar um mapa com essas configurações!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    } else {                    	
+                    	JOptionPane.showMessageDialog(telaForm, "Configurações salvas com sucesso!");
+                    }
                     
                     // Mensagem de sucesso e fechar o formulário
-                    JOptionPane.showMessageDialog(telaForm, "Configurações salvas com sucesso!");
                     telaForm.dispose(); // Fecha o formulário após salvar
                 } catch (Exception ex) {
                     ex.printStackTrace();

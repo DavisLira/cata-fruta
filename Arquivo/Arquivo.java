@@ -31,6 +31,10 @@ public class Arquivo {
 		return Elementos;
 	}
 	
+	public void setElemento(String Chave, String[] Valor) {
+		this.Elementos.put(Chave, Valor);
+	}
+	
 	public void reiniciarAtributos() {
 		this.nomeArquivo = "arqs" + System.getProperty("file.separator") + "ConfigCataFruta.txt";
 	   	this.Elementos = ElementosPadrao(); 
