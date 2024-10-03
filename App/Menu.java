@@ -439,7 +439,8 @@ public class Menu {
 
                     //colocar essa parte no local certo de salvar arquivo
                 	LinkedHashMap<String, String[]> frutas = new LinkedHashMap<>();
-
+                	frutas.put("dimensao", new String[] {dimensao});
+                	frutas.put("pedras", new String[] {pedras});
                     frutas.put("maracuja", new String[] {maracujaInicio, maracujaTotal});
                     frutas.put("laranja", new String[] {laranjaArvores, laranjaInicio});
                     frutas.put("abacate", new String[] {abacateArvores, abacateInicio});
@@ -447,13 +448,15 @@ public class Menu {
                     frutas.put("acerola", new String[] {acerolaArvores, acerolaInicio});
                     frutas.put("amora", new String[] {amoraArvores, amoraInicio});
                     frutas.put("goiaba", new String[] {goiabaArvores, goiabaInicio});
+                    frutas.put("bichadas", new String[] {bichadas});
+                    frutas.put("mochila", new String[] {mochila});
                     
-                   
-                    Menu.arquivoHandler.setDimensao(dimensao); 
-                    Menu.arquivoHandler.setPedras(pedras); 
-                    Menu.arquivoHandler.setFrutas(frutas);
-                    Menu.arquivoHandler.setBichadas(bichadas); 
-                    Menu.arquivoHandler.setCapacidadeMochila(mochila);
+                    Menu.arquivoHandler.setElementos(frutas);
+                    if (!Menu.arquivoHandler.validarGeracaoMapa(20)) {
+                    	System.out.println("bote um aviso na tela do cara q eu n sei fazer isso nao");
+                    	Menu.arquivoHandler.reiniciarAtributos();
+                    }
+                    	
                     
                     
                     // Mensagem de sucesso e fechar o formulário
