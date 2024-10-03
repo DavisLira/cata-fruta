@@ -74,10 +74,10 @@ public class ArquivoHandler extends Arquivo {
                         return false;
                         
                     case 7:
-                        if (linha.startsWith("banana ") && validarFrutas(linha)) {
+                        if (linha.startsWith("acerola ") && validarFrutas(linha)) {
                             break;
                         }
-                        System.out.println("Banana tem que estar no formato 'banana x y'!");
+                        System.out.println("Acerola tem que estar no formato 'acerola x y'!");
                         return false;
                         
                     case 8:
@@ -131,7 +131,7 @@ public class ArquivoHandler extends Arquivo {
     }
 
     public boolean validarGeracaoMapa(int porcentagemGrama) {
-    	String[] frutas = {"laranja", "abacate", "coco", "banana", "amora", "goiaba"};
+    	String[] frutas = {"laranja", "abacate", "coco", "acerola", "amora", "goiaba"};
     	int soma = 2; //começa em dois por sao dois players
     	
     	int dimensao = Integer.parseInt(this.Elementos.get("dimensao")[0]);
@@ -236,7 +236,7 @@ public class ArquivoHandler extends Arquivo {
             this.__escreverNoArquivo("laranja " + this.getLaranjeiras() + " "+ this.getLaranja());
             this.__escreverNoArquivo("abacate " + this.getAbacateiras() + " "+ this.getAbacate());
             this.__escreverNoArquivo("coco " + this.getCoqueiro() + " "+ this.getCoco());
-            this.__escreverNoArquivo("banana " + this.getBananeira() + " "+ this.getBanana());
+            this.__escreverNoArquivo("acerola " + this.getAceroleira() + " "+ this.getAcerola());
             this.__escreverNoArquivo("amora " + this.getAmoreira() + " "+ this.getAmora());
             this.__escreverNoArquivo("goiaba " + this.getGoiabeira() + " "+ this.getGoiaba());
             this.__escreverNoArquivo("bichadas " + this.getBichadas());
@@ -258,4 +258,5 @@ public class ArquivoHandler extends Arquivo {
             System.out.println("Erro na validação do arquivo.");
         }
     }
+  
 }
