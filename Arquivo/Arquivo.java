@@ -23,7 +23,7 @@ public class Arquivo {
 	    Elementos.put("laranja", new String[]{"2", "1"});
 	    Elementos.put("abacate", new String[]{"2", "3"});
 	    Elementos.put("coco", new String[]{"2", "1"});
-	    Elementos.put("acerola", new String[]{"1", "2"});
+	    Elementos.put("banana", new String[]{"1", "2"});
 	    Elementos.put("amora", new String[]{"1", "1"});
 	    Elementos.put("goiaba", new String[]{"1", "1"});
 		Elementos.put("bichadas", new String[]{"1", "1"});
@@ -120,13 +120,13 @@ public class Arquivo {
 		return Integer.parseInt(valores[1]);
     }
     
-    public int getAceroleira() {
-        String[] valores = this.Elementos.get("acerola");
+    public int getBananeira() {
+        String[] valores = this.Elementos.get("banana");
 		return Integer.parseInt(valores[0]);
     }
 
-    public int getAcerola() {
-        String[] valores = this.Elementos.get("acerola");
+    public int getBanana() {
+        String[] valores = this.Elementos.get("banana");
 		return Integer.parseInt(valores[1]);
     }
     
