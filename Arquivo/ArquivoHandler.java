@@ -1,19 +1,34 @@
 package Arquivo;
 
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedHashMap;
+
+/**
+* A classe ArquivoHandler estende a classe Arquivo e fornece funcionalidades adicionais 
+* para manipulação de arquivos, como leitura, escrita e validação de conteúdo com base 
+* em um formato específico
+*/
 
 public class ArquivoHandler extends Arquivo {  
-	LinkedHashMap<String, String[]> Elementos;
     
+	/**
+     * Construtor da classe ArquivoHandler. Inicializa os atributos da classe mãe
+     */
+	
 	public ArquivoHandler() {
 		super();
-		Elementos = new LinkedHashMap<>();
 	}
+	
+	/**
+     * Lê o conteúdo de um arquivo e popula os elementos com base em um formato predefinido
+     * 
+     * @param caminho O caminho do arquivo a ser lido
+     * @return true se o arquivo foi lido e validado com sucesso, caso contrário false
+     */	
     
     public boolean ler(String caminho) {
     	
@@ -34,7 +49,7 @@ public class ArquivoHandler extends Arquivo {
                     case 1:
                     	String dimensao = validarNumero(linha, "dimensao");
                         if (linha.startsWith("dimensao ") && dimensao != "-1") {
-                            this.Elementos.put("dimensao", new String[]{dimensao});
+                            this.setElemento("dimensao", new String[] {dimensao});
                             break;
                         }
                         System.out.println("Dimensão tem que estar no formato 'dimensao x'!");
@@ -42,7 +57,7 @@ public class ArquivoHandler extends Arquivo {
                     case 2:
                     	String pedras = validarNumero(linha, "pedras");
                         if (linha.startsWith("pedras ") && pedras != "-1") {
-                        	this.Elementos.put("pedras", new String[]{pedras});
+                        	this.setElemento("pedras", new String[] {pedras});
                             break;
                         }
                         System.out.println("Pedras tem que estar no formato 'pedras x'!");
@@ -74,10 +89,10 @@ public class ArquivoHandler extends Arquivo {
                         return false;
                         
                     case 7:
-                        if (linha.startsWith("acerola ") && validarFrutas(linha)) {
+                        if (linha.startsWith("banana ") && validarFrutas(linha)) {
                             break;
                         }
-                        System.out.println("Acerola tem que estar no formato 'acerola x y'!");
+                        System.out.println("Banana tem que estar no formato 'banana x y'!");
                         return false;
                         
                     case 8:
@@ -97,7 +112,7 @@ public class ArquivoHandler extends Arquivo {
                     case 10:
                     	String bichada = validarNumero(linha, "bichada");
                         if (linha.startsWith("bichadas ") && bichada != "-1") {
-                        	this.Elementos.put("bichadas", new String[]{bichada});
+                        	this.setElemento("bichadas", new String[] {bichada});
                             break;
                         }
                         System.out.println("Bichadas tem que estar no formato 'bichadas x'!");
@@ -105,7 +120,7 @@ public class ArquivoHandler extends Arquivo {
                     case 11:
                     	String capacidade = validarNumero(linha, "mochila");
                         if (linha.startsWith("mochila ") && capacidade != "-1") {
-                        	this.Elementos.put("mochila", new String[]{capacidade});
+                        	this.setElemento("mochila", new String[] {capacidade});
                         	break;
                         }
                         System.out.println("Mochila tem que estar no formato 'mochila x'!");
@@ -124,24 +139,34 @@ public class ArquivoHandler extends Arquivo {
         if (!this.validarGeracaoMapa(20)) {
         	return false;
         } else {        	
-        	this.setElementos(this.Elementos);
+        	this.setElementos(this.getElementos());
         	return true;
         }
         
     }
+    
+    /**
+     * Valida a geração do mapa com base em uma porcentagem de ocupação da matriz
+     * 
+     * @param porcentagemGrama A porcentagem de grama (espaços vazios) que deve ser preservada no mapa
+     * @return true se a geração do mapa for válida, false caso contrário
+     */
 
     public boolean validarGeracaoMapa(int porcentagemGrama) {
-    	String[] frutas = {"laranja", "abacate", "coco", "acerola", "amora", "goiaba"};
+    	String[] frutas = {"laranja", "abacate", "coco", "banana", "amora", "goiaba"};
     	int soma = 2; //começa em dois por sao dois players
-    	
-    	int dimensao = Integer.parseInt(this.Elementos.get("dimensao")[0]);
-    	int maracuja = Integer.parseInt(this.Elementos.get("maracuja")[1]);
-    	int pedras = Integer.parseInt(this.Elementos.get("pedras")[0]);
+    	System.out.println("to aqui");
+    	//int dimensao = Integer.parseInt(this.Elementos.get("dimensao")[0]);
+    	int dimensao = Integer.parseInt(this.getElementos().get("dimensao")[0]);
+    	//int maracuja = Integer.parseInt(this.Elementos.get("maracuja")[1]);
+    	int maracuja = Integer.parseInt(this.getElementos().get("maracuja")[1]);
+    	//int pedras = Integer.parseInt(this.Elementos.get("pedras")[0]);
+    	int pedras = Integer.parseInt(this.getElementos().get("pedras")[0]);
     	soma = soma + maracuja + pedras;
     	int matriz = dimensao * dimensao;
     	
     	for (String fruta : frutas) {
-    		String[] valores = this.Elementos.get(fruta);
+    		String[] valores = this.getElementos().get(fruta);
     		int arvores = Integer.parseInt(valores[0]);
     		int fruta_chao = Integer.parseInt(valores[1]);
     		soma = soma + arvores + fruta_chao;
@@ -153,7 +178,13 @@ public class ArquivoHandler extends Arquivo {
     	return porcentagem <= (100 - porcentagemGrama) ? true : false;
     }
     
-    
+    /**
+     * Valida se a linha contém um número válido para um determinado elemento do arquivo
+     * 
+     * @param linha A linha a ser validada.
+     * @param chave A chave do elemento que está sendo validado
+     * @return O número válido como String ou "-1" em caso de erro
+     */
     
     private String validarNumero(String linha, String chave) {
         try {
@@ -168,6 +199,13 @@ public class ArquivoHandler extends Arquivo {
             return "-1";
         }
     }
+    
+    /**
+     * Valida se a linha de entrada contém os valores corretos para as frutas
+     * 
+     * @param linha A linha a ser validada
+     * @return true se a linha estiver no formato correto, false caso contrário
+     */
 
     private boolean validarFrutas(String linha) {
         try {
@@ -179,7 +217,7 @@ public class ArquivoHandler extends Arquivo {
             String nomeFruta = partes[0];
             String quantidade = partes[1];
             String valor = partes[2];
-            this.Elementos.put(nomeFruta, new String[]{quantidade, valor});
+            this.setElemento(nomeFruta, new String[]{quantidade, valor});
         } catch (NumberFormatException e) {
             System.out.println("Erro na linha de frutas: Quantidade ou valor não são números válidos. Linha: " + linha);
             return false;
@@ -187,6 +225,9 @@ public class ArquivoHandler extends Arquivo {
         return true;
     }
     
+    /**
+     * Limpa o conteúdo do arquivo
+     */
     
 	private void LimparArquivo() {
         try (FileWriter escritor = new FileWriter(this.getNomeArquivo(), false)) {
@@ -196,6 +237,13 @@ public class ArquivoHandler extends Arquivo {
             e.printStackTrace();
         }
     }
+	
+	/**
+     * Cria um novo arquivo com base no nome do arquivo especificado na classe Arquivo
+     * Se o arquivo já existir, ele será limpo
+     * 
+     * @return true se o arquivo foi criado com sucesso, false caso contrário
+     */
 
     private boolean criarArquivo() {
         try {
@@ -214,6 +262,13 @@ public class ArquivoHandler extends Arquivo {
             return false;
         }
     }
+    
+    /**
+     * Escreve conteúdo no arquivo, adicionando informações sobre os elementos
+     * Este método deve ser chamado após a criação ou limpeza do arquivo
+     * 
+     * @param conteudo O conteúdo a ser escrito no arquivo
+     */
 
     private void __escreverNoArquivo(String conteudo) {
         try (FileWriter escritor = new FileWriter(this.getNomeArquivo(), true)) {
@@ -226,6 +281,11 @@ public class ArquivoHandler extends Arquivo {
         }
     }
 
+    /**
+     * Método público que escreve as informações dos elementos no arquivo
+     * Ele cria o arquivo, se necessário, e escreve todas as configurações no arquivo
+     */
+    
     public void escreverNoArquivo() {
         boolean arquivoCriado = this.criarArquivo();
 
@@ -236,7 +296,7 @@ public class ArquivoHandler extends Arquivo {
             this.__escreverNoArquivo("laranja " + this.getLaranjeiras() + " "+ this.getLaranja());
             this.__escreverNoArquivo("abacate " + this.getAbacateiras() + " "+ this.getAbacate());
             this.__escreverNoArquivo("coco " + this.getCoqueiro() + " "+ this.getCoco());
-            this.__escreverNoArquivo("acerola " + this.getAceroleira() + " "+ this.getAcerola());
+            this.__escreverNoArquivo("banana " + this.getBananeira() + " "+ this.getBanana());
             this.__escreverNoArquivo("amora " + this.getAmoreira() + " "+ this.getAmora());
             this.__escreverNoArquivo("goiaba " + this.getGoiabeira() + " "+ this.getGoiaba());
             this.__escreverNoArquivo("bichadas " + this.getBichadas());
@@ -245,12 +305,15 @@ public class ArquivoHandler extends Arquivo {
         System.out.println("Conteúdo escrito no arquivo.");
     }
     
+    /**
+     * Método principal para testar a funcionalidade de validação do mapa
+     * 
+     * @param args Argumentos da linha de comando
+     */
     
     public static void main(String[] args) {
-        String caminhoArquivo = "arqs" + System.getProperty("file.separator") + "ConfigCataFruta.txt";
-
         ArquivoHandler abridor = new ArquivoHandler();
-        boolean result = abridor.ler(caminhoArquivo);
+        boolean result = abridor.validarGeracaoMapa(30);
 
         if (result) {
             System.out.println("Arquivo válido!");
