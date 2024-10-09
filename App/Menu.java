@@ -12,15 +12,30 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
+/**
+ * A classe Menu representa a interface do menu inicial do jogo "Cata Frutas"
+ * Ela fornece opções para iniciar o jogo, editar configurações e escolher arquivos de configuração
+ */
 public class Menu {
 	static ArquivoHandler arquivoHandler = new ArquivoHandler();
 	
+	/**
+     * O ponto de entrada principal do programa
+     * Exibe o menu inicial do jogo
+     *
+     * @param args Os argumentos da linha de comando
+     */
 	public static void main(String[] args) {
 		mostrarMenuInicial();
 	}
 	
+	/**
+     * Mostra o menu inicial do jogo
+     * Cria uma janela com botões para iniciar o jogo, editar configurações,
+     * escolher arquivos de configuração e baixar configurações
+     */
     public static void mostrarMenuInicial() {
+    	
 
     	JFrame menuInicial = new JFrame("Cata Frutas - Menu inicial");
     	menuInicial.setBounds(500, 50, 500, 600);
@@ -117,6 +132,10 @@ public class Menu {
         menuInicial.setVisible(true);
     }
     
+    /**
+     * Inicia a interface do jogo e exibe a tela de jogo
+     * Cria uma janela com um painel para desenhar o mapa e botões para interagir com o jogo
+     */
     public static void iniciarJogo() {
         JFrame telaJogo = new JFrame("Jogo");
         
@@ -175,6 +194,22 @@ public class Menu {
         telaJogo.setVisible(true);
     }
     
+    /**
+     * Gera o mapa do jogo, desenhando os elementos na tela usando gráficos
+     *
+     * Este método preenche o mapa com grama e posiciona aleatoriamente 
+     * os jogadores, diferentes tipos de frutas e pedras de acordo com 
+     * as configurações especificadas. Ele utiliza um conjunto de pontos
+     * para garantir que não haja sobreposição de elementos no mapa
+     *
+     * O método carrega as imagens necessárias a partir dos recursos 
+     * do aplicativo, desenha o fundo do mapa e distribui os elementos 
+     * com base nas quantidades definidas em um arquivo de configuração
+     *
+     * @param g O objeto Graphics utilizado para desenhar as imagens no mapa
+     * @param matriz A dimensão do mapa, representando o número de linhas e colunas
+     * @param tamanhoImagem O tamanho de cada imagem a ser desenhada no mapa
+     */
     public static void gerarMapa(Graphics g, int matriz, int tamanhoImagem) {
     	// carrega as imagens
         ImageIcon abacateIcon = new ImageIcon(Menu.class.getResource("/sprites/abacate.jpg"));
@@ -306,7 +341,14 @@ public class Menu {
     }
     
     
-    
+    /**
+     * Coloca uma imagem em uma posição específica na tela, redimensionando-a conforme necessário
+     *
+     * @param g       O objeto Graphics usado para desenhar a imagem na tela
+     * @param imagem  A imagem a ser desenhada
+     * @param posicao O ponto onde a imagem será desenhada, representando as coordenadas x e y no mapa
+     * @param tamanho  O tamanho (largura e altura) que a imagem deve ter ao ser desenhada
+     */
     public static void colocarElemento(Graphics g, Image imagem, Point posicao, int tamanho) {
         int x = posicao.x * tamanho;
         int y = posicao.y * tamanho;
@@ -314,8 +356,13 @@ public class Menu {
     }
 
 
-
-    // Método para abrir o formulário de edição
+    /**
+     * Abre um formulário para editar as configurações do jogo
+     *
+     * @param caminho O caminho do arquivo de configuração a ser editado
+     * Este método cria uma interface gráfica onde o usuário pode definir parâmetros como 
+     * o tamanho do mapa, quantidade de pedras e outras propriedades relacionadas a frutas
+     */
     public static void abrirFormularioEdicao(String caminho) {
         JFrame telaForm = new JFrame("Editar Configurações");
         telaForm.setBounds(100, 100, 500, 500);

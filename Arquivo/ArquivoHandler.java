@@ -1,16 +1,34 @@
 package Arquivo;
 
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+* A classe ArquivoHandler estende a classe Arquivo e fornece funcionalidades adicionais 
+* para manipulação de arquivos, como leitura, escrita e validação de conteúdo com base 
+* em um formato específico
+*/
+
 public class ArquivoHandler extends Arquivo {  
     
+	/**
+     * Construtor da classe ArquivoHandler. Inicializa os atributos da classe mãe
+     */
+	
 	public ArquivoHandler() {
 		super();
 	}
+	
+	/**
+     * Lê o conteúdo de um arquivo e popula os elementos com base em um formato predefinido
+     * 
+     * @param caminho O caminho do arquivo a ser lido
+     * @return true se o arquivo foi lido e validado com sucesso, caso contrário false
+     */	
     
     public boolean ler(String caminho) {
     	
@@ -126,6 +144,13 @@ public class ArquivoHandler extends Arquivo {
         }
         
     }
+    
+    /**
+     * Valida a geração do mapa com base em uma porcentagem de ocupação da matriz
+     * 
+     * @param porcentagemGrama A porcentagem de grama (espaços vazios) que deve ser preservada no mapa
+     * @return true se a geração do mapa for válida, false caso contrário
+     */
 
     public boolean validarGeracaoMapa(int porcentagemGrama) {
     	String[] frutas = {"laranja", "abacate", "coco", "banana", "amora", "goiaba"};
@@ -153,7 +178,13 @@ public class ArquivoHandler extends Arquivo {
     	return porcentagem <= (100 - porcentagemGrama) ? true : false;
     }
     
-    
+    /**
+     * Valida se a linha contém um número válido para um determinado elemento do arquivo
+     * 
+     * @param linha A linha a ser validada.
+     * @param chave A chave do elemento que está sendo validado
+     * @return O número válido como String ou "-1" em caso de erro
+     */
     
     private String validarNumero(String linha, String chave) {
         try {
@@ -168,6 +199,13 @@ public class ArquivoHandler extends Arquivo {
             return "-1";
         }
     }
+    
+    /**
+     * Valida se a linha de entrada contém os valores corretos para as frutas
+     * 
+     * @param linha A linha a ser validada
+     * @return true se a linha estiver no formato correto, false caso contrário
+     */
 
     private boolean validarFrutas(String linha) {
         try {
@@ -187,6 +225,9 @@ public class ArquivoHandler extends Arquivo {
         return true;
     }
     
+    /**
+     * Limpa o conteúdo do arquivo
+     */
     
 	private void LimparArquivo() {
         try (FileWriter escritor = new FileWriter(this.getNomeArquivo(), false)) {
@@ -196,6 +237,13 @@ public class ArquivoHandler extends Arquivo {
             e.printStackTrace();
         }
     }
+	
+	/**
+     * Cria um novo arquivo com base no nome do arquivo especificado na classe Arquivo
+     * Se o arquivo já existir, ele será limpo
+     * 
+     * @return true se o arquivo foi criado com sucesso, false caso contrário
+     */
 
     private boolean criarArquivo() {
         try {
@@ -214,6 +262,13 @@ public class ArquivoHandler extends Arquivo {
             return false;
         }
     }
+    
+    /**
+     * Escreve conteúdo no arquivo, adicionando informações sobre os elementos
+     * Este método deve ser chamado após a criação ou limpeza do arquivo
+     * 
+     * @param conteudo O conteúdo a ser escrito no arquivo
+     */
 
     private void __escreverNoArquivo(String conteudo) {
         try (FileWriter escritor = new FileWriter(this.getNomeArquivo(), true)) {
@@ -226,6 +281,11 @@ public class ArquivoHandler extends Arquivo {
         }
     }
 
+    /**
+     * Método público que escreve as informações dos elementos no arquivo
+     * Ele cria o arquivo, se necessário, e escreve todas as configurações no arquivo
+     */
+    
     public void escreverNoArquivo() {
         boolean arquivoCriado = this.criarArquivo();
 
@@ -245,6 +305,11 @@ public class ArquivoHandler extends Arquivo {
         System.out.println("Conteúdo escrito no arquivo.");
     }
     
+    /**
+     * Método principal para testar a funcionalidade de validação do mapa
+     * 
+     * @param args Argumentos da linha de comando
+     */
     
     public static void main(String[] args) {
         ArquivoHandler abridor = new ArquivoHandler();
