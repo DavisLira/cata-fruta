@@ -12,15 +12,30 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
+/**
+ * A classe Menu representa a interface do menu inicial do jogo "Cata Frutas"
+ * Ela fornece opções para iniciar o jogo, editar configurações e escolher arquivos de configuração
+ */
 public class Menu {
 	static ArquivoHandler arquivoHandler = new ArquivoHandler();
 	
+	/**
+     * O ponto de entrada principal do programa
+     * Exibe o menu inicial do jogo
+     *
+     * @param args Os argumentos da linha de comando
+     */
 	public static void main(String[] args) {
 		mostrarMenuInicial();
 	}
 	
+	/**
+     * Mostra o menu inicial do jogo
+     * Cria uma janela com botões para iniciar o jogo, editar configurações,
+     * escolher arquivos de configuração e baixar configurações
+     */
     public static void mostrarMenuInicial() {
+    	
 
     	JFrame menuInicial = new JFrame("Cata Frutas - Menu inicial");
     	menuInicial.setBounds(500, 50, 500, 600);
@@ -53,8 +68,12 @@ public class Menu {
         botaoIniciar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	menuInicial.dispose();
-                iniciarJogo();
+            	if (Menu.arquivoHandler.validarGeracaoMapa(20)){
+            		menuInicial.dispose();
+            		iniciarJogo();
+            	}else {
+            		JOptionPane.showMessageDialog(menuInicial, "Não foi possível gerar um mapa com essas configurações!", "Erro", JOptionPane.ERROR_MESSAGE);
+            	}
             }
         });
 
@@ -90,11 +109,11 @@ public class Menu {
 	                		} else{
 	                			//que armengue absurdo mds do ceu
 	                			Menu.arquivoHandler.reiniciarAtributos();
-	                			JOptionPane.showMessageDialog(menuInicial, "Por favor, escolha um arquivo formato correto.", "Erro", JOptionPane.ERROR_MESSAGE);
+	                			JOptionPane.showMessageDialog(menuInicial, "Não é possível gerar um mapa com essas configurações!", "Erro", JOptionPane.ERROR_MESSAGE);
 	                		}
 
                     } catch (Exception ex) {
-                    	JOptionPane.showMessageDialog(menuInicial, "Por favor, escolha um arquivo .txt no formato correto.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    	JOptionPane.showMessageDialog(menuInicial, "Por favor, escolha um arquivo .txt no formato correto!", "Erro", JOptionPane.ERROR_MESSAGE);
 	                }
                 }
             }
@@ -113,6 +132,10 @@ public class Menu {
         menuInicial.setVisible(true);
     }
     
+    /**
+     * Inicia a interface do jogo e exibe a tela de jogo
+     * Cria uma janela com um painel para desenhar o mapa e botões para interagir com o jogo
+     */
     public static void iniciarJogo() {
         JFrame telaJogo = new JFrame("Jogo");
         
@@ -121,7 +144,7 @@ public class Menu {
 
         if (matriz > 14) {
         	tamanhoImagem = 50;
-        } else  if (matriz > 10) {
+        } else  if (matriz > 9) {
             tamanhoImagem = 70;
         } else {
             tamanhoImagem = 100;
@@ -137,7 +160,6 @@ public class Menu {
         JPanel painelJogo  = new JPanel() {
             private static final long serialVersionUID = 1L; // Adicionando serialVersionUID
 
-            @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 
@@ -145,6 +167,7 @@ public class Menu {
             }
         };
 
+        
         // Define o tamanho do painel para preencher a janela
         painelJogo.setPreferredSize(new Dimension(tamanhoTela, tamanhoTela));
         painelJogo.setLayout(null); // Não usar layout para posicionar manualmente os componentes
@@ -171,32 +194,49 @@ public class Menu {
         telaJogo.setVisible(true);
     }
     
+    /**
+     * Gera o mapa do jogo, desenhando os elementos na tela usando gráficos
+     *
+     * Este método preenche o mapa com grama e posiciona aleatoriamente 
+     * os jogadores, diferentes tipos de frutas e pedras de acordo com 
+     * as configurações especificadas. Ele utiliza um conjunto de pontos
+     * para garantir que não haja sobreposição de elementos no mapa
+     *
+     * O método carrega as imagens necessárias a partir dos recursos 
+     * do aplicativo, desenha o fundo do mapa e distribui os elementos 
+     * com base nas quantidades definidas em um arquivo de configuração
+     *
+     * @param g O objeto Graphics utilizado para desenhar as imagens no mapa
+     * @param matriz A dimensão do mapa, representando o número de linhas e colunas
+     * @param tamanhoImagem O tamanho de cada imagem a ser desenhada no mapa
+     */
     public static void gerarMapa(Graphics g, int matriz, int tamanhoImagem) {
     	// carrega as imagens
         ImageIcon abacateIcon = new ImageIcon(Menu.class.getResource("/sprites/abacate.jpg"));
-        ImageIcon abacateiraIcon = new ImageIcon(Menu.class.getResource("/sprites/abacateira.jpg"));
+        ImageIcon abacateiraIcon = new ImageIcon(Menu.class.getResource("/sprites/abacateiro.jpg"));
         ImageIcon amoraIcon = new ImageIcon(Menu.class.getResource("/sprites/amora.jpg"));
         ImageIcon amoreiraIcon = new ImageIcon(Menu.class.getResource("/sprites/amoreira.jpg"));
-        ImageIcon acerolaIcon = new ImageIcon(Menu.class.getResource("/sprites/acerola.jpg"));
-        ImageIcon aceroleiraIcon = new ImageIcon(Menu.class.getResource("/sprites/aceroleira.jpg"));
+        ImageIcon bananaIcon = new ImageIcon(Menu.class.getResource("/sprites/banana.jpg"));
+        ImageIcon bananeiraIcon = new ImageIcon(Menu.class.getResource("/sprites/bananeira.jpg"));
         ImageIcon cocoIcon = new ImageIcon(Menu.class.getResource("/sprites/coco.jpg"));
         ImageIcon coqueiroIcon = new ImageIcon(Menu.class.getResource("/sprites/coqueiro.jpg"));
         ImageIcon goiabaIcon = new ImageIcon(Menu.class.getResource("/sprites/goiaba.jpg"));
         ImageIcon goiabeiraIcon = new ImageIcon(Menu.class.getResource("/sprites/goiabeira.jpg"));
         ImageIcon gramaIcon = new ImageIcon(Menu.class.getResource("/sprites/grama.jpg"));
-        ImageIcon jogador1Icon = new ImageIcon(Menu.class.getResource("/sprites/jogador1.jpg"));
-        ImageIcon jogador2Icon = new ImageIcon(Menu.class.getResource("/sprites/jogador2.jpg"));
         ImageIcon laranjaIcon = new ImageIcon(Menu.class.getResource("/sprites/laranja.jpg"));
         ImageIcon laranjeiraIcon = new ImageIcon(Menu.class.getResource("/sprites/laranjeira.jpg"));
         ImageIcon maracujaIcon = new ImageIcon(Menu.class.getResource("/sprites/maracuja.jpg"));
     	ImageIcon pedraIcon = new ImageIcon(Menu.class.getResource("/sprites/pedra.jpg"));
     	ImageIcon pedra2Icon = new ImageIcon(Menu.class.getResource("/sprites/pedra2.jpg"));
+        ImageIcon jogador1Icon = new ImageIcon(Menu.class.getResource("/sprites/player1.jpg"));
+        ImageIcon jogador2Icon = new ImageIcon(Menu.class.getResource("/sprites/player2.jpg"));
+    	
         Image abacateImg = abacateIcon.getImage();
         Image abacateiraImg = abacateiraIcon.getImage();
         Image amoraImg = amoraIcon.getImage();
         Image amoreiraImg = amoreiraIcon.getImage();
-        Image acerolaImg = acerolaIcon.getImage();
-        Image aceroleiraImg = aceroleiraIcon.getImage();
+        Image bananaImg = bananaIcon.getImage();
+        Image bananeiraImg = bananeiraIcon.getImage();
         Image cocoImg = cocoIcon.getImage();
         Image coqueiroImg = coqueiroIcon.getImage();
         Image goiabaImg = goiabaIcon.getImage();
@@ -209,6 +249,7 @@ public class Menu {
         Image maracujaImg = maracujaIcon.getImage();
         Image pedraImg = pedraIcon.getImage();
         Image pedra2Img = pedra2Icon.getImage();
+
     	
         
         // Desenha o mapa todo de grama
@@ -237,55 +278,56 @@ public class Menu {
         colocarElemento(g, jogador1Img, posicoes.remove(0), tamanhoImagem);
         colocarElemento(g, jogador2Img, posicoes.remove(0), tamanhoImagem);
 
-        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+
+        for (int i = 0; i < (Menu.arquivoHandler.getAbacate()); i++) {
         	colocarElemento(g, abacateImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getAbacateiras()); i++) {
         	colocarElemento(g, abacateiraImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getAmora()); i++) {
         	colocarElemento(g, amoraImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getAmoreira()); i++) {
         	colocarElemento(g, amoreiraImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
-        	colocarElemento(g, acerolaImg, posicoes.remove(0), tamanhoImagem);
+        for (int i = 0; i < (Menu.arquivoHandler.getBanana()); i++) {
+        	colocarElemento(g, bananaImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
-        	colocarElemento(g, aceroleiraImg, posicoes.remove(0), tamanhoImagem);
+        for (int i = 0; i < (Menu.arquivoHandler.getBananeira()); i++) {
+        	colocarElemento(g, bananeiraImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getCoco()); i++) {
         	colocarElemento(g, cocoImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getCoqueiro()); i++) {
         	colocarElemento(g, coqueiroImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getGoiaba()); i++) {
         	colocarElemento(g, goiabaImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getGoiabeira()); i++) {
         	colocarElemento(g, goiabeirImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getLaranja()); i++) {
         	colocarElemento(g, laranjaImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getLaranjeiras()); i++) {
         	colocarElemento(g, laranjeiraImg, posicoes.remove(0), tamanhoImagem);
         }
         
-        for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getMaracujaTotal()); i++) {
         	colocarElemento(g, maracujaImg, posicoes.remove(0), tamanhoImagem);
         }
         
@@ -298,6 +340,15 @@ public class Menu {
         }
     }
     
+    
+    /**
+     * Coloca uma imagem em uma posição específica na tela, redimensionando-a conforme necessário
+     *
+     * @param g       O objeto Graphics usado para desenhar a imagem na tela
+     * @param imagem  A imagem a ser desenhada
+     * @param posicao O ponto onde a imagem será desenhada, representando as coordenadas x e y no mapa
+     * @param tamanho  O tamanho (largura e altura) que a imagem deve ter ao ser desenhada
+     */
     public static void colocarElemento(Graphics g, Image imagem, Point posicao, int tamanho) {
         int x = posicao.x * tamanho;
         int y = posicao.y * tamanho;
@@ -305,8 +356,13 @@ public class Menu {
     }
 
 
-
-    // Método para abrir o formulário de edição
+    /**
+     * Abre um formulário para editar as configurações do jogo
+     *
+     * @param caminho O caminho do arquivo de configuração a ser editado
+     * Este método cria uma interface gráfica onde o usuário pode definir parâmetros como 
+     * o tamanho do mapa, quantidade de pedras e outras propriedades relacionadas a frutas
+     */
     public static void abrirFormularioEdicao(String caminho) {
         JFrame telaForm = new JFrame("Editar Configurações");
         telaForm.setBounds(100, 100, 500, 500);
@@ -316,7 +372,7 @@ public class Menu {
         listaFrutas[0] = "Laranja";
         listaFrutas[1] = "Abacate";
         listaFrutas[2] = "Coco";
-        listaFrutas[3] = "Acerola";
+        listaFrutas[3] = "Banana";
         listaFrutas[4] = "Amora";
         listaFrutas[5] = "Goiaba";
 
@@ -368,14 +424,14 @@ public class Menu {
         JTextField fieldCocoInicio = new JTextField();
         fieldCocoInicio.setBounds(320, 160, 50, 20);
         
-        JLabel labelAcerola = new JLabel("Acerola - Árvores:");
-        labelAcerola.setBounds(10, 190, 150, 20);
-        JTextField fieldAcerolaArvores = new JTextField();
-        fieldAcerolaArvores.setBounds(160, 190, 100, 20);
-        JLabel labelAcerolaInicio = new JLabel("Início:");
-        labelAcerolaInicio.setBounds(270, 190, 50, 20);
-        JTextField fieldAcerolaInicio = new JTextField();
-        fieldAcerolaInicio.setBounds(320, 190, 50, 20);
+        JLabel labelBanana = new JLabel("Banana - Árvores:");
+        labelBanana.setBounds(10, 190, 150, 20);
+        JTextField fieldBananaArvores = new JTextField();
+        fieldBananaArvores.setBounds(160, 190, 100, 20);
+        JLabel labelBananaInicio = new JLabel("Início:");
+        labelBananaInicio.setBounds(270, 190, 50, 20);
+        JTextField fieldBananaInicio = new JTextField();
+        fieldBananaInicio.setBounds(320, 190, 50, 20);
         
         JLabel labelAmora = new JLabel("Amora - Árvores:");
         labelAmora.setBounds(10, 220, 150, 20);
@@ -428,8 +484,8 @@ public class Menu {
                     String abacateInicio = fieldAbacateInicio.getText().isEmpty() ? "3" : fieldAbacateInicio.getText();
                     String cocoArvores = fieldCocoArvores.getText().isEmpty() ? "2" : fieldCocoArvores.getText();
                     String cocoInicio = fieldCocoInicio.getText().isEmpty() ? "1" : fieldCocoInicio.getText();
-                    String acerolaArvores = fieldAcerolaArvores.getText().isEmpty() ? "1" : fieldAcerolaArvores.getText();
-                    String acerolaInicio = fieldAcerolaInicio.getText().isEmpty() ? "2" : fieldAcerolaInicio.getText();
+                    String bananaArvores = fieldBananaArvores.getText().isEmpty() ? "1" : fieldBananaArvores.getText();
+                    String bananaInicio = fieldBananaInicio.getText().isEmpty() ? "2" : fieldBananaInicio.getText();
                     String amoraArvores = fieldAmoraArvores.getText().isEmpty() ? "1" : fieldAmoraArvores.getText();
                     String amoraInicio = fieldAmoraInicio.getText().isEmpty() ? "1" : fieldAmoraInicio.getText();
                     String goiabaArvores = fieldGoiabaArvores.getText().isEmpty() ? "1" : fieldGoiabaArvores.getText();
@@ -439,25 +495,27 @@ public class Menu {
 
                     //colocar essa parte no local certo de salvar arquivo
                 	LinkedHashMap<String, String[]> frutas = new LinkedHashMap<>();
-
+                	frutas.put("dimensao", new String[] {dimensao});
+                	frutas.put("pedras", new String[] {pedras});
                     frutas.put("maracuja", new String[] {maracujaInicio, maracujaTotal});
                     frutas.put("laranja", new String[] {laranjaArvores, laranjaInicio});
                     frutas.put("abacate", new String[] {abacateArvores, abacateInicio});
                     frutas.put("coco", new String[] {cocoArvores, cocoInicio});
-                    frutas.put("acerola", new String[] {acerolaArvores, acerolaInicio});
+                    frutas.put("banana", new String[] {bananaArvores, bananaInicio});
                     frutas.put("amora", new String[] {amoraArvores, amoraInicio});
                     frutas.put("goiaba", new String[] {goiabaArvores, goiabaInicio});
+                    frutas.put("bichadas", new String[] {bichadas});
+                    frutas.put("mochila", new String[] {mochila});
                     
-                   
-                    Menu.arquivoHandler.setDimensao(dimensao); 
-                    Menu.arquivoHandler.setPedras(pedras); 
-                    Menu.arquivoHandler.setFrutas(frutas);
-                    Menu.arquivoHandler.setBichadas(bichadas); 
-                    Menu.arquivoHandler.setCapacidadeMochila(mochila);
-                    
+                    Menu.arquivoHandler.setElementos(frutas);
+                    if (!Menu.arquivoHandler.validarGeracaoMapa(20)) {
+                    	Menu.arquivoHandler.reiniciarAtributos();
+                    	JOptionPane.showMessageDialog(telaForm, "Não é possível gerar um mapa com essas configurações!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    } else {                    	
+                    	JOptionPane.showMessageDialog(telaForm, "Configurações salvas com sucesso!");
+                    }
                     
                     // Mensagem de sucesso e fechar o formulário
-                    JOptionPane.showMessageDialog(telaForm, "Configurações salvas com sucesso!");
                     telaForm.dispose(); // Fecha o formulário após salvar
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -487,10 +545,10 @@ public class Menu {
         telaForm.add(fieldCocoArvores);
         telaForm.add(labelCocoInicio);
         telaForm.add(fieldCocoInicio);
-        telaForm.add(labelAcerola);
-        telaForm.add(fieldAcerolaArvores);
-        telaForm.add(labelAcerolaInicio);
-        telaForm.add(fieldAcerolaInicio);
+        telaForm.add(labelBanana);
+        telaForm.add(fieldBananaArvores);
+        telaForm.add(labelBananaInicio);
+        telaForm.add(fieldBananaInicio);
         telaForm.add(labelAmora);
         telaForm.add(fieldAmoraArvores);
         telaForm.add(labelAmoraInicio);
