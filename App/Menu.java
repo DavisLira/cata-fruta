@@ -44,13 +44,29 @@ public class Menu {
         menuInicial.setResizable(false);
 
         // Cria o botão "Ler Configs"
-        JButton botaoIniciar = new JButton("Iniciar jogo");
-        botaoIniciar.setBounds(150, 100, 200, 50);
+        ImageIcon iconIniciar = new ImageIcon(Menu.class.getResource("/buttons/iniciar.png"));
+        Image imageIniciar = iconIniciar.getImage();
+        Image imageIniciarRedimensionada = imageIniciar.getScaledInstance(330, 66, Image.SCALE_SMOOTH);
+        ImageIcon iconIniciarRedimensionado = new ImageIcon(imageIniciarRedimensionada);
+        JButton botaoIniciar = new JButton(iconIniciarRedimensionado);
+        botaoIniciar.setBounds(85, 60, 330, 66);
+        botaoIniciar.setText(null);
+        botaoIniciar.setBorderPainted(false);
+        botaoIniciar.setFocusPainted(false);
+        botaoIniciar.setContentAreaFilled(false);
         menuInicial.add(botaoIniciar);
 
         // Cria o botão "Editar Configs"
-        JButton botaoEditar = new JButton("Editar Configurações");
-        botaoEditar.setBounds(150, 200, 200, 50);
+        ImageIcon iconEditar = new ImageIcon(Menu.class.getResource("/buttons/editar_config.png"));
+        Image imageEditar = iconEditar.getImage();
+        Image imageEditarRedimensionada = imageEditar.getScaledInstance(330, 66, Image.SCALE_SMOOTH);
+        ImageIcon iconEditarRedimensionado = new ImageIcon(imageEditarRedimensionada);
+        JButton botaoEditar = new JButton(iconEditarRedimensionado);
+        botaoEditar.setText(null);
+        botaoEditar.setBorderPainted(false);
+        botaoEditar.setFocusPainted(false);
+        botaoEditar.setContentAreaFilled(false);
+        botaoEditar.setBounds(85, 160, 330, 66);
         menuInicial.add(botaoEditar);
 
         JButton botaoEscolher = new JButton("Escolher Configurações");
