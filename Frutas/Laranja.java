@@ -19,4 +19,8 @@ public class Laranja extends FrutaComPoder {
         super(nome, posicao, bichada);
         super.setPoder(3);
     }
+    
+	public String getImg() {
+		return "/sprites/laranja.jpg";
+	}
 }

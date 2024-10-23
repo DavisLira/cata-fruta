@@ -22,4 +22,8 @@ public class Coco extends FrutaComPoder {
         super(nome, posicao, bichada);
         super.setPoder(1);
     }
+    
+	public String getImg() {
+		return "/sprites/coco.jpg";
+	}
 }

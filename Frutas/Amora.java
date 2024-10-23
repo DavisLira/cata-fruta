@@ -20,4 +20,8 @@ public class Amora extends FrutaSemPoder {
 	public Amora(String nome, int[] posicao, boolean bichada) {
 		super(nome, posicao, bichada);
 	}
+	
+	public String getImg() {
+		return "/sprites/amora.jpg";
+	}
 }
