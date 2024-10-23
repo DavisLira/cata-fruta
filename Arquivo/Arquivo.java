@@ -36,8 +36,8 @@ public class Arquivo {
         Elementos.put("banana", new String[]{"1", "2"});
         Elementos.put("amora", new String[]{"1", "1"});
         Elementos.put("goiaba", new String[]{"1", "1"});
-        Elementos.put("bichadas", new String[]{"1", "1"});
-        Elementos.put("mochila", new String[]{"1", "1"});
+        Elementos.put("bichadas", new String[]{"25"});
+        Elementos.put("mochila", new String[]{"10"});
         return Elementos;
     }
 
