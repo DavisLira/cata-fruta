@@ -1,6 +1,11 @@
 package Jogador;
 
+import java.awt.Point;
+
+import Frutas.Abacate;
+import Frutas.Banana;
 import Frutas.Fruta;
+import Frutas.Goiaba;
 
 /**
  * A classe Mochila representa a mochila de um jogador, onde ele pode armazenar frutas
@@ -15,6 +20,9 @@ public class Mochila {
      */
     public Mochila(){
         this.frutas = new Fruta[10];
+        this.frutas[0] = new Banana("Banana", new int[] {0,0}, false);
+        this.frutas[4] = new Abacate("Abacate", new int[] {0,0}, false);
+        this.frutas[8] = new Goiaba("Goiaba", new int[] {0,0}, false);
         this.capacidade = 10;
     }
     
