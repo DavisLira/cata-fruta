@@ -22,4 +22,8 @@ public class Abacate extends FrutaComPoder {
         super(nome, posicao, bichada);
         super.setPoder(2);
     }
+    
+	public String getImg() {
+		return "/sprites/abacate.jpg";
+	}
 }
