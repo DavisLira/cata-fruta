@@ -28,7 +28,7 @@ public class TelaJogo {
     
     public void iniciarJogo() {
         telaJogo = new JFrame("Jogo");
-        telaJogo.setUndecorated(false);
+        telaJogo.setUndecorated(true);
 
         // Definir as dimensões da tela
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -67,11 +67,15 @@ public class TelaJogo {
     }
 
     private void criarJanelaBotoes() {
+        // Definir as dimensões da tela
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        
         janelaBotoes = new JFrame("Opções");
-        janelaBotoes.setBounds(560, 10, 250, 200);
-        janelaBotoes.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        janelaBotoes.setBounds(0, 0, screenSize.width, 44);
+        janelaBotoes.setLocation((screenSize.width - 770) / 2, 10);
         janelaBotoes.setResizable(false);
-
+        janelaBotoes.setUndecorated(true);
+        
         JPanel painelBotoes = new JPanel();
         painelBotoes.setLayout(new FlowLayout());
 
