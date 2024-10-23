@@ -14,7 +14,7 @@ import java.util.List;
 public class TelaJogo {
 
     private JFrame telaJogo;
-    private JFrame janelaBotoes;
+    private JFrame telaBotoes;
     private JPanel painelJogo;
     private int matriz;
     private int tamanhoImagem;
@@ -37,7 +37,6 @@ public class TelaJogo {
         matriz = Menu.arquivoHandler.getDimensao();
         tamanhoImagem = alturaTela / matriz;
         estadoMapa = new String[matriz][matriz][2]; // Inicializa a matriz com o tamanho apropriado
-
 
         int tamanhoTela = tamanhoImagem * matriz;
 
@@ -63,59 +62,12 @@ public class TelaJogo {
         telaJogo.pack();
         telaJogo.setVisible(true);
 
-        criarJanelaBotoes();
-    }
-
-    private void criarJanelaBotoes() {
-        // Definir as dimensões da tela
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        
-        janelaBotoes = new JFrame("Opções");
-        janelaBotoes.setBounds(0, 0, screenSize.width, 44);
-        janelaBotoes.setLocation((screenSize.width - 770) / 2, 10);
-        janelaBotoes.setResizable(false);
-        janelaBotoes.setUndecorated(true);
-        
-        JPanel painelBotoes = new JPanel();
-        painelBotoes.setLayout(new FlowLayout());
-
-        JButton iniciarButton = criarBotao("/buttons/iniciar.png", 220, 44, e -> {
-            // Chamar a função para utilizar a matriz antes de iniciar o controle
-            utilizarMatriz(estadoMapa); // Por exemplo, essa é a função que utiliza a matriz.
-            janelaBotoes.dispose();
-            new TelaControle(); // Abre a tela de controle ao iniciar o jogo
-        });
-        JButton gerarNovamenteButton = criarBotao("/buttons/gerar_nvmt.png", 220, 44, e -> painelJogo.repaint());
-        JButton voltarMenuButton = criarBotao("/buttons/voltar_menu.png", 220, 44, e -> voltarParaMenu());
-
-        painelBotoes.add(iniciarButton);
-        painelBotoes.add(gerarNovamenteButton);
-        painelBotoes.add(voltarMenuButton);
-
-        janelaBotoes.add(painelBotoes, BorderLayout.CENTER);
-        janelaBotoes.pack();
-        janelaBotoes.setVisible(true);
-    }
-
-
-    private JButton criarBotao(String caminhoImagem, int largura, int altura, java.awt.event.ActionListener acao) {
-        ImageIcon icon = new ImageIcon(Menu.class.getResource(caminhoImagem));
-        Image image = icon.getImage();
-        Image imageRedimensionada = image.getScaledInstance(largura, altura, Image.SCALE_SMOOTH);
-        ImageIcon iconRedimensionado = new ImageIcon(imageRedimensionada);
-
-        JButton botao = new JButton(iconRedimensionado);
-        botao.setText(null);
-        botao.setBorderPainted(false);
-        botao.setFocusPainted(false);
-        botao.setContentAreaFilled(false);
-        botao.addActionListener(acao);
-
-        return botao;
+        // Cria a janela de botões separadamente
+        new TelaBotoes(this, painelJogo, estadoMapa);
     }
     
-    private void utilizarMatriz(String[][][] estadoMapa) {
-        // Implemente a lógica que você precisa para utilizar a matriz
+    public void utilizarMatriz(String[][][] estadoMapa) {
+        // Lógica para utilizar a matriz
         for (int i = 0; i < estadoMapa.length; i++) {
             for (int j = 0; j < estadoMapa[i].length; j++) {
                 System.out.println("Posição: (" + i + ", " + j + ") - Tipo: " + estadoMapa[i][j][0] + ", Jogador: " + estadoMapa[i][j][1]);
@@ -123,12 +75,11 @@ public class TelaJogo {
         }
     }
     
-    private void voltarParaMenu() {
+    public void voltarParaMenu() {
         telaJogo.dispose();
-        janelaBotoes.dispose();
         new TelaMenuInicial(); // Retorna ao menu inicial
     }
-
+    
     /**
      * Gera o mapa do jogo, desenhando os elementos na tela usando gráficos
      *
