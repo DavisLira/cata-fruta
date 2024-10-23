@@ -119,4 +119,8 @@ public class Jogador {
         fruta.comer(this);
     }
 
+	public Mochila getMochila() {
+		return this.mochila;
+	}
+
 }
