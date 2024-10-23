@@ -21,11 +21,14 @@ public class TelaMenuInicial {
     }
 
     public void mostrarMenuInicial() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    	
         menuInicial = new JFrame("Cata Frutas - Menu inicial");
-        menuInicial.setBounds(500, 50, 500, 575);
-        menuInicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        menuInicial.setBounds(0, 0, 500, 575);
+        menuInicial.setLocation((screenSize.width - 500) / 2, (screenSize.height - 575) / 2);
         menuInicial.setLayout(null);
         menuInicial.setResizable(false);
+        menuInicial.setUndecorated(true);
 
         // Cria o botão "Ler Configs"
         ImageIcon iconIniciar = new ImageIcon(Menu.class.getResource("/buttons/iniciar.png"));
