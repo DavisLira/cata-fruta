@@ -2,8 +2,6 @@ package App;
 
 import javax.swing.*;
 
-import App.Menu;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedHashMap;

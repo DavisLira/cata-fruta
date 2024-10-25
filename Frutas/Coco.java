@@ -1,5 +1,7 @@
 package Frutas;
 
+import java.awt.Point;
+
 /**
  * A classe Coco representa uma fruta específica que possui um poder associado
  * É uma subclasse de FrutaComPoder e herda suas propriedades, como nome, posição, e se está bichada
@@ -18,9 +20,18 @@ public class Coco extends FrutaComPoder {
      * @param bichada Um booleano que indica se a fruta está bichada (true) ou não (false)
      */
 	
-    public Coco(String nome, int[] posicao, boolean bichada) {
-        super(nome, posicao, bichada);
+    public Coco(Point posicao, boolean bichada) {
+        super(posicao, bichada);
         super.setPoder(1);
+    }
+    
+    public Coco(boolean bichada) {
+        super(bichada);
+        super.setPoder(1);
+    }
+    
+    public String toString() {
+    	return "coco";
     }
     
 	public String getImg() {
@@ -29,5 +40,9 @@ public class Coco extends FrutaComPoder {
 	
 	public String getImgMochila() {
 		return "/sprites/coco_mochila.png";
+	}	
+	
+	public String getImgArvore() {
+		return "/sprites/coqueiro.jpg";
 	}
 }

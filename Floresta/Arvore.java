@@ -48,4 +48,12 @@ public class Arvore extends Local{
 		madura++;
 	}
 	
+	public String getImg() {
+		return this.fruta.getImgArvore();
+	}
+	
+	public String nomeFruta() {
+		return this.fruta.toString();
+	}
+	
 }

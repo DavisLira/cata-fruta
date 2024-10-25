@@ -1,5 +1,7 @@
 package Frutas;
 
+import java.awt.Point;
+
 /**
  * A classe Goiaba representa uma fruta sem poderes especiais
  * Esta classe herda da classe FrutaSemPoder e define uma fruta específica
@@ -14,9 +16,17 @@ public class Goiaba extends FrutaSemPoder {
      * @param posicao A posição da goiaba na floresta
      * @param bichada Um booleano que indica se a goiaba está bichada (true) ou não (false)
      */
-	public Goiaba(String nome, int[] posicao, boolean bichada) {
-		super(nome, posicao, bichada);
+	public Goiaba(Point posicao, boolean bichada) {
+		super(posicao, bichada);
 	}
+	
+	public Goiaba(boolean bichada) {
+		super(bichada);
+	}
+	
+    public String toString() {
+    	return "goaiaba";
+    }
 	
 	public String getImg() {
 		return "/sprites/goiaba.jpg";
@@ -24,5 +34,9 @@ public class Goiaba extends FrutaSemPoder {
 	
 	public String getImgMochila() {
 		return "/sprites/goiaba_mochila.png";
+	}
+	
+	public String getImgArvore() {
+		return "/sprites/goiabeira.jpg";
 	}
 }

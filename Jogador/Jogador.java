@@ -1,5 +1,7 @@
 package Jogador;
 
+import java.awt.Point;
+
 import Frutas.Fruta;
 
 /**
@@ -8,33 +10,33 @@ import Frutas.Fruta;
  * para armazenar frutas
  */
 public class Jogador {
-    private String nome;
-    private int[] posicao;
+    private int numero;
+	private Point posicao;
     private int movimentos = 0;
     private int forca = 1;
     private Mochila mochila;
 
     /**
      * Construtor da classe Jogador
-     * Inicializa uma instância de Jogador com o nome especificado
+     * Inicializa uma instância de Jogador com o numero especificado
      * A posição inicial do jogador é (0, 0) e uma mochila é criada
      *
-     * @param nome O nome do jogador
+     * @param nome O numero do jogador
      */
-    public Jogador(String nome) {
-        this.nome = nome;
-        this.posicao = new int[2];
+    public Jogador(int numero, Point posicao) {
+        this.numero = numero;
+        this.posicao = posicao;
         this.mochila = new Mochila();
     }
 
     // GETTERS
     /**
-     * Obtém o nome do jogador
+     * Obtém o numero do jogador
      *
-     * @return O nome do jogador
+     * @return O numerodo jogador
      */
-    public String getNome() {
-        return this.nome;
+    public int getNumero() {
+        return this.numero;
     }
     
     /**
@@ -53,6 +55,14 @@ public class Jogador {
      */
     public int getMovimento(){
         return this.movimentos;
+    }
+    
+    public Point getPosicao() {
+    	return this.posicao;
+    }
+    
+    public void setPosicao(Point posicao) {
+    	this.posicao = posicao;
     }
 
     // SETTERS
@@ -90,10 +100,9 @@ public class Jogador {
      * @param destino Um array de inteiros representando a nova posição (x, y)
      * @return true se o movimento foi bem sucedido, false caso contrário
      */
-    public boolean mover(int[] destino) {
+    public boolean mover(Point destino) {
         if (this.movimentos > 0) {
-            this.posicao[0] = destino[0];
-            this.posicao[1] = destino[1];
+            this.posicao = destino;
             this.movimentos--;
             return true;
         }

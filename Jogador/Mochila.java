@@ -6,6 +6,7 @@ import Frutas.Abacate;
 import Frutas.Banana;
 import Frutas.Fruta;
 import Frutas.Goiaba;
+import App.Menu;
 
 /**
  * A classe Mochila representa a mochila de um jogador, onde ele pode armazenar frutas
@@ -19,11 +20,10 @@ public class Mochila {
      * Inicializa uma nova mochila com capacidade para 10 frutas
      */
     public Mochila(){
-        this.frutas = new Fruta[10];
-        this.frutas[0] = new Banana("Banana", new int[] {0,0}, false);
-        this.frutas[4] = new Abacate("Abacate", new int[] {0,0}, false);
-        this.frutas[8] = new Goiaba("Goiaba", new int[] {0,0}, false);
-        this.capacidade = 10;
+        this.setCapacidade();
+        this.frutas[0] = new Abacate(new Point(), false);
+        this.frutas[1] = new Banana(new Point(), false);
+        this.frutas[7] = new Goiaba(new Point(), false);
     }
     
     /**
@@ -33,6 +33,12 @@ public class Mochila {
      */
     public int getCapacidade(){
         return this.capacidade;
+    }
+    
+    public void setCapacidade() {
+    	int tamanho = Menu.arquivoHandler.getMochila();
+    	this.capacidade = tamanho;
+        this.frutas = new Fruta[tamanho];
     }
 
     /**

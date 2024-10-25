@@ -1,5 +1,7 @@
 package Frutas;
 
+import java.awt.Point;
+
 /**
  * A classe Banana representa uma fruta específica que possui um poder associado
  * É uma subclasse de FrutaComPoder e herda suas propriedades, como nome, posição, e se está bichada
@@ -17,9 +19,17 @@ public class Banana extends FrutaSemPoder {
      * @param bichada Um booleano que indica se a fruta está bichada (true) ou não (false)
      */
 	
-	public Banana(String nome, int[] posicao, boolean bichada) {
-		super(nome, posicao, bichada);
+	public Banana(Point posicao, boolean bichada) {
+		super(posicao, bichada);
 	}
+	
+	public Banana(boolean bichada) {
+		super(bichada);
+	}
+	
+    public String toString() {
+    	return "banana";
+    }
 	
 	public String getImg() {
 		return "/sprites/banana.jpg";
@@ -27,5 +37,9 @@ public class Banana extends FrutaSemPoder {
 	
 	public String getImgMochila() {
 		return "/sprites/banana_mochila.png";
+	}	
+	
+	public String getImgArvore() {
+		return "/sprites/bananeira.jpg";
 	}
 }

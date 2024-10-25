@@ -1,5 +1,7 @@
 package Frutas;
 
+import java.awt.Point;
+
 import Jogador.Jogador;
 
 /**
@@ -21,8 +23,12 @@ public abstract class FrutaComPoder extends Fruta {
      * @param posicao A posição da fruta na floresta
      * @param bichada Um booleano que indica se a fruta está bichada (true) ou não (false)
      */
-    public FrutaComPoder(String nome, int[] posicao, boolean bichada) {
-        super(nome, posicao, bichada);
+    public FrutaComPoder(Point posicao, boolean bichada) {
+        super(posicao, bichada);
+    }
+    
+    public FrutaComPoder(boolean bichada) {
+        super(bichada);
     }
 
     /**

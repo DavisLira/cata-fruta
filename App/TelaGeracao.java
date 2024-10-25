@@ -1,10 +1,24 @@
 package App;
 
 import javax.swing.*;
+
+import Floresta.Arvore;
+import Floresta.Grama;
+import Floresta.Pedra;
+import Frutas.Abacate;
+import Frutas.Amora;
+import Frutas.Banana;
+import Frutas.Coco;
+import Frutas.Goiaba;
+import Frutas.Laranja;
+import Frutas.Maracuja;
+import Jogador.Jogador;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Inicia a interface do jogo e exibe a tela de jogo.
@@ -17,15 +31,15 @@ public class TelaGeracao {
     JPanel painelJogo;
     private int matriz;
     private int tamanhoImagem;
-    private String[][][] estadoMapa; // Matriz para armazenar o tipo de local e jogadores
-
+    Object[][][] estadoMapa; // Matriz para armazenar o tipo de local e jogadores
+    Random random = new Random();
 
 
     public TelaGeracao() {
-        iniciarJogo();
+        iniciarGeracao();
     }
     
-    public void iniciarJogo() {
+    public void iniciarGeracao() {
         telaGeracao = new JFrame("Geração de mapa");
         telaGeracao.setUndecorated(true);
 
@@ -35,7 +49,7 @@ public class TelaGeracao {
 
         matriz = Menu.arquivoHandler.getDimensao();
         tamanhoImagem = alturaTela / matriz;
-        estadoMapa = new String[matriz][matriz][2]; // Inicializa a matriz com o tamanho apropriado
+        estadoMapa = new Object[matriz][matriz][2]; // Inicializa a matriz com o tamanho apropriado
 
         int tamanhoTela = tamanhoImagem * matriz;
 
@@ -62,7 +76,7 @@ public class TelaGeracao {
         telaGeracao.setVisible(true);
     }
     
-    public void utilizarMatriz(String[][][] estadoMapa) {
+    public void utilizarMatriz(Object[][][] estadoMapa) {
         // Lógica para utilizar a matriz
         for (int i = 0; i < estadoMapa.length; i++) {
             for (int j = 0; j < estadoMapa[i].length; j++) {
@@ -144,8 +158,8 @@ public class TelaGeracao {
                 int x = j * tamanhoImagem;
                 int y = i * tamanhoImagem;
                 g.drawImage(gramaImg, x, y, tamanhoImagem, tamanhoImagem, null);
-                estadoMapa[i][j][0] = "grama"; // Inicializa o estado como "grama"
-                estadoMapa[i][j][1] = "-"; // Sem jogadores
+                estadoMapa[i][j][0] = new Grama(); // Inicializa o estado como "grama"
+                estadoMapa[i][j][1] = null; // Sem jogadores
             }
         }
 
@@ -153,88 +167,127 @@ public class TelaGeracao {
 
         Point posicaoJogador1 = posicoes.remove(0);
         colocarElemento(g, jogador1Img, posicaoJogador1, tamanhoImagem);
-        estadoMapa[(int) posicaoJogador1.getY()][(int) posicaoJogador1.getX()][1] = "jogador1"; // Atualiza o estado do jogador
+        estadoMapa[(int) posicaoJogador1.getY()][(int) posicaoJogador1.getX()][1] = new Jogador(1, posicaoJogador1); // Atualiza o estado do jogador
         
         Point posicaoJogador2 = posicoes.remove(0);
         colocarElemento(g, jogador2Img, posicaoJogador2, tamanhoImagem);
-        estadoMapa[(int) posicaoJogador2.getY()][(int) posicaoJogador2.getX()][1] = "jogador2"; // Atualiza o estado do jogador
+        estadoMapa[(int) posicaoJogador2.getY()][(int) posicaoJogador2.getX()][1] = new Jogador(2, posicaoJogador2); // Atualiza o estado do jogador
 
         for (int i = 0; i < (Menu.arquivoHandler.getAbacate()); i++) {
             Point posicao = posicoes.remove(0);
             colocarElemento(g, abacateImg, posicao, tamanhoImagem);
-            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = "abacate";
+            
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Abacate(posicao,bichada);
         }
         
         for (int i = 0; i < (Menu.arquivoHandler.getAbacateiras()); i++) {
             Point posicao = posicoes.remove(0);
         	colocarElemento(g, abacateiraImg, posicao, tamanhoImagem);
-            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = "abacateira";
+            
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Arvore(new Abacate(bichada));
         }
         
         for (int i = 0; i < (Menu.arquivoHandler.getAmora()); i++) {
             Point posicao = posicoes.remove(0);
         	colocarElemento(g, amoraImg, posicao, tamanhoImagem);
-            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = "amora";
+            
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Amora(posicao,bichada);
         }
         
         for (int i = 0; i < (Menu.arquivoHandler.getAmoreira()); i++) {
             Point posicao = posicoes.remove(0);
         	colocarElemento(g, amoreiraImg, posicao, tamanhoImagem);
-            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = "amoreira";
+            
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Arvore(new Amora(bichada));
         }
         
         for (int i = 0; i < (Menu.arquivoHandler.getBanana()); i++) {
             Point posicao = posicoes.remove(0);
         	colocarElemento(g, bananaImg, posicao, tamanhoImagem);
-            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = "banana";
+            
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Banana(posicao, bichada);
         }
         
         for (int i = 0; i < (Menu.arquivoHandler.getBananeira()); i++) {
             Point posicao = posicoes.remove(0);
         	colocarElemento(g, bananeiraImg, posicao, tamanhoImagem);
-            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = "bananeira";
+            
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Arvore(new Banana(bichada));
         }
         
         for (int i = 0; i < (Menu.arquivoHandler.getCoco()); i++) {
             Point posicao = posicoes.remove(0);
         	colocarElemento(g, cocoImg, posicao, tamanhoImagem);
-            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = "coco";
+            
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Coco(posicao, bichada);
         }
         
         for (int i = 0; i < (Menu.arquivoHandler.getCoqueiro()); i++) {
             Point posicao = posicoes.remove(0);
         	colocarElemento(g, coqueiroImg, posicao, tamanhoImagem);
-            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = "coqueiro";
+            
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Arvore(new Coco(bichada));
         }
         
         for (int i = 0; i < (Menu.arquivoHandler.getGoiaba()); i++) {
             Point posicao = posicoes.remove(0);
         	colocarElemento(g, goiabaImg, posicao, tamanhoImagem);
-            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = "goiaba";
+            
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Goiaba(posicao, bichada);
         }
         
         for (int i = 0; i < (Menu.arquivoHandler.getGoiabeira()); i++) {
             Point posicao = posicoes.remove(0);
         	colocarElemento(g, goiabeirImg, posicao, tamanhoImagem);
-            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = "goiabeira";
+            
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Arvore(new Goiaba(bichada));
         }
         
         for (int i = 0; i < (Menu.arquivoHandler.getLaranja()); i++) {
             Point posicao = posicoes.remove(0);
         	colocarElemento(g, laranjaImg, posicao, tamanhoImagem);
-            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = "laranja";
+            
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Laranja(posicao, bichada);
         }
         
         for (int i = 0; i < (Menu.arquivoHandler.getLaranjeiras()); i++) {
             Point posicao = posicoes.remove(0);
         	colocarElemento(g, laranjeiraImg, posicao, tamanhoImagem);
-            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = "laranjeira";
+            
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Arvore(new Laranja(posicao, bichada));
         }
         
         for (int i = 0; i < (Menu.arquivoHandler.getMaracujaTotal()); i++) {
             Point posicao = posicoes.remove(0);
         	colocarElemento(g, maracujaImg, posicao, tamanhoImagem);
-            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = "maracuja";
+            
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+            estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Maracuja(posicao, bichada);
         }
         
         for (int i = 0; i < (Menu.arquivoHandler.getPedras()); i++) {
@@ -243,7 +296,7 @@ public class TelaGeracao {
 
             Point posicaoPedra = posicoes.remove(0);
             colocarElemento(g, pedra, posicaoPedra, tamanhoImagem);
-            estadoMapa[(int) posicaoPedra.getY()][(int) posicaoPedra.getX()][0] = "pedra"; // Atualiza o estado
+            estadoMapa[(int) posicaoPedra.getY()][(int) posicaoPedra.getX()][0] = new Pedra(posicaoPedra, i % 2); // Atualiza o estado
         }
     }
     

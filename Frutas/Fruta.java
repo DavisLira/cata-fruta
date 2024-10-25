@@ -1,5 +1,7 @@
 package Frutas;
 
+import java.awt.Point;
+
 import Jogador.Jogador;
 
 /**
@@ -9,43 +11,24 @@ import Jogador.Jogador;
  */
 
 public abstract class Fruta {
-    private String nome;
-    private int[] posicao;
+	private Point posicao;
     private boolean bichada;
 
     /**
      * Construtor da classe Fruta
      * Inicializa uma fruta com nome, posição e estado (bichada ou não)
      * 
-     * @param nome O nome da fruta
      * @param posicao A posição da fruta na floresta
      * @param bichada Um booleano que indica se a fruta está bichada (true) ou não (false)
      */
     
-    public Fruta(String nome, int[] posicao, boolean bichada) {
-        this.setNome(nome);
+    public Fruta(Point posicao, boolean bichada) {
         this.setPosicao(posicao);
         this.setBichada(bichada);
     }
     
-    /**
-     * Define o nome da fruta
-     * 
-     * @param nome O nome da fruta
-     */
-    
-    private void setNome(String nome) {
-        this.nome = nome;
-    }
-    
-    /**
-     * Retorna o nome da fruta
-     * 
-     * @return O nome da fruta
-     */
-    
-    public String getNome() {
-        return nome;
+    public Fruta(boolean bichada) {
+        this.setBichada(bichada);
     }
     
     /**
@@ -54,7 +37,7 @@ public abstract class Fruta {
      * @param posicao A posição da fruta representada por um array de inteiros [X, Y]
      */
     
-    public void setPosicao(int[] posicao) {
+    public void setPosicao(Point posicao) {
         this.posicao = posicao;
     }
     
@@ -64,7 +47,7 @@ public abstract class Fruta {
      * @return A posição da fruta como um array de inteiros [X, Y]
      */
 
-    public int[] getPosicao() {
+    public Point getPosicao() {
         return posicao;
     }
     
@@ -97,7 +80,12 @@ public abstract class Fruta {
 
     public abstract void comer(Jogador jogador);
     
+    @Override
+    public abstract String toString();
+    
     public abstract String getImg();
     
 	public abstract String getImgMochila();
+	
+	public abstract String getImgArvore();
 }

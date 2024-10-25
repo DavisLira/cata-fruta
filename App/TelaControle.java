@@ -10,8 +10,12 @@ import java.awt.*;
 public class TelaControle {
     private JFrame telaControle;
     private JPanel painelControle;
+    private JFrame telaMochila;
+    private boolean mochilaAberta = false;
+    private Jogador jogadorAtual;
 
-    public TelaControle() {
+    public TelaControle(Jogador jogador) {
+    	this.jogadorAtual = jogador;
         iniciarControle();
     }
 
@@ -51,11 +55,11 @@ public class TelaControle {
 
 
         // Adicionar listener para abrir outra tela ao clicar na mochila
-        mochilaButton.addActionListener(e -> mostrarMochila(new Jogador("Davi")));
-        setaCimaButton.addActionListener(e -> System.out.println("Subindo"));
-        setaEsqButton.addActionListener(e -> System.out.println("Esquerda"));
-        setaDirButton.addActionListener(e -> System.out.println("Direita"));
-        setaBaixoButton.addActionListener(e -> System.out.println("Descendo"));
+        mochilaButton.addActionListener(e -> alternarMochila(jogadorAtual));
+        setaCimaButton.addActionListener(e -> moverJogador(new Point(0,-1)));
+        setaEsqButton.addActionListener(e -> moverJogador(new Point(-1, 0)));
+        setaDirButton.addActionListener(e -> moverJogador(new Point(1, 0)));
+        setaBaixoButton.addActionListener(e -> moverJogador(new Point(0,1)));
 
 
         telaControle.add(painelControle, BorderLayout.CENTER);
@@ -107,84 +111,98 @@ public class TelaControle {
         g.drawImage(imagem, x, y, tamanho, tamanho, null);
     }
     
-    public void mostrarMochila(Jogador jogador) {
-        // Criar um novo JFrame para a mochila
-        JFrame telaMochila = new JFrame("Mochila de " + jogador.getNome());
+    public void alternarMochila(Jogador jogador) {
+        if (mochilaAberta) {
+            fecharMochila();
+        } else {
+            abrirMochila(jogador);
+        }
+    }
+    
+    public void abrirMochila(Jogador jogador) {
+        if (telaMochila == null) {
+            telaMochila = new JFrame("Mochila do jogador " + jogador.getNumero());
 
-        // Definir as dimensões da tela
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int alturaTela = (int) (screenSize.height * 0.8);
-        
-        // Obter as frutas da mochila do jogador
-        Fruta[] frutas = jogador.getMochila().getFrutas();
-        int capacidade = frutas.length;
-        
-        int lado = (int) Math.ceil(Math.sqrt(capacidade));
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            int alturaTela = (int) (screenSize.height * 0.8);
 
-        int tamanhoImagem = alturaTela / lado; // Tamanho de cada imagem
-        int tamanhoTela = tamanhoImagem * lado; // Tamanho total da tela
+            Fruta[] frutas = jogador.getMochila().getFrutas();
+            int capacidade = frutas.length;
 
-        telaMochila.setBounds(0, 0, tamanhoTela, tamanhoTela);
-        telaMochila.setLocation((screenSize.width - tamanhoTela) / 2, (screenSize.height - tamanhoTela) / 2);
-        telaMochila.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        telaMochila.setResizable(true);
-        telaMochila.setUndecorated(true);
+            int lado = (int) Math.ceil(Math.sqrt(capacidade));
+            int tamanhoImagem = alturaTela / lado;
+            int tamanhoTela = tamanhoImagem * lado;
 
-        // Painel que vai conter as frutas
-        JPanel painelFrutas = new JPanel(null);
-        painelFrutas.setPreferredSize(new Dimension(tamanhoTela, tamanhoTela));
+            telaMochila.setBounds(0, 0, tamanhoTela, tamanhoTela);
+            telaMochila.setLocation((screenSize.width - tamanhoTela) / 2, (screenSize.height - tamanhoTela) / 2);
+            telaMochila.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            telaMochila.setResizable(true);
+            telaMochila.setUndecorated(true);
 
-        // Iterar pelas frutas e adicionar ao painel
-        for (int i = 0; i < lado * lado; i++) {
-            JButton frutaButton;
+            JPanel painelFrutas = new JPanel(null);
+            painelFrutas.setPreferredSize(new Dimension(tamanhoTela, tamanhoTela));
 
-            if (i < capacidade && frutas[i] != null) {
-                // Se a fruta existir, usar o sprite retornado por frutas[i].getImg()
-                ImageIcon frutaIcon = new ImageIcon(Menu.class.getResource(frutas[i].getImgMochila()));
-                Image frutaImg = frutaIcon.getImage().getScaledInstance(tamanhoImagem, tamanhoImagem, Image.SCALE_SMOOTH);
-                ImageIcon frutaImgRedimensionada = new ImageIcon(frutaImg);
+            for (int i = 0; i < lado * lado; i++) {
+                JButton frutaButton;
 
-                frutaButton = new JButton(frutaImgRedimensionada);
-            } else if (i < capacidade) {
-                // Se não houver fruta, mas o espaço na mochila ainda está vazio, usar o sprite /sprites/Mochila.png
-                ImageIcon mochilaIcon = new ImageIcon(Menu.class.getResource("/sprites/Mochila.png"));
-                Image mochilaImg = mochilaIcon.getImage().getScaledInstance(tamanhoImagem, tamanhoImagem, Image.SCALE_SMOOTH);
-                ImageIcon mochilaImgRedimensionada = new ImageIcon(mochilaImg);
+                if (i < capacidade && frutas[i] != null) {
+                    ImageIcon frutaIcon = new ImageIcon(Menu.class.getResource(frutas[i].getImgMochila()));
+                    Image frutaImg = frutaIcon.getImage().getScaledInstance(tamanhoImagem, tamanhoImagem, Image.SCALE_SMOOTH);
+                    frutaButton = new JButton(new ImageIcon(frutaImg));
+                } else if (i < capacidade) {
+                    ImageIcon mochilaIcon = new ImageIcon(Menu.class.getResource("/sprites/Mochila.png"));
+                    Image mochilaImg = mochilaIcon.getImage().getScaledInstance(tamanhoImagem, tamanhoImagem, Image.SCALE_SMOOTH);
+                    frutaButton = new JButton(new ImageIcon(mochilaImg));
+                } else {
+                    ImageIcon gramaIcon = new ImageIcon(Menu.class.getResource("/sprites/grama.jpg"));
+                    Image gramaImg = gramaIcon.getImage().getScaledInstance(tamanhoImagem, tamanhoImagem, Image.SCALE_SMOOTH);
+                    frutaButton = new JButton(new ImageIcon(gramaImg));
+                }
 
-                frutaButton = new JButton(mochilaImgRedimensionada);
-            } else {
-                // Se não houver mais espaço na mochila, usar o sprite /sprites/grama.jpg
-                ImageIcon gramaIcon = new ImageIcon(Menu.class.getResource("/sprites/grama.jpg"));
-                Image gramaImg = gramaIcon.getImage().getScaledInstance(tamanhoImagem, tamanhoImagem, Image.SCALE_SMOOTH);
-                ImageIcon gramaImgRedimensionada = new ImageIcon(gramaImg);
+                frutaButton.setText(null);
+                frutaButton.setBorderPainted(false);
+                frutaButton.setFocusPainted(false);
+                frutaButton.setContentAreaFilled(false);
 
-                frutaButton = new JButton(gramaImgRedimensionada);
+                int linha = i / lado;
+                int coluna = i % lado;
+                int x = coluna * tamanhoImagem;
+                int y = linha * tamanhoImagem;
+                frutaButton.setBounds(x, y, tamanhoImagem, tamanhoImagem);
+                painelFrutas.add(frutaButton);
             }
 
-            // Remover borda, texto, foco e fundo
-            frutaButton.setText(null);
-            frutaButton.setBorderPainted(false);
-            frutaButton.setFocusPainted(false);
-            frutaButton.setContentAreaFilled(false);
-            
-            // Calcular a posição do botão baseado no índice i
-            int linha = i / lado;
-            int coluna = i % lado;
-            int x = coluna * tamanhoImagem;
-            int y = linha * tamanhoImagem;
-
-            // Definir posição e tamanho do botão
-            frutaButton.setBounds(x, y, tamanhoImagem, tamanhoImagem);
-
-            // Adicionar o botão ao painel
-            painelFrutas.add(frutaButton);
+            telaMochila.add(painelFrutas, BorderLayout.CENTER);
+            telaMochila.pack();
         }
 
-        telaMochila.add(painelFrutas, BorderLayout.CENTER);
-        telaMochila.pack();
         telaMochila.setVisible(true);
-        telaMochila.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Fechar apenas a janela da mochila
+        mochilaAberta = true;
+    }
+    
+    public void fecharMochila() {
+        if (telaMochila != null) {
+            telaMochila.setVisible(false);
+        }
+        mochilaAberta = false;
     }
 
+    private void moverJogador(Point destino) {
+        int movimentos = 6;
+    	// Calcula a nova posição
+        
+        int novoX = jogadorAtual.getPosicao().x + destino.x;
+        int novoY = jogadorAtual.getPosicao().y + destino.y;
+        
+        Object[][][] mapa = Menu.geracao.estadoMapa;
 
+        // Verifique se a nova posição está dentro dos limites do mapa
+        if (novoX < 0 || novoX >= mapa.length || novoY < 0 || novoY >= mapa[0].length) {
+            System.out.println("Movimento inválido: fora dos limites do mapa.");
+            return; // Impede o movimento se estiver fora dos limites
+        }
+
+        jogadorAtual.setPosicao(new Point(novoX, novoY));
+        System.out.println("Movimento realizado para: (" + novoX + ", " + novoY + ")");
+    }
 }

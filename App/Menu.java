@@ -7,7 +7,8 @@ import Arquivo.ArquivoHandler;
  * Ela fornece opções para iniciar o jogo, editar configurações e escolher arquivos de configuração
  */
 public class Menu {
-	static ArquivoHandler arquivoHandler = new ArquivoHandler();
+	public static ArquivoHandler arquivoHandler = new ArquivoHandler();
+	static TelaGeracao geracao;
 	
 	/**
      * O ponto de entrada principal do programa
@@ -22,7 +23,7 @@ public class Menu {
 
     // Método estático que pode ser chamado a partir de outros lugares para iniciar o jogo
     public static void gerarMapa() {
-        TelaGeracao geracao = new TelaGeracao();
+        geracao = new TelaGeracao();
     	new TelaBotoes(geracao, geracao.painelJogo);
     }
     
@@ -31,8 +32,8 @@ public class Menu {
     }
     
     public static void iniciarJogo() {
-    	new TelaGeracao(); // mudar para usar classe jogo e passar o a matriz salva
-    	new TelaControle();
+    	geracao.utilizarMatriz(geracao.estadoMapa);
+    	new TelaJogo(geracao.estadoMapa); // mudar para usar classe jogo e passar o a matriz salva
     }
 
 }

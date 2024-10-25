@@ -1,5 +1,7 @@
 package Frutas;
 
+import java.awt.Point;
+
 /**
  * A classe Amora representa uma fruta específica que possui um poder associado
  * É uma subclasse de FrutaComPoder e herda suas propriedades, como nome, posição, e se está bichada
@@ -17,9 +19,17 @@ public class Amora extends FrutaSemPoder {
      * @param bichada Um booleano que indica se a fruta está bichada (true) ou não (false)
      */
 	
-	public Amora(String nome, int[] posicao, boolean bichada) {
-		super(nome, posicao, bichada);
+	public Amora(Point posicao, boolean bichada) {
+		super(posicao, bichada);
 	}
+	
+	public Amora(boolean bichada) {
+		super(bichada);
+	}
+	
+    public String toString() {
+    	return "amora";
+    }
 	
 	public String getImg() {
 		return "/sprites/amora.jpg";
@@ -27,5 +37,9 @@ public class Amora extends FrutaSemPoder {
 	
 	public String getImgMochila() {
 		return "/sprites/amora_mochila.png";
+	}	
+	
+	public String getImgArvore() {
+		return "/sprites/amoreira.jpg";
 	}
 }

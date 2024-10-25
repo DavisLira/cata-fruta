@@ -1,5 +1,7 @@
 package Frutas;
 
+import java.awt.Point;
+
 /**
  * A classe Abacate representa uma fruta específica que possui um poder associado
  * É uma subclasse de FrutaComPoder e herda suas propriedades, como nome, posição, e se está bichada
@@ -13,14 +15,22 @@ public class Abacate extends FrutaComPoder {
      * Inicializa um objeto Abacate com o nome, posição, e estado (bichada ou não)
      * Define o poder do abacate para 2
      * 
-     * @param nome O nome da fruta
      * @param posicao A posição da fruta na floresta, representada por um array de inteiros [X, Y]
      * @param bichada Um booleano que indica se a fruta está bichada (true) ou não (false)
      */
 	
-    public Abacate(String nome, int[] posicao, boolean bichada) {
-        super(nome, posicao, bichada);
+    public Abacate(Point posicao, boolean bichada) {
+        super(posicao, bichada);
         super.setPoder(2);
+    }
+    
+    public Abacate(boolean bichada) {
+        super(bichada);
+        super.setPoder(2);
+    }
+    
+    public String toString() {
+    	return "abacate";
     }
     
 	public String getImg() {
@@ -29,5 +39,9 @@ public class Abacate extends FrutaComPoder {
 	
 	public String getImgMochila() {
 		return "/sprites/abacate_mochila.png";
+	}
+	
+	public String getImgArvore() {
+		return "/sprites/abacateiro.jpg";
 	}
 }
