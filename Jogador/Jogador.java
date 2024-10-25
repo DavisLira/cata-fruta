@@ -83,17 +83,51 @@ public class Jogador {
     public int jogarDados(){
         return (int)(Math.random() * 6) + 1;
     }
+    
+    private boolean ePedra(Object local) {
+    	if (local instanceof Pedra) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    private Point pulaPedra(Point destino, Object[][][] floresta) {
+        if (destino.x < 0 || destino.x >= floresta[0].length || destino.y < 0 || destino.y >= floresta.length) {
+            System.out.println("Movimento inválido: fora dos limites do mapa!");
+            return null; // Impede o movimento se estiver fora dos limites
+        }
+        
+    	int movX = destino.x - this.getPosicao().x;
+    	int movY = destino.y - this.getPosicao().y;
+    
+    	System.out.println("mov x: " + movX);
+    	System.out.println("mov y: " + movY);
+    	Point LocalQueda = new Point();
+    	LocalQueda.x = destino.x + movX;
+    	LocalQueda.y = destino.y + movY;
+
+    	if (floresta[LocalQueda.y][LocalQueda.x][0] instanceof Pedra) {
+    		return this.pulaPedra(LocalQueda, floresta);
+    	} else {
+    		return LocalQueda;
+    	}
+    }
 
     /**
      * Verifica se o jogador ainda tem movimentos disponíveis
      *
      * @return true se o jogador tem movimentos, false caso contrário
      */
-    public boolean verificarMovimentos(Point destino, Object[][][] floresta){
+    public boolean verificarMovimentos(Point destino, int custo, Object[][][] floresta){
     	Object localNovo = floresta[destino.y][destino.x][0];
-    	if (localNovo instanceof Pedra && this.movimentos >= 3) {
-    		return true;
-        }
+
+    	if (this.ePedra(localNovo)) {
+    		
+    		if (custo > this.movimentos) {
+    			return false;
+    		}
+    		else return true;
+    	}
     	
         if (this.movimentos > 0) {
             return true;
@@ -102,7 +136,7 @@ public class Jogador {
     }
     
     public boolean acabouMovimentos() {
-        if (this.movimentos == 0) {
+        if (this.movimentos <= 0) {
             return true;
         }
         return false;
@@ -115,16 +149,21 @@ public class Jogador {
      * @return true se o movimento foi bem sucedido, false caso contrário
      */
     public void mover(Point destino, Object[][][] floresta) {
-    	Object localNovo = floresta[destino.y][destino.x][0];
+    	Point localNovo = pulaPedra(destino, floresta);
     	
-    	if (localNovo instanceof Pedra) {
-    		this.posicao = new Point(this.posicao.x + destino.x * 2, this.posicao.y + destino.y * 2);
-    		this.movimentos -= 3;
-    		return;
-    	}
-    	
-    	this.posicao = destino;
-    	this.movimentos--;
+    	int custoX = Math.abs(this.getPosicao().x - localNovo.x);   
+    	int custoY = Math.abs(this.getPosicao().y - localNovo.y);   
+		int custo = custoX + custoY;
+		custo = custo * 2 - 1;
+		
+    	System.out.println("local novo: " + localNovo);
+		
+		if (verificarMovimentos(destino, custo, floresta)) {
+	    	this.posicao = new Point(localNovo);
+	    	this.movimentos -= custo;
+		} else {
+			System.out.println("Não pode");
+		}
     }
 
     /**

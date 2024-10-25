@@ -2,7 +2,6 @@ package App;
 
 import javax.swing.*;
 
-import Floresta.Pedra;
 import Frutas.Fruta;
 import Jogador.Jogador;
 
@@ -296,37 +295,12 @@ public class TelaControle {
             return; // Impede o movimento se estiver fora dos limites
         }
 
-        if (jogadorAtual.verificarMovimentos(new Point(novoX, novoY), mapa)) {
-            // Se for uma pedra, calcular a nova posição para a casa seguinte
-            Object localNovo = mapa[novoY][novoX][0];
-            
-            if (localNovo instanceof Pedra) {
-                novoX += destino.x; // Mova mais uma casa na mesma direção
-                novoY += destino.y; // Mova mais uma casa na mesma direção
-
-                // Verifique se a nova posição está dentro dos limites do mapa
-                if (novoX < 0 || novoX >= mapa[0].length || novoY < 0 || novoY >= mapa.length) {
-                    System.out.println("Movimento inválido: fora dos limites do mapa.");
-                    return; // Impede o movimento se estiver fora dos limites
-                }
-
-                // Verifica se pode mover para a casa seguinte
-                if (jogadorAtual.verificarMovimentos(new Point(novoX, novoY), mapa)) {
-                    // Atualiza a posição do jogador e os movimentos
-                    mapa[antigoY][antigoX][1] = null; // Remove o jogador da posição antiga
-                    jogadorAtual.mover(new Point(novoX, novoY), mapa); // Mover para a nova posição
-                    mapa[novoY][novoX][1] = jogadorAtual; // Colocar o jogador na nova posição
-                    jogo.atualizarMapa(mapa);
-                    System.out.println("Movimentos restantes: " + jogadorAtual.getMovimento());
-                }
-            } else {
-                // Mover normalmente se não for uma pedra
-                mapa[antigoY][antigoX][1] = null; // Remove o jogador da posição antiga
-                jogadorAtual.mover(new Point(novoX, novoY), mapa); // Mover para a nova posição
-                mapa[novoY][novoX][1] = jogadorAtual; // Colocar o jogador na nova posição
-                jogo.atualizarMapa(mapa);
-                System.out.println("Movimentos restantes: " + jogadorAtual.getMovimento());
-            }
+        if (jogadorAtual.verificarMovimentos(new Point(novoX, novoY), 1, mapa)) {
+            mapa[antigoY][antigoX][1] = null; // Remove o jogador da posição antiga
+            jogadorAtual.mover(new Point(novoX, novoY), mapa); // Mover para a nova posição
+            mapa[novoY][novoX][1] = jogadorAtual; // Colocar o jogador na nova posição
+            jogo.atualizarMapa(mapa);
+            System.out.println("Movimentos restantes: " + jogadorAtual.getMovimento());
         }
         
         if (jogadorAtual.acabouMovimentos()) {
