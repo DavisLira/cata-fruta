@@ -11,24 +11,23 @@ import java.util.List;
  * Cria uma janela com um painel para desenhar o mapa e botões para interagir com o jogo.
  */
 
-public class TelaJogo {
+public class TelaGeracao {
 
-    private JFrame telaJogo;
-    private JFrame telaBotoes;
-    private JPanel painelJogo;
+    private JFrame telaGeracao;
+    JPanel painelJogo;
     private int matriz;
     private int tamanhoImagem;
     private String[][][] estadoMapa; // Matriz para armazenar o tipo de local e jogadores
 
 
 
-    public TelaJogo() {
+    public TelaGeracao() {
         iniciarJogo();
     }
     
     public void iniciarJogo() {
-        telaJogo = new JFrame("Jogo");
-        telaJogo.setUndecorated(true);
+        telaGeracao = new JFrame("Geração de mapa");
+        telaGeracao.setUndecorated(true);
 
         // Definir as dimensões da tela
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -41,10 +40,10 @@ public class TelaJogo {
         int tamanhoTela = tamanhoImagem * matriz;
 
         // Ajuste o tamanho da janela do jogo de acordo com as dimensões do monitor
-        telaJogo.setBounds(0, 0, tamanhoTela, tamanhoTela);
-        telaJogo.setLocation((screenSize.width - tamanhoTela) / 2, (screenSize.height - tamanhoTela) / 2);
-        telaJogo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        telaJogo.setResizable(false);
+        telaGeracao.setBounds(0, 0, tamanhoTela, tamanhoTela);
+        telaGeracao.setLocation((screenSize.width - tamanhoTela) / 2, (screenSize.height - tamanhoTela) / 2);
+        telaGeracao.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        telaGeracao.setResizable(false);
 
         painelJogo = new JPanel() {
             private static final long serialVersionUID = 1L;
@@ -58,12 +57,9 @@ public class TelaJogo {
         painelJogo.setPreferredSize(new Dimension(tamanhoTela, tamanhoTela));
         painelJogo.setLayout(null);
 
-        telaJogo.add(painelJogo, BorderLayout.CENTER);
-        telaJogo.pack();
-        telaJogo.setVisible(true);
-
-        // Cria a janela de botões separadamente
-        new TelaBotoes(this, painelJogo, estadoMapa);
+        telaGeracao.add(painelJogo, BorderLayout.CENTER);
+        telaGeracao.pack();
+        telaGeracao.setVisible(true);
     }
     
     public void utilizarMatriz(String[][][] estadoMapa) {
@@ -75,8 +71,12 @@ public class TelaJogo {
         }
     }
     
+    public void dispose() {
+    	telaGeracao.dispose();
+    }
+    
     public void voltarParaMenu() {
-        telaJogo.dispose();
+        telaGeracao.dispose();
         new TelaMenuInicial(); // Retorna ao menu inicial
     }
     
