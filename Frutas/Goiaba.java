@@ -21,4 +21,8 @@ public class Goiaba extends FrutaSemPoder {
 	public String getImg() {
 		return "/sprites/goiaba.jpg";
 	}
+	
+	public String getImgMochila() {
+		return "/sprites/goiaba_mochila.png";
+	}
 }

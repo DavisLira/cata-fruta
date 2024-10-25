@@ -5,46 +5,46 @@ import java.awt.*;
 
 public class TelaBotoes {
 
-    private JFrame janelaBotoes;
+    private JFrame telaBotoes;
 
-    public TelaBotoes(TelaJogo telaJogo, JPanel painelJogo, String[][][] estadoMapa) {
-        criarJanelaBotoes(telaJogo, painelJogo, estadoMapa);
+    public TelaBotoes(TelaGeracao telaGeracao, JPanel painelJogo) {
+        criarJanelaBotoes(telaGeracao, painelJogo);
     }
 
-    private void criarJanelaBotoes(TelaJogo telaJogo, JPanel painelJogo, String[][][] estadoMapa) {
+    private void criarJanelaBotoes(TelaGeracao telaGeracao, JPanel painelJogo) {
         // Definir as dimensões da tela
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-        janelaBotoes = new JFrame("Opções");
-        janelaBotoes.setBounds(0, 0, screenSize.width, 44);
-        janelaBotoes.setLocation((screenSize.width - 770) / 2, 10);
-        janelaBotoes.setResizable(false);
-        janelaBotoes.setUndecorated(true);
+        telaBotoes = new JFrame("Opções");
+        telaBotoes.setBounds(0, 0, screenSize.width, 44);
+        telaBotoes.setLocation((screenSize.width - 770) / 2, 10);
+        telaBotoes.setResizable(false);
+        telaBotoes.setUndecorated(true);
 
         JPanel painelBotoes = new JPanel();
         painelBotoes.setLayout(new FlowLayout());
 
         JButton iniciarButton = criarBotao("/buttons/iniciar.png", 220, 44, e -> {
             // Chamar a função para utilizar a matriz antes de iniciar o controle
-            telaJogo.utilizarMatriz(estadoMapa); // Chama a função da classe TelaJogo para utilizar a matriz
-            janelaBotoes.dispose();
-            new TelaControle(); // Abre a tela de controle ao iniciar o jogo
+            telaBotoes.dispose();
+            telaGeracao.dispose();
+            Menu.iniciarJogo();
         });
 
         JButton gerarNovamenteButton = criarBotao("/buttons/gerar_nvmt.png", 220, 44, e -> painelJogo.repaint());
 
         JButton voltarMenuButton = criarBotao("/buttons/voltar_menu.png", 220, 44, e -> {
-            janelaBotoes.dispose();  // Fecha a janela dos botões
-            telaJogo.voltarParaMenu();  // Volta ao menu principal
+            telaBotoes.dispose();  // Fecha a janela dos botões
+            telaGeracao.voltarParaMenu();  // Volta ao menu principal
         });
 
         painelBotoes.add(iniciarButton);
         painelBotoes.add(gerarNovamenteButton);
         painelBotoes.add(voltarMenuButton);
 
-        janelaBotoes.add(painelBotoes, BorderLayout.CENTER);
-        janelaBotoes.pack();
-        janelaBotoes.setVisible(true);
+        telaBotoes.add(painelBotoes, BorderLayout.CENTER);
+        telaBotoes.pack();
+        telaBotoes.setVisible(true);
     }
 
     private JButton criarBotao(String caminhoImagem, int largura, int altura, java.awt.event.ActionListener acao) {

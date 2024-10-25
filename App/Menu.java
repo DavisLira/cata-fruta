@@ -21,12 +21,18 @@ public class Menu {
     }
 
     // Método estático que pode ser chamado a partir de outros lugares para iniciar o jogo
-    public static void iniciarJogo() {
-        new TelaJogo(); // Inicia o jogo
+    public static void gerarMapa() {
+        TelaGeracao geracao = new TelaGeracao();
+    	new TelaBotoes(geracao, geracao.painelJogo);
     }
     
     public static void abrirFormularioEdicao(String caminho) {
         new TelaFormularioConfiguracao(caminho); // Abre o formulário de edição
+    }
+    
+    public static void iniciarJogo() {
+    	new TelaGeracao(); // mudar para usar classe jogo e passar o a matriz salva
+    	new TelaControle();
     }
 
 }

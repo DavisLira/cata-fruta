@@ -26,4 +26,8 @@ public class Abacate extends FrutaComPoder {
 	public String getImg() {
 		return "/sprites/abacate.jpg";
 	}
+	
+	public String getImgMochila() {
+		return "/sprites/abacate_mochila.png";
+	}
 }

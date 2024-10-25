@@ -89,7 +89,7 @@ public class TelaMenuInicial {
             public void actionPerformed(ActionEvent e) {
                 if (Menu.arquivoHandler.validarGeracaoMapa(20)) {
                     menuInicial.dispose();
-                    Menu.iniciarJogo(); // Certifique-se de que este método está em uma classe acessível
+                    Menu.gerarMapa(); // Certifique-se de que este método está em uma classe acessível
                 } else {
                     JOptionPane.showMessageDialog(menuInicial, "Não foi possível gerar um mapa com essas configurações!", "Erro", JOptionPane.ERROR_MESSAGE);
                 }

@@ -128,6 +128,7 @@ public class TelaControle {
         telaMochila.setLocation((screenSize.width - tamanhoTela) / 2, (screenSize.height - tamanhoTela) / 2);
         telaMochila.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         telaMochila.setResizable(true);
+        telaMochila.setUndecorated(true);
 
         // Painel que vai conter as frutas
         JPanel painelFrutas = new JPanel(null);
@@ -139,7 +140,7 @@ public class TelaControle {
 
             if (i < capacidade && frutas[i] != null) {
                 // Se a fruta existir, usar o sprite retornado por frutas[i].getImg()
-                ImageIcon frutaIcon = new ImageIcon(Menu.class.getResource(frutas[i].getImg()));
+                ImageIcon frutaIcon = new ImageIcon(Menu.class.getResource(frutas[i].getImgMochila()));
                 Image frutaImg = frutaIcon.getImage().getScaledInstance(tamanhoImagem, tamanhoImagem, Image.SCALE_SMOOTH);
                 ImageIcon frutaImgRedimensionada = new ImageIcon(frutaImg);
 

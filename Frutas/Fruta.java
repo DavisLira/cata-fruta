@@ -98,4 +98,6 @@ public abstract class Fruta {
     public abstract void comer(Jogador jogador);
     
     public abstract String getImg();
+    
+	public abstract String getImgMochila();
 }

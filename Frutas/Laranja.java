@@ -23,4 +23,8 @@ public class Laranja extends FrutaComPoder {
 	public String getImg() {
 		return "/sprites/laranja.jpg";
 	}
+	
+	public String getImgMochila() {
+		return "/sprites/laranja_mochila.png";
+	}
 }

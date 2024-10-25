@@ -24,4 +24,8 @@ public class Banana extends FrutaSemPoder {
 	public String getImg() {
 		return "/sprites/banana.jpg";
 	}
+	
+	public String getImgMochila() {
+		return "/sprites/banana_mochila.png";
+	}
 }
