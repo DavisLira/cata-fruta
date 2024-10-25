@@ -45,4 +45,8 @@ public class Coco extends FrutaComPoder {
 	public String getImgArvore() {
 		return "/sprites/coqueiro.jpg";
 	}
+	
+	public String arvore() {
+		return "Coqueiro";
+	}
 }

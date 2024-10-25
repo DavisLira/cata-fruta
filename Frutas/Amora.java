@@ -42,4 +42,8 @@ public class Amora extends FrutaSemPoder {
 	public String getImgArvore() {
 		return "/sprites/amoreira.jpg";
 	}
+	
+	public String arvore() {
+		return "Amoreira";
+	}
 }

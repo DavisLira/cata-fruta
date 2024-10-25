@@ -88,4 +88,6 @@ public abstract class Fruta {
 	public abstract String getImgMochila();
 	
 	public abstract String getImgArvore();
+	
+	public abstract String arvore();
 }

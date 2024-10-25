@@ -2,20 +2,29 @@ package App;
 
 import javax.swing.*;
 
+import Floresta.Pedra;
 import Frutas.Fruta;
 import Jogador.Jogador;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class TelaControle {
+	private JButton mochilaButton, setaCimaButton, setaEsqButton ,setaDirButton, setaBaixoButton;
     private JFrame telaControle;
     private JPanel painelControle;
     private JFrame telaMochila;
     private boolean mochilaAberta = false;
     private Jogador jogadorAtual;
+    private Jogador jogadorProx;
+    private TelaJogo jogo;
 
-    public TelaControle(Jogador jogador) {
-    	this.jogadorAtual = jogador;
+    public TelaControle(Jogador jogadorAtual, Jogador jogadorProx, TelaJogo jogo) {
+    	System.out.println("Movimentos inicial: " + jogadorAtual.getMovimento());
+    	this.jogadorAtual = jogadorAtual;
+    	this.jogadorProx = jogadorProx;
+    	this.jogo = jogo;
         iniciarControle();
     }
 
@@ -39,12 +48,12 @@ public class TelaControle {
         
         painelControle.setPreferredSize(new Dimension(300, 300));
 
-        JButton mochilaButton = criarBotaoControle("/Controles/mochila_ctrl.png", 100, 100, 100, 100);
+        mochilaButton = criarBotaoControle("/Controles/mochila_ctrl.png", 100, 100, 100, 100);
 
-        JButton setaCimaButton = criarBotaoControle("/Controles/seta_cima.png", 100, 100, 100, 0);
-        JButton setaEsqButton = criarBotaoControle("/Controles/seta_esq.png", 100, 100, 0, 100);
-        JButton setaDirButton = criarBotaoControle("/Controles/seta_dir.png", 100, 100, 200, 100);
-        JButton setaBaixoButton = criarBotaoControle("/Controles/seta_baixo.png", 100, 100, 100, 200);
+        setaCimaButton = criarBotaoControle("/Controles/seta_cima.png", 100, 100, 100, 0);
+        setaEsqButton = criarBotaoControle("/Controles/seta_esq.png", 100, 100, 0, 100);
+        setaDirButton = criarBotaoControle("/Controles/seta_dir.png", 100, 100, 200, 100);
+        setaBaixoButton = criarBotaoControle("/Controles/seta_baixo.png", 100, 100, 100, 200);
 
         // Adicionar os botões ao painel
         painelControle.add(mochilaButton);
@@ -53,18 +62,78 @@ public class TelaControle {
         painelControle.add(setaDirButton);
         painelControle.add(setaBaixoButton);
 
-
+    	
         // Adicionar listener para abrir outra tela ao clicar na mochila
-        mochilaButton.addActionListener(e -> alternarMochila(jogadorAtual));
-        setaCimaButton.addActionListener(e -> moverJogador(new Point(0,-1)));
-        setaEsqButton.addActionListener(e -> moverJogador(new Point(-1, 0)));
-        setaDirButton.addActionListener(e -> moverJogador(new Point(1, 0)));
-        setaBaixoButton.addActionListener(e -> moverJogador(new Point(0,1)));
-
+        mochilaButton.addActionListener(e -> {
+            alternarMochila(jogadorAtual); // Abre ou fecha a mochila
+            atualizarEstadoSetas(); // Atualiza as setas de acordo com o estado da mochila
+        });
+        
+        configurarControles();
+        
 
         telaControle.add(painelControle, BorderLayout.CENTER);
         telaControle.pack();
         telaControle.setVisible(true);
+    }
+    
+    public void configurarControles() {
+        // Exemplo para o botão de mover para cima
+        setaCimaButton.addActionListener(e -> moverJogador(new Point(0, -1))); // Clique do botão
+        setaEsqButton.addActionListener(e -> moverJogador(new Point(-1, 0)));
+        setaDirButton.addActionListener(e -> moverJogador(new Point(1, 0)));
+        setaBaixoButton.addActionListener(e -> moverJogador(new Point(0, 1)));
+        // Key Binding para mover para cima
+        InputMap inputMap = painelControle.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = painelControle.getActionMap();
+
+        // Mapeando teclas para mover para cima
+        inputMap.put(KeyStroke.getKeyStroke("W"), "moverCima");
+        inputMap.put(KeyStroke.getKeyStroke("UP"), "moverCima");
+        actionMap.put("moverCima", new AbstractAction() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!mochilaAberta) moverJogador(new Point(0, -1)); // Move para cima
+            }
+        });
+
+     // Mapeando teclas para mover para baixo
+        inputMap.put(KeyStroke.getKeyStroke("S"), "moverBaixo");
+        inputMap.put(KeyStroke.getKeyStroke("DOWN"), "moverBaixo");
+        actionMap.put("moverBaixo", new AbstractAction() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!mochilaAberta) moverJogador(new Point(0, 1)); // Move para baixo
+            }
+        });
+
+        // Mapeando teclas para mover para esquerda
+        inputMap.put(KeyStroke.getKeyStroke("A"), "moverEsquerda");
+        inputMap.put(KeyStroke.getKeyStroke("LEFT"), "moverEsquerda");
+        actionMap.put("moverEsquerda", new AbstractAction() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!mochilaAberta) moverJogador(new Point(-1, 0)); // Move para esquerda
+            }
+        });
+
+        // Mapeando teclas para mover para direita
+        inputMap.put(KeyStroke.getKeyStroke("D"), "moverDireita");
+        inputMap.put(KeyStroke.getKeyStroke("RIGHT"), "moverDireita");
+        actionMap.put("moverDireita", new AbstractAction() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!mochilaAberta) moverJogador(new Point(1, 0)); // Move para direita
+            }
+        });
     }
     
     public JButton criarBotaoControle(String caminhoImagem, int largura, int altura, int x, int y) {
@@ -85,6 +154,30 @@ public class TelaControle {
         botao.setBounds(x, y, largura, altura);
 
         return botao;
+    }
+    
+    private void atualizarEstadoSetas() {
+        if (!mochilaAberta) {
+            // Se a mochila está fechada, os botões de seta estão ativos
+            setaCimaButton.addActionListener(e -> moverJogador(new Point(0,-1)));
+            setaEsqButton.addActionListener(e -> moverJogador(new Point(-1, 0)));
+            setaDirButton.addActionListener(e -> moverJogador(new Point(1, 0)));
+            setaBaixoButton.addActionListener(e -> moverJogador(new Point(0, 1)));
+        } else {
+            // Se a mochila está aberta, removemos os listeners
+            for (ActionListener al : setaCimaButton.getActionListeners()) {
+                setaCimaButton.removeActionListener(al);
+            }
+            for (ActionListener al : setaEsqButton.getActionListeners()) {
+                setaEsqButton.removeActionListener(al);
+            }
+            for (ActionListener al : setaDirButton.getActionListeners()) {
+                setaDirButton.removeActionListener(al);
+            }
+            for (ActionListener al : setaBaixoButton.getActionListeners()) {
+                setaBaixoButton.removeActionListener(al);
+            }
+        }
     }
 
 
@@ -188,21 +281,59 @@ public class TelaControle {
     }
 
     private void moverJogador(Point destino) {
-        int movimentos = 6;
-    	// Calcula a nova posição
+    	int antigoX = jogadorAtual.getPosicao().x;
+    	int antigoY = jogadorAtual.getPosicao().y;
+    	
+        int novoX = antigoX + destino.x;
+        int novoY = antigoY + destino.y;
         
-        int novoX = jogadorAtual.getPosicao().x + destino.x;
-        int novoY = jogadorAtual.getPosicao().y + destino.y;
-        
+        // salva o mapa
         Object[][][] mapa = Menu.geracao.estadoMapa;
 
         // Verifique se a nova posição está dentro dos limites do mapa
-        if (novoX < 0 || novoX >= mapa.length || novoY < 0 || novoY >= mapa[0].length) {
-            System.out.println("Movimento inválido: fora dos limites do mapa.");
+        if (novoX < 0 || novoX >= mapa[0].length || novoY < 0 || novoY >= mapa.length) {
+            System.out.println("Movimento inválido: fora dos limites do mapa!");
             return; // Impede o movimento se estiver fora dos limites
         }
 
-        jogadorAtual.setPosicao(new Point(novoX, novoY));
-        System.out.println("Movimento realizado para: (" + novoX + ", " + novoY + ")");
+        if (jogadorAtual.verificarMovimentos(new Point(novoX, novoY), mapa)) {
+            // Se for uma pedra, calcular a nova posição para a casa seguinte
+            Object localNovo = mapa[novoY][novoX][0];
+            
+            if (localNovo instanceof Pedra) {
+                novoX += destino.x; // Mova mais uma casa na mesma direção
+                novoY += destino.y; // Mova mais uma casa na mesma direção
+
+                // Verifique se a nova posição está dentro dos limites do mapa
+                if (novoX < 0 || novoX >= mapa[0].length || novoY < 0 || novoY >= mapa.length) {
+                    System.out.println("Movimento inválido: fora dos limites do mapa.");
+                    return; // Impede o movimento se estiver fora dos limites
+                }
+
+                // Verifica se pode mover para a casa seguinte
+                if (jogadorAtual.verificarMovimentos(new Point(novoX, novoY), mapa)) {
+                    // Atualiza a posição do jogador e os movimentos
+                    mapa[antigoY][antigoX][1] = null; // Remove o jogador da posição antiga
+                    jogadorAtual.mover(new Point(novoX, novoY), mapa); // Mover para a nova posição
+                    mapa[novoY][novoX][1] = jogadorAtual; // Colocar o jogador na nova posição
+                    jogo.atualizarMapa(mapa);
+                    System.out.println("Movimentos restantes: " + jogadorAtual.getMovimento());
+                }
+            } else {
+                // Mover normalmente se não for uma pedra
+                mapa[antigoY][antigoX][1] = null; // Remove o jogador da posição antiga
+                jogadorAtual.mover(new Point(novoX, novoY), mapa); // Mover para a nova posição
+                mapa[novoY][novoX][1] = jogadorAtual; // Colocar o jogador na nova posição
+                jogo.atualizarMapa(mapa);
+                System.out.println("Movimentos restantes: " + jogadorAtual.getMovimento());
+            }
+        }
+        
+        if (jogadorAtual.acabouMovimentos()) {
+        	telaControle.dispose();  // Fecha a tela atual
+        	jogadorAtual.setMovimento();
+        	new TelaControle(jogadorProx, jogadorAtual, jogo);
+        }
+
     }
 }

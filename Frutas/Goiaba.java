@@ -39,4 +39,8 @@ public class Goiaba extends FrutaSemPoder {
 	public String getImgArvore() {
 		return "/sprites/goiabeira.jpg";
 	}
+	
+	public String arvore() {
+		return "Goiabeira";
+	}
 }

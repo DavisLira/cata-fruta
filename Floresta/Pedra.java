@@ -26,4 +26,9 @@ public class Pedra extends Local{
 	public int getTipo() {
 		return this.tipo;
 	}
+	
+	@Override
+	public String toString() {
+		return "Pedra";
+	}
 }

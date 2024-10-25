@@ -31,6 +31,8 @@ public class TelaGeracao {
     JPanel painelJogo;
     private int matriz;
     private int tamanhoImagem;
+    public Jogador jogador1;
+    public Jogador jogador2;
     Object[][][] estadoMapa; // Matriz para armazenar o tipo de local e jogadores
     Random random = new Random();
 
@@ -167,11 +169,13 @@ public class TelaGeracao {
 
         Point posicaoJogador1 = posicoes.remove(0);
         colocarElemento(g, jogador1Img, posicaoJogador1, tamanhoImagem);
-        estadoMapa[(int) posicaoJogador1.getY()][(int) posicaoJogador1.getX()][1] = new Jogador(1, posicaoJogador1); // Atualiza o estado do jogador
+        jogador1 = new Jogador(1, posicaoJogador1);
+        estadoMapa[(int) posicaoJogador1.getY()][(int) posicaoJogador1.getX()][1] = jogador1; // Atualiza o estado do jogador
         
         Point posicaoJogador2 = posicoes.remove(0);
         colocarElemento(g, jogador2Img, posicaoJogador2, tamanhoImagem);
-        estadoMapa[(int) posicaoJogador2.getY()][(int) posicaoJogador2.getX()][1] = new Jogador(2, posicaoJogador2); // Atualiza o estado do jogador
+        jogador2 = new Jogador(2, posicaoJogador2);
+        estadoMapa[(int) posicaoJogador2.getY()][(int) posicaoJogador2.getX()][1] = jogador2; // Atualiza o estado do jogador
 
         for (int i = 0; i < (Menu.arquivoHandler.getAbacate()); i++) {
             Point posicao = posicoes.remove(0);

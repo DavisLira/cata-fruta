@@ -14,13 +14,11 @@ public class TelaJogo {
     private JPanel painelJogo;
     private int matriz; // Tamanho da matriz
     private static int tamanhoImagem; // Tamanho de cada célula
-    private Object[][][] estadoMapa; // Estado do mapa com objetos e jogadores
-    private Jogador jogadorAtual;
+    public Object[][][] estadoMapa; // Estado do mapa com objetos e jogadores
 
     public TelaJogo(Object[][][] estadoMapa) {
         this.estadoMapa = estadoMapa;
         iniciarJogo(); // Inicia a tela do jogo com base no estadoMapa
-    	new TelaControle(jogadorAtual);
     }
 
     public void iniciarJogo() {
@@ -80,7 +78,6 @@ public class TelaJogo {
             for (int x = 0; x < matriz; x++) {
                 Object tipoElemento = estadoMapa[y][x][0];
                 Jogador jogador = (Jogador) estadoMapa[y][x][1];
-                jogadorAtual = jogador;
 
                 // Desenhar o tipo de elemento no mapa
                 if (tipoElemento != null) {
@@ -125,4 +122,13 @@ public class TelaJogo {
         int y = posicao.y * tamanhoImagem;
         g.drawImage(imagem, x, y, tamanhoImagem, tamanhoImagem, null);
     }
+    
+    public void atualizarMapa(Object[][][] novoEstadoMapa) {
+        this.estadoMapa = novoEstadoMapa; // Atualiza o estado do mapa
+        painelJogo.repaint(); // Redesenha o painel com o novo estado do mapa
+    }
+
+	public void dispose() {
+		telaJogo.dispose();
+	}
 }

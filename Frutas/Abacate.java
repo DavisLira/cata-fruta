@@ -44,4 +44,8 @@ public class Abacate extends FrutaComPoder {
 	public String getImgArvore() {
 		return "/sprites/abacateiro.jpg";
 	}
+	
+	public String arvore() {
+		return "Abacateiro";
+	}
 }

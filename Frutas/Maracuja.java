@@ -44,4 +44,8 @@ public class Maracuja extends FrutaComPoder {
 	public String getImgArvore() {
 		return "";
 	}
+
+	public String arvore() {
+		return "";
+	}
 }

@@ -2,6 +2,7 @@ package Jogador;
 
 import java.awt.Point;
 
+import Floresta.Pedra;
 import Frutas.Fruta;
 
 /**
@@ -12,7 +13,7 @@ import Frutas.Fruta;
 public class Jogador {
     private int numero;
 	private Point posicao;
-    private int movimentos = 0;
+    private int movimentos;
     private int forca = 1;
     private Mochila mochila;
 
@@ -24,6 +25,7 @@ public class Jogador {
      * @param nome O numero do jogador
      */
     public Jogador(int numero, Point posicao) {
+    	this.setMovimento();
         this.numero = numero;
         this.posicao = posicao;
         this.mochila = new Mochila();
@@ -87,8 +89,20 @@ public class Jogador {
      *
      * @return true se o jogador tem movimentos, false caso contrário
      */
-    public boolean verificarMovimentos(){
+    public boolean verificarMovimentos(Point destino, Object[][][] floresta){
+    	Object localNovo = floresta[destino.y][destino.x][0];
+    	if (localNovo instanceof Pedra && this.movimentos >= 3) {
+    		return true;
+        }
+    	
         if (this.movimentos > 0) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean acabouMovimentos() {
+        if (this.movimentos == 0) {
             return true;
         }
         return false;
@@ -100,13 +114,17 @@ public class Jogador {
      * @param destino Um array de inteiros representando a nova posição (x, y)
      * @return true se o movimento foi bem sucedido, false caso contrário
      */
-    public boolean mover(Point destino) {
-        if (this.movimentos > 0) {
-            this.posicao = destino;
-            this.movimentos--;
-            return true;
-        }
-        return false;
+    public void mover(Point destino, Object[][][] floresta) {
+    	Object localNovo = floresta[destino.y][destino.x][0];
+    	
+    	if (localNovo instanceof Pedra) {
+    		this.posicao = new Point(this.posicao.x + destino.x * 2, this.posicao.y + destino.y * 2);
+    		this.movimentos -= 3;
+    		return;
+    	}
+    	
+    	this.posicao = destino;
+    	this.movimentos--;
     }
 
     /**
@@ -130,6 +148,11 @@ public class Jogador {
 
 	public Mochila getMochila() {
 		return this.mochila;
+	}
+	
+	@Override
+	public String toString() {
+		return "J - " + this.numero;
 	}
 
 }

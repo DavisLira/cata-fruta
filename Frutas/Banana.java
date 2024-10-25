@@ -42,4 +42,8 @@ public class Banana extends FrutaSemPoder {
 	public String getImgArvore() {
 		return "/sprites/bananeira.jpg";
 	}
+	
+	public String arvore() {
+		return "Bananeira";
+	}
 }

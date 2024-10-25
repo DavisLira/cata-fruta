@@ -1,6 +1,7 @@
 package App;
 
 import Arquivo.ArquivoHandler;
+import Jogador.Jogador;
 
 /**
  * A classe Menu representa a interface do menu inicial do jogo "Cata Frutas"
@@ -8,7 +9,10 @@ import Arquivo.ArquivoHandler;
  */
 public class Menu {
 	public static ArquivoHandler arquivoHandler = new ArquivoHandler();
-	static TelaGeracao geracao;
+	public static TelaGeracao geracao;
+	public static Jogador jogador1;
+	public static Jogador jogador2;
+	public static Jogador jogadorAtual = jogador1;
 	
 	/**
      * O ponto de entrada principal do programa
@@ -32,8 +36,9 @@ public class Menu {
     }
     
     public static void iniciarJogo() {
-    	geracao.utilizarMatriz(geracao.estadoMapa);
-    	new TelaJogo(geracao.estadoMapa); // mudar para usar classe jogo e passar o a matriz salva
+    	jogador1 = geracao.jogador1;
+    	jogador2 = geracao.jogador2;
+    	new TelaControle(jogador1, jogador2, new TelaJogo(geracao.estadoMapa));
     }
 
 }

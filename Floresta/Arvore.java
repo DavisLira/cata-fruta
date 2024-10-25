@@ -56,4 +56,8 @@ public class Arvore extends Local{
 		return this.fruta.toString();
 	}
 	
+	public String toString() {
+		return this.fruta.arvore();
+	}
+	
 }
