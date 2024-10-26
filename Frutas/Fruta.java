@@ -2,6 +2,7 @@ package Frutas;
 
 import java.awt.Point;
 
+import Floresta.Local;
 import Jogador.Jogador;
 
 /**
@@ -10,7 +11,7 @@ import Jogador.Jogador;
  * Classes concretas que herdam de Fruta devem implementar o método comer
  */
 
-public abstract class Fruta {
+public abstract class Fruta extends Local{
 	private Point posicao;
     private boolean bichada;
 
@@ -47,6 +48,7 @@ public abstract class Fruta {
      * @return A posição da fruta como um array de inteiros [X, Y]
      */
 
+    @Override
     public Point getPosicao() {
         return posicao;
     }

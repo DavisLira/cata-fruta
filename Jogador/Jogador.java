@@ -237,8 +237,8 @@ public class Jogador {
      *
      * @param fruta A fruta a ser pega
      */
-    public void pegarFruta(Fruta fruta) {
-        this.mochila.adicionarFruta(fruta);
+    public boolean pegarFruta(Fruta fruta) {
+        return this.mochila.adicionarFruta(fruta);
     }
 
     /**

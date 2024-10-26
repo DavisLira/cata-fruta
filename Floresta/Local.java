@@ -1,5 +1,7 @@
 package Floresta;
 
+import java.awt.Point;
+
 /**
  * A classe abstrata Local representa um local na floresta que tem um custo de movimento associado e uma posição
  * Ela serve como base para diferentes tipos de locais que podem existir na floresta
@@ -19,7 +21,7 @@ public abstract class Local {
      * O primeiro valor representa a coordenada X e o segundo valor representa a coordenada Y
      */
 	
-	private int[] posicao;
+	private Point posicao;
 	
 	/**
      * Construtor padrão da classe Local
@@ -57,7 +59,7 @@ public abstract class Local {
      * @return Um array de inteiros representando a posição [X, Y]
      */
 	
-	public int[] getPosicao() {
+	public Point getPosicao() {
 		return this.posicao;
 	}
 }

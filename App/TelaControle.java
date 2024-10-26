@@ -2,6 +2,9 @@ package App;
 
 import javax.swing.*;
 
+import Floresta.Arvore;
+import Floresta.Local;
+import Frutas.Fruta;
 import Jogador.Jogador;
 
 import java.awt.*;
@@ -9,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TelaControle {
-	private JButton mochilaButton, fimTurnoButton, setaCimaButton, setaEsqButton ,setaDirButton, setaBaixoButton;
+	private JButton mochilaButton, fimTurnoButton, cataButton, setaCimaButton, setaEsqButton ,setaDirButton, setaBaixoButton;
     private JFrame telaControle;
     private JPanel painelControle;
     private JFrame telaMochila;
@@ -48,6 +51,7 @@ public class TelaControle {
 
         mochilaButton = criarBotaoControle("/Controles/mochila_ctrl.png", 100, 100, 100, 100);
         fimTurnoButton = criarBotaoControle("/Controles/fim_turno.png", 100, 100, 0, 0);
+        cataButton = criarBotaoControle("/Controles/cata_btn.png", 100, 100, 0, 200);
 
         setaCimaButton = criarBotaoControle("/Controles/seta_cima.png", 100, 100, 100, 0);
         setaEsqButton = criarBotaoControle("/Controles/seta_esq.png", 100, 100, 0, 100);
@@ -57,22 +61,12 @@ public class TelaControle {
         // Adicionar os botões ao painel
         painelControle.add(mochilaButton);
         painelControle.add(fimTurnoButton);
+        painelControle.add(cataButton);
         painelControle.add(setaCimaButton);
         painelControle.add(setaEsqButton);
         painelControle.add(setaDirButton);
         painelControle.add(setaBaixoButton);
 
-        mochilaButton.addActionListener(e -> {
-            alternarMochila(jogadorAtual); // Alterna entre abrir ou fechar a mochila
-            atualizarEstadoSetas(); // Atualiza as setas de acordo com o estado da mochila
-        });
-        
-        fimTurnoButton.addActionListener(e -> {
-            finalizarTurno();
-        });
-
-
-        
         configurarControles();
         
 
@@ -81,7 +75,37 @@ public class TelaControle {
         telaControle.setVisible(true);
     }
     
+    public void catar() {
+        // Obtém o mapa atual
+        Object[][][] mapa = Menu.geracao.estadoMapa;
+    	
+        Local localAtual = (Local) mapa[jogadorAtual.getPosicao().y][jogadorAtual.getPosicao().x][0]; // Pega a posição atual do jogador no mapa
+
+        if (localAtual instanceof Fruta) {
+            if ( jogadorAtual.pegarFruta((Fruta) localAtual) ) {
+            	localAtual = null;
+            }
+            
+        } else if (localAtual instanceof Arvore) {
+            jogadorAtual.pegarFruta((Fruta) localAtual); // MUDAR PARA PEGAR ARVORE
+        } else {
+            // Caso seja grama ou outro objeto, nada acontece
+            System.out.println("Não há nada para catar aqui.");
+        }
+    }
+
+    
     public void configurarControles() {
+    	
+        mochilaButton.addActionListener(e -> {
+            alternarMochila(jogadorAtual); // Alterna entre abrir ou fechar a mochila
+            atualizarEstadoSetas(); // Atualiza as setas de acordo com o estado da mochila
+        });
+
+    	fimTurnoButton.addActionListener(e -> finalizarTurno());
+    	
+    	cataButton.addActionListener(e -> catar());
+    	
         // Exemplo para o botão de mover para cima
         setaCimaButton.addActionListener(e -> moverJogador(new Point(0, -1))); // Clique do botão
         setaEsqButton.addActionListener(e -> moverJogador(new Point(-1, 0)));
@@ -90,6 +114,28 @@ public class TelaControle {
         // Key Binding para mover para cima
         InputMap inputMap = painelControle.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = painelControle.getActionMap();
+        
+        inputMap.put(KeyStroke.getKeyStroke("I"), "mochila");
+        actionMap.put("mochila", new AbstractAction() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	alternarMochila(jogadorAtual);
+                atualizarEstadoSetas();
+            }
+        });
+        
+
+        inputMap.put(KeyStroke.getKeyStroke("F"), "fimTurno");
+        actionMap.put("fimTurno", new AbstractAction() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	finalizarTurno(); 
+            }
+        });
 
         // Mapeando teclas para mover para cima
         inputMap.put(KeyStroke.getKeyStroke("W"), "moverCima");
@@ -103,7 +149,7 @@ public class TelaControle {
             }
         });
 
-     // Mapeando teclas para mover para baixo
+        // Mapeando teclas para mover para baixo
         inputMap.put(KeyStroke.getKeyStroke("S"), "moverBaixo");
         inputMap.put(KeyStroke.getKeyStroke("DOWN"), "moverBaixo");
         actionMap.put("moverBaixo", new AbstractAction() {
@@ -187,15 +233,12 @@ public class TelaControle {
 
     private void gerarImagens(Graphics g, int matriz, int tamanhoImagem) {
         ImageIcon canto2 = new ImageIcon(Menu.class.getResource(jogadorAtual.getDado()));
-        ImageIcon canto3 = new ImageIcon(Menu.class.getResource("/Controles/canto3.png"));
         ImageIcon canto4 = new ImageIcon(Menu.class.getResource(jogadorAtual.imgControle()));
     	
         Image canto2Img = canto2.getImage();
-        Image canto3Img = canto3.getImage();
         Image canto4Img = canto4.getImage();
     	
         colocarElemento(g, canto2Img, new Point(2,0), tamanhoImagem);
-        colocarElemento(g, canto3Img, new Point(0,2), tamanhoImagem);
         colocarElemento(g, canto4Img, new Point(2,2), tamanhoImagem);
     }
 
