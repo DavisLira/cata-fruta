@@ -85,55 +85,63 @@ public class Jogador {
     }
     
     private boolean ePedra(Object local) {
-    	if (local instanceof Pedra) {
-    		return true;
-    	}
-    	return false;
+        return local instanceof Pedra;
     }
+
     
     private Point pulaPedra(Point destino, Object[][][] floresta) {
-        if (destino.x < 0 || destino.x >= floresta[0].length || destino.y < 0 || destino.y >= floresta.length) {
-            System.out.println("Movimento inválido: fora dos limites do mapa!");
-            return null; // Impede o movimento se estiver fora dos limites
-        }
-        
-    	int movX = destino.x - this.getPosicao().x;
-    	int movY = destino.y - this.getPosicao().y;
-    
-    	System.out.println("mov x: " + movX);
-    	System.out.println("mov y: " + movY);
-    	Point LocalQueda = new Point();
-    	LocalQueda.x = destino.x + movX;
-    	LocalQueda.y = destino.y + movY;
+        int movX = destino.x - this.getPosicao().x;
+        int movY = destino.y - this.getPosicao().y;
 
-    	if (floresta[LocalQueda.y][LocalQueda.x][0] instanceof Pedra) {
-    		return this.pulaPedra(LocalQueda, floresta);
-    	} else {
-    		return LocalQueda;
-    	}
+        // Verifica se o movimento é válido (não permanece no mesmo lugar)
+        if (movX == 0 && movY == 0) {
+            return destino;  // Se não está tentando se mover, retorne a posição original
+        }
+
+        Point proximoBloco = new Point(destino.x, destino.y);
+
+        // Continue pulando pedras até encontrar um bloco que não seja pedra
+        while (proximoBloco.x >= 0 && proximoBloco.x < floresta[0].length && 
+               proximoBloco.y >= 0 && proximoBloco.y < floresta.length && 
+               ePedra(floresta[proximoBloco.y][proximoBloco.x][0])) {
+            // Pula uma casa no eixo X e Y na direção do movimento
+            proximoBloco = new Point(proximoBloco.x + movX, proximoBloco.y + movY);
+        }
+
+        return proximoBloco; // Retorna a posição da casa após a(s) pedra(s)
     }
+
 
     /**
      * Verifica se o jogador ainda tem movimentos disponíveis
      *
      * @return true se o jogador tem movimentos, false caso contrário
      */
-    public boolean verificarMovimentos(Point destino, int custo, Object[][][] floresta){
-    	Object localNovo = floresta[destino.y][destino.x][0];
+    public boolean verificarMovimentos(Point destino, Object[][][] floresta) {
+        // Inicialmente, custo 1 para movimento simples
+        int custo = 1;
 
-    	if (this.ePedra(localNovo)) {
-    		
-    		if (custo > this.movimentos) {
-    			return false;
-    		}
-    		else return true;
-    	}
-    	
-        if (this.movimentos > 0) {
-            return true;
+        // Se o destino for uma pedra
+        if (this.ePedra(floresta[destino.y][destino.x][0])) {
+            custo += 2; // Custo para subir a primeira pedra e mover para o próximo bloco
+
+            // Calcula o próximo ponto
+            Point proximoBloco = new Point(destino.x + (destino.x - this.posicao.x), destino.y + (destino.y - this.posicao.y));
+
+            // Se o próximo bloco também for uma pedra, aumenta o custo em 2 para cada pedra
+            while (proximoBloco.x >= 0 && proximoBloco.x < floresta[0].length &&
+                   proximoBloco.y >= 0 && proximoBloco.y < floresta.length &&
+                   this.ePedra(floresta[proximoBloco.y][proximoBloco.x][0])) {
+                custo += 2;
+                proximoBloco = new Point(proximoBloco.x + (destino.x - this.posicao.x), proximoBloco.y + (destino.y - this.posicao.y));
+            }
         }
-        return false;
+
+        // Verifica se o jogador tem movimentos suficientes
+        return this.movimentos >= custo;
     }
+
+
     
     public boolean acabouMovimentos() {
         if (this.movimentos <= 0) {
@@ -148,22 +156,31 @@ public class Jogador {
      * @param destino Um array de inteiros representando a nova posição (x, y)
      * @return true se o movimento foi bem sucedido, false caso contrário
      */
-    public void mover(Point destino, Object[][][] floresta) {
-    	Point localNovo = pulaPedra(destino, floresta);
-    	
-    	int custoX = Math.abs(this.getPosicao().x - localNovo.x);   
-    	int custoY = Math.abs(this.getPosicao().y - localNovo.y);   
-		int custo = custoX + custoY;
-		custo = custo * 2 - 1;
-		
-    	System.out.println("local novo: " + localNovo);
-		
-		if (verificarMovimentos(destino, custo, floresta)) {
-	    	this.posicao = new Point(localNovo);
-	    	this.movimentos -= custo;
-		} else {
-			System.out.println("Não pode");
-		}
+    public Point mover(Point destino, Object[][][] floresta) {
+        // Encontra a nova posição, pulando pedras
+        Point localNovo = pulaPedra(destino, floresta);
+        
+        // Calcula a distância e custo do movimento
+        int custoX = Math.abs(this.getPosicao().x - localNovo.x);   
+        int custoY = Math.abs(this.getPosicao().y - localNovo.y);
+        int custo = custoX + custoY;
+        custo = custo * 2 - 1;  // Cálculo correto do custo, especialmente ao pular pedras
+
+        // Verifica se o novo local está dentro dos limites do mapa
+        if (localNovo.x < 0 || localNovo.x >= floresta[0].length || localNovo.y < 0 || localNovo.y >= floresta.length) {
+            System.out.println("Movimento inválido: fora dos limites do mapa!");
+            return this.posicao;  // Impede o movimento se estiver fora dos limites
+        }
+
+        // Verifica se há movimentos suficientes
+        if (verificarMovimentos(localNovo, floresta)) {
+            this.posicao = new Point(localNovo);  // Atualiza a posição do jogador
+            this.movimentos -= custo;  // Aplica o custo correto do movimento
+            return localNovo;  // Retorna a nova posição
+        } else {
+            System.out.println("Não pode mover, movimentos insuficientes.");
+            return this.posicao;  // Retorna a posição atual se não puder se mover
+        }
     }
 
     /**

@@ -283,31 +283,47 @@ public class TelaControle {
     	int antigoX = jogadorAtual.getPosicao().x;
     	int antigoY = jogadorAtual.getPosicao().y;
     	
+        // Calcula as novas coordenadas baseadas no movimento
         int novoX = antigoX + destino.x;
         int novoY = antigoY + destino.y;
         
-        // salva o mapa
+        // Obtém o mapa atual
         Object[][][] mapa = Menu.geracao.estadoMapa;
 
-        // Verifique se a nova posição está dentro dos limites do mapa
+        // Verifica se a nova posição está dentro dos limites do mapa
         if (novoX < 0 || novoX >= mapa[0].length || novoY < 0 || novoY >= mapa.length) {
             System.out.println("Movimento inválido: fora dos limites do mapa!");
             return; // Impede o movimento se estiver fora dos limites
         }
 
-        if (jogadorAtual.verificarMovimentos(new Point(novoX, novoY), 1, mapa)) {
-            mapa[antigoY][antigoX][1] = null; // Remove o jogador da posição antiga
-            jogadorAtual.mover(new Point(novoX, novoY), mapa); // Mover para a nova posição
-            mapa[novoY][novoX][1] = jogadorAtual; // Colocar o jogador na nova posição
+        // Cria o ponto de destino com as novas coordenadas
+        Point novaPosicao = new Point(novoX, novoY);
+
+        // Verifica se o jogador tem movimentos suficientes para se mover para o novo destino
+        if (jogadorAtual.verificarMovimentos(novaPosicao, mapa)) {
+            // Remove o jogador da posição antiga no mapa
+            mapa[antigoY][antigoX][1] = null;
+
+            // Move o jogador para a nova posição considerando o custo
+            Point posicaoFinal = jogadorAtual.mover(novaPosicao, mapa);
+
+            // Atualiza o mapa com a nova posição do jogador, que agora é a posição final (após pular a pedra)
+            mapa[posicaoFinal.y][posicaoFinal.x][1] = jogadorAtual;
             jogo.atualizarMapa(mapa);
+
+            // Exibe os movimentos restantes
             System.out.println("Movimentos restantes: " + jogadorAtual.getMovimento());
-        }
-        
-        if (jogadorAtual.acabouMovimentos()) {
-        	telaControle.dispose();  // Fecha a tela atual
-        	jogadorAtual.setMovimento();
-        	new TelaControle(jogadorProx, jogadorAtual, jogo);
+        } else {
+            System.out.println("Movimento inválido: não há movimentos suficientes.");
         }
 
+        // Verifica se os movimentos do jogador acabaram e alterna para o próximo jogador
+        if (jogadorAtual.acabouMovimentos()) {
+            telaControle.dispose(); // Fecha a tela atual
+            jogadorAtual.setMovimento(); // Rola novos movimentos para o próximo turno
+            new TelaControle(jogadorProx, jogadorAtual, jogo); // Alterna para o próximo jogador
+        }
     }
+
+
 }
