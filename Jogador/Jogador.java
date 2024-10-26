@@ -41,6 +41,14 @@ public class Jogador {
         return this.numero;
     }
     
+    public String imgControle() {
+    	if (this.numero == 1) {
+    		return "/Controles/jogador1_cntrl.png";
+    	}
+
+		return "/Controles/jogador2_cntrl.png";
+    }
+    
     /**
      * Obtém a força do jogador
      *
@@ -57,6 +65,47 @@ public class Jogador {
      */
     public int getMovimento(){
         return this.movimentos;
+    }
+    
+    public String getDado() {
+    	switch (this.movimentos) {
+			case 1: {
+				return "/dados/num_1.png";
+			}
+			case 2: {
+				return "/dados/num_2.png";
+			}
+			case 3: {
+				return "/dados/num_3.png";
+			}
+			case 4: {
+				return "/dados/num_4.png";
+			}
+			case 5: {
+				return "/dados/num_5.png";
+			}
+			case 6: {
+				return "/dados/num_6.png";
+			}
+			case 7: {
+				return "/dados/num_7.png";
+			}
+			case 8: {
+				return "/dados/num_8.png";
+			}
+			case 9: {
+				return "/dados/num_9.png";
+			}
+			case 10: {
+				return "/dados/num_10.png";
+			}
+			case 11: {
+				return "/dados/num_11.png";
+			}
+			default: {
+				return "/dados/num_12.png";
+			}
+    	}
     }
     
     public Point getPosicao() {

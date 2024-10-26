@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TelaControle {
-	private JButton mochilaButton, setaCimaButton, setaEsqButton ,setaDirButton, setaBaixoButton;
+	private JButton mochilaButton, fimTurnoButton, setaCimaButton, setaEsqButton ,setaDirButton, setaBaixoButton;
     private JFrame telaControle;
     private JPanel painelControle;
     private JFrame telaMochila;
@@ -47,6 +47,7 @@ public class TelaControle {
         painelControle.setPreferredSize(new Dimension(300, 300));
 
         mochilaButton = criarBotaoControle("/Controles/mochila_ctrl.png", 100, 100, 100, 100);
+        fimTurnoButton = criarBotaoControle("/Controles/fim_turno.png", 100, 100, 0, 0);
 
         setaCimaButton = criarBotaoControle("/Controles/seta_cima.png", 100, 100, 100, 0);
         setaEsqButton = criarBotaoControle("/Controles/seta_esq.png", 100, 100, 0, 100);
@@ -55,6 +56,7 @@ public class TelaControle {
 
         // Adicionar os botões ao painel
         painelControle.add(mochilaButton);
+        painelControle.add(fimTurnoButton);
         painelControle.add(setaCimaButton);
         painelControle.add(setaEsqButton);
         painelControle.add(setaDirButton);
@@ -64,6 +66,11 @@ public class TelaControle {
             alternarMochila(jogadorAtual); // Alterna entre abrir ou fechar a mochila
             atualizarEstadoSetas(); // Atualiza as setas de acordo com o estado da mochila
         });
+        
+        fimTurnoButton.addActionListener(e -> {
+            finalizarTurno();
+        });
+
 
         
         configurarControles();
@@ -149,7 +156,7 @@ public class TelaControle {
         botao.setFocusPainted(false);
         botao.setContentAreaFilled(false);
         botao.setBounds(x, y, largura, altura);
-
+        
         return botao;
     }
     
@@ -179,17 +186,14 @@ public class TelaControle {
 
 
     private void gerarImagens(Graphics g, int matriz, int tamanhoImagem) {
-        ImageIcon canto1 = new ImageIcon(Menu.class.getResource("/Controles/canto1.png"));
-        ImageIcon canto2 = new ImageIcon(Menu.class.getResource("/Controles/canto2.png"));
+        ImageIcon canto2 = new ImageIcon(Menu.class.getResource(jogadorAtual.getDado()));
         ImageIcon canto3 = new ImageIcon(Menu.class.getResource("/Controles/canto3.png"));
-        ImageIcon canto4 = new ImageIcon(Menu.class.getResource("/Controles/canto4.png"));
+        ImageIcon canto4 = new ImageIcon(Menu.class.getResource(jogadorAtual.imgControle()));
     	
-        Image canto1Img = canto1.getImage();
         Image canto2Img = canto2.getImage();
         Image canto3Img = canto3.getImage();
         Image canto4Img = canto4.getImage();
     	
-        colocarElemento(g, canto1Img, new Point(0,0), tamanhoImagem);
         colocarElemento(g, canto2Img, new Point(2,0), tamanhoImagem);
         colocarElemento(g, canto3Img, new Point(0,2), tamanhoImagem);
         colocarElemento(g, canto4Img, new Point(2,2), tamanhoImagem);
@@ -228,13 +232,13 @@ public class TelaControle {
 
 
     private void moverJogador(Point destino) {
-    	int antigoX = jogadorAtual.getPosicao().x;
-    	int antigoY = jogadorAtual.getPosicao().y;
-    	
+        int antigoX = jogadorAtual.getPosicao().x;
+        int antigoY = jogadorAtual.getPosicao().y;
+
         // Calcula as novas coordenadas baseadas no movimento
         int novoX = antigoX + destino.x;
         int novoY = antigoY + destino.y;
-        
+
         // Obtém o mapa atual
         Object[][][] mapa = Menu.geracao.estadoMapa;
 
@@ -255,11 +259,13 @@ public class TelaControle {
             // Move o jogador para a nova posição considerando o custo
             Point posicaoFinal = jogadorAtual.mover(novaPosicao, mapa);
 
-            // Atualiza o mapa com a nova posição do jogador, que agora é a posição final (após pular a pedra)
+            // Atualiza o mapa com a nova posição do jogador
             mapa[posicaoFinal.y][posicaoFinal.x][1] = jogadorAtual;
             jogo.atualizarMapa(mapa);
 
-            // Exibe os movimentos restantes
+            // Força a repintura do painel para atualizar o canto 2
+            painelControle.repaint();
+
             System.out.println("Movimentos restantes: " + jogadorAtual.getMovimento());
         } else {
             System.out.println("Movimento inválido: não há movimentos suficientes.");
@@ -267,11 +273,14 @@ public class TelaControle {
 
         // Verifica se os movimentos do jogador acabaram e alterna para o próximo jogador
         if (jogadorAtual.acabouMovimentos()) {
-            telaControle.dispose(); // Fecha a tela atual
-            jogadorAtual.setMovimento(); // Rola novos movimentos para o próximo turno
-            new TelaControle(jogadorProx, jogadorAtual, jogo); // Alterna para o próximo jogador
+            finalizarTurno();
         }
     }
 
 
+    public void finalizarTurno() {
+        telaControle.dispose(); // Fecha a tela atual
+        jogadorAtual.setMovimento(); // Rola novos movimentos para o próximo turno
+        new TelaControle(jogadorProx, jogadorAtual, jogo); // Alterna para o próximo jogado
+    }
 }
