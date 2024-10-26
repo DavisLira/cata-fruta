@@ -145,6 +145,7 @@ public class TelaFormularioConfiguracao {
         telaForm.add(fieldMaracujaTotal);
         telaForm.add(labelLaranja);
         telaForm.add(fieldLaranjaArvores);
+        telaForm.add(labelLaranjaInicio);
         telaForm.add(fieldLaranjaInicio);
         telaForm.add(labelAbacate);
         telaForm.add(fieldAbacateArvores);
