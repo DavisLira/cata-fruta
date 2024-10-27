@@ -201,8 +201,8 @@ public class TelaFormularioConfiguracao {
      */
     private void salvarConfiguracoes() {
         try {
-        	// Verifica se os campos estão vazios e insere o valor padrão, se necessário
-        	String dimensao = fieldDimensao.getText().isEmpty() ? "6" : fieldDimensao.getText();
+            // Verifica se os campos estão vazios e insere o valor padrão, se necessário
+            String dimensao = fieldDimensao.getText().isEmpty() ? "6" : fieldDimensao.getText();
             String pedras = fieldPedras.getText().isEmpty() ? "7" : fieldPedras.getText();
             String maracujaInicio = fieldMaracujaInicio.getText().isEmpty() ? "3" : fieldMaracujaInicio.getText();
             String maracujaTotal = fieldMaracujaTotal.getText().isEmpty() ? "1" : fieldMaracujaTotal.getText();
@@ -221,37 +221,62 @@ public class TelaFormularioConfiguracao {
             String bichadas = fieldBichadas.getText().isEmpty() ? "25" : fieldBichadas.getText();
             String mochila = fieldMochila.getText().isEmpty() ? "10" : fieldMochila.getText();
 
-            float maracujaTotalVal = Float.parseFloat(maracujaTotal);
-            float mochilaVal = Float.parseFloat(mochila);
+            // Verificação para garantir que todos os valores são inteiros válidos
+            try {
+                Integer.parseInt(dimensao);
+                Integer.parseInt(pedras);
+                Integer.parseInt(maracujaInicio);
+                int maracujaTotalVal = Integer.parseInt(maracujaTotal);
+                Integer.parseInt(laranjaArvores);
+                Integer.parseInt(laranjaInicio);
+                Integer.parseInt(abacateArvores);
+                Integer.parseInt(abacateInicio);
+                Integer.parseInt(cocoArvores);
+                Integer.parseInt(cocoInicio);
+                Integer.parseInt(bananaArvores);
+                Integer.parseInt(bananaInicio);
+                Integer.parseInt(amoraArvores);
+                Integer.parseInt(amoraInicio);
+                Integer.parseInt(goiabaArvores);
+                Integer.parseInt(goiabaInicio);
+                Integer.parseInt(bichadas);
+                int mochilaVal = Integer.parseInt(mochila);
 
-            if (mochilaVal <= (maracujaTotalVal)/2) {
-                JOptionPane.showMessageDialog(telaForm, "Erro: O valor de 'mochila' deve ser maior ou igual a metade + 1 de 'maracuja total'.", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            //colocar essa parte no local certo de salvar arquivo	
-            LinkedHashMap<String, String[]> frutas = new LinkedHashMap<>();
-        	frutas.put("dimensao", new String[] {dimensao});
-        	frutas.put("pedras", new String[] {pedras});
-            frutas.put("maracuja", new String[] {maracujaInicio, maracujaTotal});
-            frutas.put("laranja", new String[] {laranjaArvores, laranjaInicio});
-            frutas.put("abacate", new String[] {abacateArvores, abacateInicio});
-            frutas.put("coco", new String[] {cocoArvores, cocoInicio});
-            frutas.put("banana", new String[] {bananaArvores, bananaInicio});
-            frutas.put("amora", new String[] {amoraArvores, amoraInicio});
-            frutas.put("goiaba", new String[] {goiabaArvores, goiabaInicio});
-            frutas.put("bichadas", new String[] {bichadas});
-            frutas.put("mochila", new String[] {mochila});
-            
-            Menu.arquivoHandler.setElementos(frutas);
-            if (!Menu.arquivoHandler.validarGeracaoMapa(20)) {
-                Menu.arquivoHandler.reiniciarAtributos();
-                JOptionPane.showMessageDialog(telaForm, "Não é possível gerar um mapa com essas configurações!", "Erro", JOptionPane.ERROR_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(telaForm, "Configurações salvas com sucesso!");
+                //Verificação para checar se a mochila tem tamanho o suficiente para guardar maracujá e ganhar o jogo
+                if (mochilaVal <= (maracujaTotalVal)/2) {
+                    JOptionPane.showMessageDialog(telaForm, "Erro: O valor de 'mochila' deve ser maior ou igual a metade + 1 de 'maracuja total'.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Configuração das frutas para salvar no arquivo
+                LinkedHashMap<String, String[]> frutas = new LinkedHashMap<>();
+                frutas.put("dimensao", new String[]{dimensao});
+                frutas.put("pedras", new String[]{pedras});
+                frutas.put("maracuja", new String[]{maracujaInicio, maracujaTotal});
+                frutas.put("laranja", new String[]{laranjaArvores, laranjaInicio});
+                frutas.put("abacate", new String[]{abacateArvores, abacateInicio});
+                frutas.put("coco", new String[]{cocoArvores, cocoInicio});
+                frutas.put("banana", new String[]{bananaArvores, bananaInicio});
+                frutas.put("amora", new String[]{amoraArvores, amoraInicio});
+                frutas.put("goiaba", new String[]{goiabaArvores, goiabaInicio});
+                frutas.put("bichadas", new String[]{bichadas});
+                frutas.put("mochila", new String[]{mochila});
+
+                //Verifica se o mapa tem pelo menos 20% de espaço livre
+                Menu.arquivoHandler.setElementos(frutas);
+                if (!Menu.arquivoHandler.validarGeracaoMapa(20)) {
+                    Menu.arquivoHandler.reiniciarAtributos();
+                    JOptionPane.showMessageDialog(telaForm, "Não é possível gerar um mapa com essas configurações!", "Erro", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(telaForm, "Configurações salvas com sucesso!");
+                }
+
+                telaForm.dispose(); // Fecha o formulário após salvar
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(telaForm, "Erro: Certifique-se de que todos os campos contêm valores inteiros válidos.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
             }
 
-            telaForm.dispose(); // Fecha o formulário após salvar
         } catch (Exception ex) {
             ex.printStackTrace();
         }
