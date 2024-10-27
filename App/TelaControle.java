@@ -319,9 +319,9 @@ public class TelaControle {
         }
 
         // Verifica se os movimentos do jogador acabaram e alterna para o próximo jogador
-        if (jogadorAtual.acabouMovimentos()) {
-            finalizarTurno();
-        }
+        //if (jogadorAtual.acabouMovimentos()) {
+        //    finalizarTurno();
+        //}
     }
 
 
