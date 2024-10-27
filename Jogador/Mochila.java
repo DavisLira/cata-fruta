@@ -1,11 +1,6 @@
 package Jogador;
 
-import java.awt.Point;
-
-import Frutas.Abacate;
-import Frutas.Banana;
 import Frutas.Fruta;
-import Frutas.Goiaba;
 import App.Menu;
 
 /**
@@ -21,9 +16,9 @@ public class Mochila {
      */
     public Mochila(){
         this.setCapacidade();
-        this.frutas[0] = new Abacate(new Point(), false);
-        this.frutas[1] = new Banana(new Point(), false);
-        this.frutas[7] = new Goiaba(new Point(), false);
+        //this.frutas[0] = new Abacate(new Point(), false);
+        //this.frutas[1] = new Banana(new Point(), false);
+        //this.frutas[7] = new Goiaba(new Point(), false);
     }
     
     /**

@@ -3,6 +3,7 @@ package App;
 import javax.swing.*;
 
 import Floresta.Arvore;
+import Floresta.Grama;
 import Floresta.Local;
 import Frutas.Fruta;
 import Jogador.Jogador;
@@ -15,7 +16,7 @@ public class TelaControle {
 	private JButton mochilaButton, fimTurnoButton, cataButton, setaCimaButton, setaEsqButton ,setaDirButton, setaBaixoButton;
     private JFrame telaControle;
     private JPanel painelControle;
-    private JFrame telaMochila;
+    private TelaMochila telaMochila;
     private boolean mochilaAberta = false;
     private Jogador jogadorAtual;
     private Jogador jogadorProx;
@@ -83,7 +84,9 @@ public class TelaControle {
 
         if (localAtual instanceof Fruta) {
             if ( jogadorAtual.pegarFruta((Fruta) localAtual) ) {
-            	localAtual = null;
+            	localAtual = (Fruta) localAtual;
+            	mapa[jogadorAtual.getPosicao().y][jogadorAtual.getPosicao().x][0] = new Grama();
+            	System.out.println("Pegou a fruta " + localAtual.toString());
             }
             
         } else if (localAtual instanceof Arvore) {
@@ -257,11 +260,10 @@ public class TelaControle {
     }
 
     public void abrirMochila(Jogador jogador) {
-        if (telaMochila == null) {
-            // Aqui você configura a tela da mochila, como já foi descrito
-            telaMochila = new TelaMochila(jogador);
-        }
-
+        // Toda vez que abrir a mochila, crie uma nova instância para garantir que ela seja atualizada
+        telaMochila = new TelaMochila(jogador);
+        
+        // Exibe a nova tela da mochila
         telaMochila.setVisible(true);
         mochilaAberta = true;
     }
@@ -269,6 +271,8 @@ public class TelaControle {
     public void fecharMochila() {
         if (telaMochila != null) {
             telaMochila.setVisible(false);
+            telaMochila.dispose(); // Libera os recursos da tela da mochila
+            telaMochila = null;    // Define a variável como nula para garantir que seja recriada ao abrir
         }
         mochilaAberta = false;
     }

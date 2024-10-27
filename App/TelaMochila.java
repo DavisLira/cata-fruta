@@ -9,6 +9,7 @@ import java.awt.*;
 
 public class TelaMochila extends JFrame {
 	private static final long serialVersionUID = 1L;
+	public JPanel painelFrutas;
 
 	public TelaMochila(Jogador jogador) {
         super("Mochila do jogador " + jogador.getNumero());
@@ -29,7 +30,7 @@ public class TelaMochila extends JFrame {
         this.setResizable(true);
         this.setUndecorated(true);
 
-        JPanel painelFrutas = new JPanel(null);
+        painelFrutas = new JPanel(null);
         painelFrutas.setPreferredSize(new Dimension(tamanhoTela, tamanhoTela));
 
         for (int i = 0; i < lado * lado; i++) {
