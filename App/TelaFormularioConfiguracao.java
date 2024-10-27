@@ -221,6 +221,14 @@ public class TelaFormularioConfiguracao {
             String bichadas = fieldBichadas.getText().isEmpty() ? "25" : fieldBichadas.getText();
             String mochila = fieldMochila.getText().isEmpty() ? "10" : fieldMochila.getText();
 
+            float maracujaTotalVal = Float.parseFloat(maracujaTotal);
+            float mochilaVal = Float.parseFloat(mochila);
+
+            if (mochilaVal <= (maracujaTotalVal)/2) {
+                JOptionPane.showMessageDialog(telaForm, "Erro: O valor de 'mochila' deve ser maior ou igual a metade + 1 de 'maracuja total'.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
             //colocar essa parte no local certo de salvar arquivo	
             LinkedHashMap<String, String[]> frutas = new LinkedHashMap<>();
         	frutas.put("dimensao", new String[] {dimensao});
