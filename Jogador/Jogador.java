@@ -102,8 +102,11 @@ public class Jogador {
 			case 11: {
 				return "/dados/num_11.png";
 			}
-			default: {
+			case 12: {
 				return "/dados/num_12.png";
+			}
+			default: {
+				return "/dados/num_0.png";
 			}
     	}
     }
