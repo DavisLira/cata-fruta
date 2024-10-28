@@ -105,6 +105,42 @@ public class Jogador {
 			case 12: {
 				return "/dados/num_12.png";
 			}
+			case 13: {
+				return "/dados/num_13.png";
+			}
+			case 14: {
+				return "/dados/num_14.png";
+			}
+			case 15: {
+				return "/dados/num_15.png";
+			}
+			case 16: {
+				return "/dados/num_16.png";
+			}
+			case 17: {
+				return "/dados/num_17.png";
+			}
+			case 18: {
+				return "/dados/num_18.png";
+			}
+			case 19: {
+				return "/dados/num_19.png";
+			}
+			case 20: {
+				return "/dados/num_20.png";
+			}
+			case 21: {
+				return "/dados/num_21.png";
+			}
+			case 22: {
+				return "/dados/num_22.png";
+			}
+			case 23: {
+				return "/dados/num_23.png";
+			}
+			case 24: {
+				return "/dados/num_24.png";
+			}
 			default: {
 				return "/dados/num_0.png";
 			}
@@ -132,8 +168,8 @@ public class Jogador {
      *
      * @return O resultado do dado
      */
-    public int jogarDados(){
-        return (int)(Math.random() * 6) + 1;
+    public int jogarDados() {
+        return (int)(Math.random() * 11) + 2;
     }
     
     private boolean ePedra(Object local) {
