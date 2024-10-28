@@ -80,17 +80,18 @@ public class TelaMochila extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                 	
-                	if (frutas[index] instanceof Maracuja) {
-                        JOptionPane.showMessageDialog(null, "Não pode comer maracujá.");
-                		return;
-                	}
+                	
                 	
                 	if (index >= frutas.length) {
                 		JOptionPane.showMessageDialog(null, "Espaço sem uso.");
-                	}else if (frutas[index] instanceof Fruta) {
+                	} else if (frutas[index] instanceof Maracuja) {
+                        JOptionPane.showMessageDialog(null, "Não pode comer maracujá.");
+                		return;
+                	} else if (frutas[index] instanceof Fruta) {
                         if (frutas[index].isBichada()) {
                             JOptionPane.showMessageDialog(null, "A fruta estava bichada!");
                         }
+                        jogador.resetarForca();
                         frutas[index].comer(jogador);
                         atualizarTela(); // Atualiza a tela após comer a fruta
                     } else if (index < capacidade) {

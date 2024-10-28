@@ -4,6 +4,7 @@ import java.awt.Point;
 
 import javax.swing.JOptionPane;
 
+import Floresta.Arvore;
 import Floresta.Pedra;
 import Frutas.Fruta;
 
@@ -60,6 +61,23 @@ public class Jogador {
      */
     public int getForca(){
         return this.forca;
+    }
+    
+    public void duplicarForca() {
+    	this.forca = (this.forca - 1) * 2;
+    }
+    
+    public void resetarForca() {
+    	Fruta[] frutas = this.getMochila().getFrutas();
+    	int forca = 1;
+    	
+    	for (int i = 0; i < frutas.length; i ++) {
+    		if (frutas[i] != null) {
+    			forca++;
+    		}
+    	}
+    	
+    	this.forca = forca;
     }
 
     /**
@@ -339,6 +357,10 @@ public class Jogador {
 	@Override
 	public String toString() {
 		return "J - " + this.numero;
+	}
+
+	public void droparFrutas() {
+		
 	}
 
 }

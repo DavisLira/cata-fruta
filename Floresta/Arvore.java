@@ -40,12 +40,22 @@ public class Arvore extends Local{
      * @param jogador O jogador que está tentando pegar a fruta
      */
 	
-	public void darFruta(Jogador jogador) {
-		if (madura == 5) {
-			jogador.pegarFruta(this.fruta);
-			madura = 0;
+	public boolean darFruta(Jogador jogador) {
+		if (madura >= 5) {
+			if (jogador.pegarFruta(this.fruta)) {
+				madura = 0;
+				return true;
+			}
 		}
-		madura++;
+		return false;
+	}
+	
+	public void amadurecer() {
+		this.madura++;
+	}
+	
+	public int getMadura() {
+		return this.madura;
 	}
 	
 	public String getImg() {
@@ -58,6 +68,10 @@ public class Arvore extends Local{
 	
 	public String toString() {
 		return this.fruta.arvore();
+	}
+
+	public boolean temFruto() {
+		return this.madura >= 5;
 	}
 	
 }

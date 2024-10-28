@@ -6,7 +6,6 @@ import Floresta.Arvore;
 import Floresta.Grama;
 import Floresta.Local;
 import Frutas.Fruta;
-import Frutas.Maracuja;
 import Jogador.Jogador;
 
 import java.awt.*;
@@ -29,7 +28,9 @@ public class TelaControle {
     	this.jogadorAtual = jogadorAtual;
     	this.jogadorAtual.setSeMovimentou(false);
     	this.jogadorAtual.setPodeSeMover(true);
+    	this.jogadorAtual.resetarForca();
     	this.jogadorProx = jogadorProx;
+    	this.jogadorProx.resetarForca();
     	this.jogo = jogo;
     	this.qtdMaracuja = qtdMaracuja;
         iniciarControle();
@@ -93,10 +94,31 @@ public class TelaControle {
             if ( jogadorAtual.pegarFruta(frutaAtual) ) {
             	mapa[jogadorAtual.getPosicao().y][jogadorAtual.getPosicao().x][0] = new Grama();
             	System.out.println("Pegou a fruta " + frutaAtual.toString());
+            	jogadorAtual.resetarForca();
             }
             
         } else if (localAtual instanceof Arvore) {
-            jogadorAtual.pegarFruta((Fruta) localAtual); // MUDAR PARA PEGAR ARVORE
+
+        	Arvore arvoreAtual = (Arvore) localAtual;
+        	
+        	if (jogadorAtual.getSeMovimentou()) {
+                JOptionPane.showMessageDialog(null, "Aguarde o proximo round!");
+                return;
+        	}
+        	
+        	if (!arvoreAtual.temFruto()) {
+                JOptionPane.showMessageDialog(null, "A árvore ainda nao tem frutos");
+                JOptionPane.showMessageDialog(null, "Faltam: " + (5 - arvoreAtual.getMadura()));
+                return;
+        	}
+
+            if (arvoreAtual.darFruta(jogadorAtual)) {
+            	System.out.println("Pegou a fruta " + arvoreAtual.toString());
+            } else {
+            	System.out.println("Mochila cheia");
+            }
+        	
+        	
         } else {
             // Caso seja grama ou outro objeto, nada acontece
             JOptionPane.showMessageDialog(null, "Não tem nada para catar aqui!");
@@ -287,6 +309,8 @@ public class TelaControle {
     private void moverJogador(Point destino) {
         int antigoX = jogadorAtual.getPosicao().x;
         int antigoY = jogadorAtual.getPosicao().y;
+        
+        System.out.println("forca: " + jogadorAtual.getForca());
 
         // Calcula as novas coordenadas baseadas no movimento
         int novoX = antigoX + destino.x;
@@ -311,16 +335,23 @@ public class TelaControle {
         		JOptionPane.showMessageDialog(null, "Jogador não pode se mover");
         		return;
         	}
-        	
-        	
+        	        	
             // Remove o jogador da posição antiga no mapa
             mapa[antigoY][antigoX][1] = null;
 
             // Move o jogador para a nova posição considerando o custo
             Point posicaoFinal = jogadorAtual.mover(novaPosicao, mapa);
+            
+        	if (mapa[posicaoFinal.y][posicaoFinal.x][1] == jogadorProx) {
+        		JOptionPane.showMessageDialog(null, "Empurrou inimigo!");
+                mapa[antigoY][antigoX][1] = jogadorAtual;
+                jogadorAtual.setPosicao(new Point(antigoX, antigoY));
+                jogadorProx.droparFrutas();
+        	} else {
+                // Atualiza o mapa com a nova posição do jogador
+                mapa[posicaoFinal.y][posicaoFinal.x][1] = jogadorAtual;
+        	}
 
-            // Atualiza o mapa com a nova posição do jogador
-            mapa[posicaoFinal.y][posicaoFinal.x][1] = jogadorAtual;
             jogo.atualizarMapa(mapa);
 
             // Força a repintura do painel para atualizar o canto 2
@@ -340,8 +371,25 @@ public class TelaControle {
     public void finalizarTurno() {
         telaControle.dispose(); // Fecha a tela atual
         jogadorAtual.setMovimento(); // Rola novos movimentos para o próximo turno
-        jogadorAtual.getMochila().checarVitoria(qtdMaracuja);
-        jogadorProx.getMochila().checarVitoria(qtdMaracuja);
+        
+        if (jogadorAtual.getNumero() == 2) {
+            jogadorAtual.getMochila().checarVitoria(qtdMaracuja);
+            jogadorProx.getMochila().checarVitoria(qtdMaracuja);
+
+            // Obtém o mapa atual
+            Object[][][] mapa = Menu.geracao.estadoMapa;
+
+            for (int i = 0; i < mapa.length; i++) {
+                for (int j = 0; j < mapa.length; j++) {
+                	if (mapa[i][j][0] instanceof Arvore) {
+                		Arvore arvore = (Arvore) mapa[i][j][0];
+                		arvore.amadurecer();
+                	}
+                }
+            }
+            
+        }
+        
         new TelaControle(jogadorProx, jogadorAtual, jogo, qtdMaracuja); // Alterna para o próximo jogado
     }
 }
