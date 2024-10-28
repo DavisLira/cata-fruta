@@ -1,6 +1,7 @@
 package Jogador;
 
 import Frutas.Fruta;
+import Frutas.Maracuja;
 import App.Menu;
 
 /**
@@ -8,10 +9,10 @@ import App.Menu;
  */
 public class Mochila {
     private Fruta[] frutas;
-    private int capacidade;
+    private int capacidade, quantidadeMaracuja = 0;
 
     /**
-     * Construtor da classe Mochila
+     * Construtor da classe Mochila 
      * Inicializa uma nova mochila com capacidade para 10 frutas
      */
     public Mochila(){
@@ -54,6 +55,7 @@ public class Mochila {
     public boolean adicionarFruta(Fruta fruta){
         for (int i = 0; i < this.frutas.length; i++) {
             if (this.frutas[i] == null) {
+            	System.out.println(fruta.getClass().getName());
                 this.frutas[i] = fruta;
                 this.capacidade--;
                 return true;
@@ -72,11 +74,24 @@ public class Mochila {
         for(int i = 0; i < this.frutas.length; i++){
             if(this.frutas[i] == fruta){
                 this.frutas[i] = null;
-                this.capacidade++;
                 return true;
             }
         }
         return false;
     }
-
+   
+    
+    public boolean checarVitoria(int maracujaJogo) {
+    	for(int i = 0; i < this.frutas.length; i++) {
+    		if(this.frutas[i] instanceof Maracuja) {
+    			quantidadeMaracuja++;
+    		}
+    	}
+    	if (quantidadeMaracuja >= maracujaJogo/2 +1) {
+    		System.out.println("GANHOU");
+    		return true;
+    	}
+    	return false;
+    }
+    
 }

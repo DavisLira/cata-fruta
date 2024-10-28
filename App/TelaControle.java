@@ -21,12 +21,14 @@ public class TelaControle {
     private Jogador jogadorAtual;
     private Jogador jogadorProx;
     private TelaJogo jogo;
+    private int qtdMaracuja;
 
-    public TelaControle(Jogador jogadorAtual, Jogador jogadorProx, TelaJogo jogo) {
+    public TelaControle(Jogador jogadorAtual, Jogador jogadorProx, TelaJogo jogo, int qtdMaracuja) {
     	System.out.println("Movimentos inicial: " + jogadorAtual.getMovimento());
     	this.jogadorAtual = jogadorAtual;
     	this.jogadorProx = jogadorProx;
     	this.jogo = jogo;
+    	this.qtdMaracuja = qtdMaracuja;
         iniciarControle();
     }
 
@@ -328,6 +330,8 @@ public class TelaControle {
     public void finalizarTurno() {
         telaControle.dispose(); // Fecha a tela atual
         jogadorAtual.setMovimento(); // Rola novos movimentos para o próximo turno
-        new TelaControle(jogadorProx, jogadorAtual, jogo); // Alterna para o próximo jogado
+        jogadorAtual.getMochila().checarVitoria(qtdMaracuja);
+        jogadorProx.getMochila().checarVitoria(qtdMaracuja);
+        new TelaControle(jogadorProx, jogadorAtual, jogo, qtdMaracuja); // Alterna para o próximo jogado
     }
 }

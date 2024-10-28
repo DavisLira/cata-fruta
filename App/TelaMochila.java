@@ -1,25 +1,26 @@
 package App;
 
 import javax.swing.*;
-
 import Frutas.Fruta;
+import Frutas.FrutaSemPoder;
 import Jogador.Jogador;
-
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class TelaMochila extends JFrame {
-	private static final long serialVersionUID = 1L;
-	public JPanel painelFrutas;
+    private static final long serialVersionUID = 1L;
+    private JPanel painelFrutas;
+    private Jogador jogador; // Armazena o jogador para ser usado em atualizações
 
-	public TelaMochila(Jogador jogador) {
+    public TelaMochila(Jogador jogador) {
         super("Mochila do jogador " + jogador.getNumero());
+        this.jogador = jogador; // Inicializa o jogador
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int alturaTela = (int) (screenSize.height * 0.8);
 
-        Fruta[] frutas = jogador.getMochila().getFrutas();
-        int capacidade = frutas.length;
-
+        int capacidade = jogador.getMochila().getFrutas().length;
         int lado = (int) Math.ceil(Math.sqrt(capacidade));
         int tamanhoImagem = alturaTela / lado;
         int tamanhoTela = tamanhoImagem * lado;
@@ -32,23 +33,36 @@ public class TelaMochila extends JFrame {
 
         painelFrutas = new JPanel(null);
         painelFrutas.setPreferredSize(new Dimension(tamanhoTela, tamanhoTela));
+        
+        this.add(painelFrutas, BorderLayout.CENTER);
+        atualizarTela(); // Chamada inicial para montar a tela
+        this.pack();
+    }
+
+    private void atualizarTela() {
+        painelFrutas.removeAll(); // Remove todos os componentes anteriores
+
+        Fruta[] frutas = jogador.getMochila().getFrutas(); // Obtém o estado atualizado das frutas
+        int capacidade = frutas.length;
+        int lado = (int) Math.ceil(Math.sqrt(capacidade));
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int alturaTela = (int) (screenSize.height * 0.8);
+        int tamanhoImagem = alturaTela / lado;
 
         for (int i = 0; i < lado * lado; i++) {
             JButton frutaButton;
+            ImageIcon icon;
 
             if (i < capacidade && frutas[i] != null) {
-                ImageIcon frutaIcon = new ImageIcon(Menu.class.getResource(frutas[i].getImgMochila()));
-                Image frutaImg = frutaIcon.getImage().getScaledInstance(tamanhoImagem, tamanhoImagem, Image.SCALE_SMOOTH);
-                frutaButton = new JButton(new ImageIcon(frutaImg));
+                icon = new ImageIcon(Menu.class.getResource(frutas[i].getImgMochila()));
             } else if (i < capacidade) {
-                ImageIcon mochilaIcon = new ImageIcon(Menu.class.getResource("/sprites/Mochila.png"));
-                Image mochilaImg = mochilaIcon.getImage().getScaledInstance(tamanhoImagem, tamanhoImagem, Image.SCALE_SMOOTH);
-                frutaButton = new JButton(new ImageIcon(mochilaImg));
+                icon = new ImageIcon(Menu.class.getResource("/sprites/Mochila.png"));
             } else {
-                ImageIcon gramaIcon = new ImageIcon(Menu.class.getResource("/sprites/grama.jpg"));
-                Image gramaImg = gramaIcon.getImage().getScaledInstance(tamanhoImagem, tamanhoImagem, Image.SCALE_SMOOTH);
-                frutaButton = new JButton(new ImageIcon(gramaImg));
+                icon = new ImageIcon(Menu.class.getResource("/sprites/grama.jpg"));
             }
+
+            Image img = icon.getImage().getScaledInstance(tamanhoImagem, tamanhoImagem, Image.SCALE_SMOOTH);
+            frutaButton = new JButton(new ImageIcon(img));
 
             frutaButton.setText(null);
             frutaButton.setBorderPainted(false);
@@ -60,11 +74,27 @@ public class TelaMochila extends JFrame {
             int x = coluna * tamanhoImagem;
             int y = linha * tamanhoImagem;
             frutaButton.setBounds(x, y, tamanhoImagem, tamanhoImagem);
+
+            final int index = i;
+            frutaButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                	if (index >= frutas.length) {
+                		JOptionPane.showMessageDialog(null, "Espaço sem uso.");
+                	}else if (frutas[index] instanceof FrutaSemPoder) {
+                        frutas[index].comer(jogador);
+                        atualizarTela(); // Atualiza a tela após comer a fruta
+                    } else if (index < capacidade) {
+                        JOptionPane.showMessageDialog(null, "Espaço vazio na mochila.");
+                    }
+                }
+            });
+
             painelFrutas.add(frutaButton);
         }
 
-        this.add(painelFrutas, BorderLayout.CENTER);
-        this.pack();
+        painelFrutas.revalidate(); // Atualiza a interface gráfica
+        painelFrutas.repaint();
     }
 
     public void exibir() {

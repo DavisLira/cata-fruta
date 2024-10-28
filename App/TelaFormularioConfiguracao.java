@@ -242,7 +242,6 @@ public class TelaFormularioConfiguracao {
                 Integer.parseInt(bichadas);
                 int mochilaVal = Integer.parseInt(mochila);
 
-                //Verificação para checar se a mochila tem tamanho o suficiente para guardar maracujá e ganhar o jogo
                 if (mochilaVal <= (maracujaTotalVal)/2) {
                     JOptionPane.showMessageDialog(telaForm, "Erro: O valor de 'mochila' deve ser maior ou igual a metade + 1 de 'maracuja total'.", "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -262,7 +261,6 @@ public class TelaFormularioConfiguracao {
                 frutas.put("bichadas", new String[]{bichadas});
                 frutas.put("mochila", new String[]{mochila});
 
-                //Verifica se o mapa tem pelo menos 20% de espaço livre
                 Menu.arquivoHandler.setElementos(frutas);
                 if (!Menu.arquivoHandler.validarGeracaoMapa(20)) {
                     Menu.arquivoHandler.reiniciarAtributos();

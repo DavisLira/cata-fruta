@@ -13,6 +13,7 @@ public class Menu {
 	public static Jogador jogador1;
 	public static Jogador jogador2;
 	public static Jogador jogadorAtual = jogador1;
+	private static int qtdMaracuja = arquivoHandler.getMaracujaTotal();
 	
 	/**
      * O ponto de entrada principal do programa
@@ -38,7 +39,7 @@ public class Menu {
     public static void iniciarJogo() {
     	jogador1 = geracao.jogador1;
     	jogador2 = geracao.jogador2;
-    	new TelaControle(jogador1, jogador2, new TelaJogo(geracao.estadoMapa));
+    	new TelaControle(jogador1, jogador2, new TelaJogo(geracao.estadoMapa), qtdMaracuja);
     }
 
 }
