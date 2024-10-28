@@ -518,6 +518,11 @@ public class TelaControle {
         if (!j1Ganhou && !j2Ganhou) {
         	new TelaControle(jogadorProx, jogadorAtual, jogo, qtdMaracujaInicio, qtdMaracujaTotal, qtdMaracujaCriados, rodada); // Alterna para o próximo jogado
         } else {
+        	if(j1Ganhou) {
+        		new TelaFinal(1);
+        	} else if (j2Ganhou) {
+        		new TelaFinal(2);
+        	}
         	jogo.dispose();
         }
         

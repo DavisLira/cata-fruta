@@ -22,7 +22,7 @@ public class TelaMenuInicial {
 
     public void mostrarMenuInicial() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    	
+        
         menuInicial = new JFrame("Cata Frutas - Menu inicial");
         menuInicial.setBounds(0, 0, 500, 575);
         menuInicial.setLocation((screenSize.width - 500) / 2, (screenSize.height - 575) / 2);
@@ -30,18 +30,33 @@ public class TelaMenuInicial {
         menuInicial.setResizable(false);
         menuInicial.setUndecorated(true);
 
+        // Painel com imagem de fundo
+        JPanel painelComFundo = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // Carrega a imagem de fundo
+                ImageIcon backgroundIcon = new ImageIcon(Menu.class.getResource("/sprites/imagem-bg-menu.jpg"));
+                Image backgroundImage = backgroundIcon.getImage();
+                // Desenha a imagem de fundo
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        painelComFundo.setLayout(null);
+        painelComFundo.setBounds(0, 0, 500, 575);
+
         // Cria o botão "Ler Configs"
         ImageIcon iconIniciar = new ImageIcon(Menu.class.getResource("/buttons/iniciar.png"));
         Image imageIniciar = iconIniciar.getImage();
         Image imageIniciarRedimensionada = imageIniciar.getScaledInstance(330, 66, Image.SCALE_SMOOTH);
         ImageIcon iconIniciarRedimensionado = new ImageIcon(imageIniciarRedimensionada);
         JButton botaoIniciar = new JButton(iconIniciarRedimensionado);
-        botaoIniciar.setBounds(85, 60, 330, 66);
+        botaoIniciar.setBounds(85, 40, 330, 66);
         botaoIniciar.setText(null);
         botaoIniciar.setBorderPainted(false);
         botaoIniciar.setFocusPainted(false);
         botaoIniciar.setContentAreaFilled(false);
-        menuInicial.add(botaoIniciar);
+        painelComFundo.add(botaoIniciar);
 
         // Cria o botão "Editar Configs"
         ImageIcon iconEditar = new ImageIcon(Menu.class.getResource("/buttons/editar_config.png"));
@@ -53,8 +68,8 @@ public class TelaMenuInicial {
         botaoEditar.setBorderPainted(false);
         botaoEditar.setFocusPainted(false);
         botaoEditar.setContentAreaFilled(false);
-        botaoEditar.setBounds(85, 150, 330, 66);
-        menuInicial.add(botaoEditar);
+        botaoEditar.setBounds(85, 120, 330, 66);
+        painelComFundo.add(botaoEditar);
 
         ImageIcon iconEscolher = new ImageIcon(Menu.class.getResource("/buttons/escolher_config.png"));
         Image imageEscolher = iconEscolher.getImage();
@@ -66,7 +81,7 @@ public class TelaMenuInicial {
         botaoEscolher.setFocusPainted(false);
         botaoEscolher.setContentAreaFilled(false);
         botaoEscolher.setBounds(85, 275, 330, 66);
-        menuInicial.add(botaoEscolher);
+        painelComFundo.add(botaoEscolher);
 
         ImageIcon iconBaixar = new ImageIcon(Menu.class.getResource("/buttons/baixar_config.png"));
         Image imageBaixar = iconBaixar.getImage();
@@ -78,7 +93,7 @@ public class TelaMenuInicial {
         botaoBaixar.setFocusPainted(false);
         botaoBaixar.setContentAreaFilled(false);
         botaoBaixar.setBounds(85, 400, 330, 66);
-        menuInicial.add(botaoBaixar);
+        painelComFundo.add(botaoBaixar);
 
         // Caminho do arquivo configs.txt
         String caminho = "arqs/configs.txt";
@@ -135,6 +150,9 @@ public class TelaMenuInicial {
                 Menu.arquivoHandler.escreverNoArquivo(); // Certifique-se de que este método está em uma classe acessível
             }
         });
+
+        // Adiciona o painel de fundo à janela
+        menuInicial.setContentPane(painelComFundo);
 
         // Exibe a janela principal
         menuInicial.setVisible(true);

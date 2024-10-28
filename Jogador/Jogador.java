@@ -4,7 +4,6 @@ import java.awt.Point;
 
 import javax.swing.JOptionPane;
 
-import Floresta.Arvore;
 import Floresta.Pedra;
 import Frutas.Fruta;
 
@@ -251,10 +250,6 @@ public class Jogador {
     private boolean ePedra(Object local) {
         return local instanceof Pedra;
     }
-    
-    private boolean eJogador(Object local) {
-    	return local instanceof Jogador;
-    }
 
     
     private Point pulaPedra(Point destino, Object[][][] floresta) {
@@ -278,18 +273,6 @@ public class Jogador {
 
         return proximoBloco; // Retorna a posição da casa após a(s) pedra(s)
     }
-    
-    
-    private Point empurrarJogador(Point destino, Object[][][] floresta) {
-    	
-    	Point proximoBloco = new Point(destino.x, destino.y);
-    	if(eJogador(floresta[destino.y][destino.x][0])) {
-    		
-    	}
-    	
-    	return posicao;
-    }
-    
 
 
     /**
