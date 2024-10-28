@@ -21,6 +21,8 @@ public class Jogador {
     private Mochila mochila;
     private boolean podeMover = true;
     private boolean moveu = false;
+    private boolean empurrou = false;
+    private boolean comeuAbacate = false, comeuCoco = false;
 
     /**
      * Construtor da classe Jogador
@@ -65,6 +67,7 @@ public class Jogador {
     
     public void duplicarForca() {
     	this.forca = (this.forca - 1) * 2;
+    	this.comeuAbacate = true;
     }
     
     public void resetarForca() {
@@ -76,9 +79,25 @@ public class Jogador {
     			forca++;
     		}
     	}
-    	
+    	if (this.comeuAbacate) {
+    		this.forca = forca * 2;
+    		System.out.println("Comeu abacate true");
+    		return;
+    	}
     	this.forca = forca;
     }
+    /*
+    public void atualizarForca(int forcaAtual) {
+    	Fruta[] frutas = this.getMochila().getFrutas();
+    	int forca = 1;
+    	
+    	for (int i = 0; i < frutas.length; i ++) {
+    		if (frutas[i] != null) {
+    			forca++;
+    		}
+    	}
+    }
+    */
 
     /**
      * Obtém o número de movimentos restantes do jogador
@@ -187,6 +206,7 @@ public class Jogador {
     
     public void duplicarMov() {
     	this.movimentos = this.movimentos * 2;
+    	this.comeuCoco = true;
     }
     
     public boolean getSeMovimentou() {
@@ -245,6 +265,7 @@ public class Jogador {
         return proximoBloco; // Retorna a posição da casa após a(s) pedra(s)
     }
     
+    
     private Point empurrarJogador(Point destino, Object[][][] floresta) {
     	
     	Point proximoBloco = new Point(destino.x, destino.y);
@@ -254,6 +275,7 @@ public class Jogador {
     	
     	return posicao;
     }
+    
 
 
     /**
@@ -354,6 +376,14 @@ public class Jogador {
 		return this.mochila;
 	}
 	
+	public boolean getEmpurrou() {
+		return this.empurrou;
+	}
+	
+	public boolean setEmpurrou(boolean empurra) {
+		return this.empurrou = empurra;
+	}
+	
 	@Override
 	public String toString() {
 		return "J - " + this.numero;
@@ -362,5 +392,24 @@ public class Jogador {
 	public void droparFrutas() {
 		
 	}
+
+	public void setComeuAbacate(boolean b) {
+		this.comeuAbacate = b;
+		
+	}
+
+	public boolean getComeuAbacate() {
+		return this.comeuAbacate;
+	}
+	
+	public void setComeuCoco(boolean b) {
+		this.comeuCoco = b;
+		
+	}
+
+	public boolean getComeuCoco() {
+		return this.comeuCoco;
+	}
+
 
 }

@@ -88,12 +88,20 @@ public class TelaMochila extends JFrame {
                         JOptionPane.showMessageDialog(null, "Não pode comer maracujá.");
                 		return;
                 	} else if (frutas[index] instanceof Fruta) {
+                		if (jogador.getComeuAbacate()) {
+                			JOptionPane.showMessageDialog(null, "Não pode comer abacate novamente");
+                			return; 
+                			
+                		} else if (jogador.getComeuCoco()) {
+                			JOptionPane.showMessageDialog(null, "Não pode comer coco novamente");
+                			return;
+                		} 
                         if (frutas[index].isBichada()) {
                             JOptionPane.showMessageDialog(null, "A fruta estava bichada!");
                         }
-                        jogador.resetarForca();
-                        System.out.println("Fruta: " + frutas[index]);
+                        
                         frutas[index].comer(jogador);
+                        jogador.resetarForca();
                         atualizarTela(); // Atualiza a tela após comer a fruta
                     } else if (index < capacidade) {
                         JOptionPane.showMessageDialog(null, "Espaço vazio na mochila.");

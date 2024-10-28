@@ -105,7 +105,6 @@ public class TelaControle {
         	
             if ( jogadorAtual.pegarFruta(frutaAtual) ) {
             	mapa[jogadorAtual.getPosicao().y][jogadorAtual.getPosicao().x][0] = new Grama();
-            	System.out.println("Pegou a fruta " + frutaAtual.toString());
             	jogadorAtual.resetarForca();
             }
             
@@ -125,9 +124,9 @@ public class TelaControle {
         	}
 
             if (arvoreAtual.darFruta(jogadorAtual)) {
-            	System.out.println("Pegou a fruta " + arvoreAtual.toString());
+            	JOptionPane.showMessageDialog(null, "Pegou a fruta " + arvoreAtual.toString());
             } else {
-            	System.out.println("Mochila cheia");
+            	JOptionPane.showMessageDialog(null, "Mochila cheia");
             }
         	
         	
@@ -347,7 +346,9 @@ public class TelaControle {
 
         // Cria o ponto de destino com as novas coordenadas
         Point novaPosicao = new Point(novoX, novoY);
-
+        
+        
+        
         // Verifica se o jogador tem movimentos suficientes para se mover para o novo destino
         if (jogadorAtual.verificarMovimentos(novaPosicao, mapa)) {
         	
@@ -355,7 +356,11 @@ public class TelaControle {
         		JOptionPane.showMessageDialog(null, "Jogador não pode se mover");
         		return;
         	}
-        	        	
+        	
+        	if (jogadorAtual.getEmpurrou() && mapa[novaPosicao.y][novaPosicao.x][1] == jogadorProx){
+            	JOptionPane.showMessageDialog(null, "Jogador não pode ser empurrado novamente");
+        		return;
+    		}       	
             // Remove o jogador da posição antiga no mapa
             mapa[antigoY][antigoX][1] = null;
 
@@ -363,10 +368,12 @@ public class TelaControle {
             Point posicaoFinal = jogadorAtual.mover(novaPosicao, mapa);
             
         	if (mapa[posicaoFinal.y][posicaoFinal.x][1] == jogadorProx) {
-        		JOptionPane.showMessageDialog(null, "Empurrou inimigo!");
-                mapa[antigoY][antigoX][1] = jogadorAtual;
-                jogadorAtual.setPosicao(new Point(antigoX, antigoY));
-                jogadorProx.droparFrutas();
+        		
+	        		JOptionPane.showMessageDialog(null, "Empurrou inimigo!");
+	        		jogadorAtual.setEmpurrou(true);
+	                mapa[antigoY][antigoX][1] = jogadorAtual;
+	                jogadorAtual.setPosicao(new Point(antigoX, antigoY));
+	                jogadorProx.droparFrutas();
         	} else {
                 // Atualiza o mapa com a nova posição do jogador
                 mapa[posicaoFinal.y][posicaoFinal.x][1] = jogadorAtual;
@@ -395,9 +402,12 @@ public class TelaControle {
         // Obtém o mapa atual
         Object[][][] mapa = Menu.geracao.estadoMapa;
         
+        boolean j1Ganhou = false;
+        boolean j2Ganhou = false;
+        
         if (jogadorAtual.getNumero() == 2) {
-            jogadorProx.getMochila().checarVitoria(qtdMaracujaTotal);
-            jogadorAtual.getMochila().checarVitoria(qtdMaracujaTotal);
+            j1Ganhou = jogadorProx.getMochila().checarVitoria(qtdMaracujaTotal);
+            j2Ganhou = jogadorAtual.getMochila().checarVitoria(qtdMaracujaTotal);
 
             for (int i = 0; i < mapa.length; i++) {
                 for (int j = 0; j < mapa.length; j++) {
@@ -420,13 +430,21 @@ public class TelaControle {
                 }
             }
         }
-
-        new TelaControle(jogadorProx, jogadorAtual, jogo, qtdMaracujaInicio, qtdMaracujaTotal, qtdMaracujaCriados, rodada); // Alterna para o próximo jogado
+        
+        jogadorAtual.setComeuCoco(false);
+        jogadorAtual.setComeuAbacate(false);
+        jogadorAtual.setEmpurrou(false);
+        
+        if (!j1Ganhou && !j2Ganhou) {
+        	new TelaControle(jogadorProx, jogadorAtual, jogo, qtdMaracujaInicio, qtdMaracujaTotal, qtdMaracujaCriados, rodada); // Alterna para o próximo jogado
+        } else {
+        	jogo.dispose();
+        }
+        
     }
     
     public Point gerarMaracuja(Object[][][] mapa) {
     	if (qtdMaracujaCriados + qtdMaracujaInicio == qtdMaracujaTotal) {
-    		System.out.println("Todos maracujás ja foram criados");
     		return null;
     	}
     	
@@ -435,15 +453,11 @@ public class TelaControle {
         int numeroArvore = (int) (Math.random() * Menu.arquivoHandler.getArvores());
         int contador = 0;
 
-        System.out.println("Número sorteado da árvore: " + numeroArvore);  // Verifica o número sorteado
-
         for (int i = 0; i < mapa.length; i++) {
             for (int j = 0; j < mapa[i].length; j++) {
                 if (mapa[i][j][0] instanceof Arvore) {
-                    System.out.println("Encontrou uma árvore na posição: [" + i + "," + j + "]");  // Verifica se encontrou uma árvore
                     
                     if (contador == numeroArvore) {
-                        System.out.println("Árvore selecionada na posição: [" + i + "," + j + "]");
                         
                         List<Point> casasLivres = new ArrayList<>();
                         
@@ -459,10 +473,8 @@ public class TelaControle {
 
                             // Verifica se o ponto está dentro dos limites da matriz
                             if (novoI >= 0 && novoI < mapa.length && novoJ >= 0 && novoJ < mapa[0].length) {
-                                System.out.println("Verificando casa em [" + novoI + "," + novoJ + "]");  // Verifica as coordenadas ao redor
                                 
                                 if (mapa[novoI][novoJ][0] instanceof Grama) {
-                                    System.out.println("Casa livre encontrada em: [" + novoI + "," + novoJ + "]");
                                     casasLivres.add(new Point(novoJ, novoI));
                                 }
                             }
@@ -471,11 +483,10 @@ public class TelaControle {
                         // Se houver casas livres
                         if (!casasLivres.isEmpty()) {
                             int indiceAleatorio = (int) (Math.random() * casasLivres.size());
-                            System.out.println("Casa escolhida: " + casasLivres.get(indiceAleatorio));
                             qtdMaracujaCriados++;
                             return casasLivres.get(indiceAleatorio);
                         } else {
-                            System.out.println("Nenhuma casa livre ao redor da árvore.");
+
                             return null;
                         }
                     }
@@ -484,7 +495,6 @@ public class TelaControle {
             }
         }
         
-        System.out.println("Nenhuma árvore encontrada.");
         return null;
     }
 
