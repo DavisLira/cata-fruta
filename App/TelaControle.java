@@ -369,8 +369,21 @@ public class TelaControle {
             
         	if (mapa[posicaoFinal.y][posicaoFinal.x][1] == jogadorProx) {
         		
-	        		JOptionPane.showMessageDialog(null, "Empurrou inimigo!");
-	        		jogadorAtual.setEmpurrou(true);
+	        		int forcaJogadorAtacante = jogadorAtual.getForca();
+	        		int forcaJogadorDefensor = jogadorProx.getForca();
+	        		
+	        		if (forcaJogadorAtacante > forcaJogadorDefensor) {
+		        		jogadorAtual.setEmpurrou(true);
+		        		int fa = (int) Math.round(Math.log(forcaJogadorAtacante) / Math.log(2));
+		        		int fd = (int) Math.round(Math.log(forcaJogadorDefensor) / Math.log(2));
+		        		int qtsFrutaCai = fa - fd;
+		        		System.out.println(qtsFrutaCai);
+		        		processarEmpurrarJogador(jogadorAtual, jogadorProx, forcaJogadorAtacante, forcaJogadorDefensor, mapa);
+	        		}
+	        		else {
+	        			JOptionPane.showMessageDialog(null, "Fraco demais para atacar!");
+	        		}
+	        		
 	                mapa[antigoY][antigoX][1] = jogadorAtual;
 	                jogadorAtual.setPosicao(new Point(antigoX, antigoY));
 	                jogadorProx.droparFrutas();
@@ -496,6 +509,69 @@ public class TelaControle {
         }
         
         return null;
+    }
+    public void processarEmpurrarJogador(Jogador jogadorAtacante, Jogador jogadorDefensor, int forcaJogadorAtacante, int forcaJogadorDefensor, Object[][][] mapa) {
+        if (forcaJogadorAtacante > forcaJogadorDefensor) {
+            jogadorAtacante.setEmpurrou(true);
+            int fa = (int) Math.round(Math.log(forcaJogadorAtacante) / Math.log(2));
+            int fd = (int) Math.round(Math.log(forcaJogadorDefensor) / Math.log(2));
+            int qtsFrutaCai = fa - fd;
+            System.out.println(qtsFrutaCai);
+
+            // Posição do jogador defensor (aquele que foi atacado)
+            Point posicaoJogadorDefensor = jogadorDefensor.getPosicao(); 
+            int x = posicaoJogadorDefensor.x;
+            int y = posicaoJogadorDefensor.y;
+
+            // Começando com um tamanho de área padrão (3x3)
+            int tamanhoArea = 3;
+
+            // Variável para rastrear quantas frutas foram colocadas
+            int frutasColocadas = 0;
+
+            // Enquanto ainda há frutas para colocar
+            while (frutasColocadas < qtsFrutaCai) {
+                List<Point> casasLivres = new ArrayList<>();
+                // Percorre a área ao redor do jogador defensor com base no tamanho da área
+                for (int i = -tamanhoArea / 2; i <= tamanhoArea / 2; i++) {
+                    for (int j = -tamanhoArea / 2; j <= tamanhoArea / 2; j++) {
+                        int novoX = x + j;
+                        int novoY = y + i;
+
+                        // Verifica se o ponto está dentro dos limites da matriz e se é uma casa livre
+                        if (novoX >= 0 && novoX < mapa[0].length && novoY >= 0 && novoY < mapa.length) {
+                            if (mapa[novoY][novoX][0] instanceof Grama && !(novoX == x && novoY == y)) { // Verifica se a casa é livre e não é a posição do jogador
+                                casasLivres.add(new Point(novoX, novoY));
+                            }
+                        }
+                    }
+                }
+
+                // Se houver casas livres, remova as frutas da mochila e coloque no mapa
+                while (frutasColocadas < qtsFrutaCai && !casasLivres.isEmpty()) {
+                    int indiceAleatorio = (int) (Math.random() * casasLivres.size());
+                    Point casaSelecionada = casasLivres.get(indiceAleatorio);
+                    
+                    // Remova a fruta da mochila do jogador defensor
+                    Fruta frutaRemovida = jogadorDefensor.removerFruta(); // Remove a fruta da mochila
+                    
+                    if (frutaRemovida != null) { // Verifica se a remoção foi bem-sucedida
+                        frutaRemovida.setPosicao(new Point(casaSelecionada.x, casaSelecionada.y)); // Define a nova posição
+                        mapa[casaSelecionada.y][casaSelecionada.x][0] = frutaRemovida; // Coloca a fruta no mapa
+                    }
+
+                    casasLivres.remove(indiceAleatorio); // Remove a casa já utilizada
+                    frutasColocadas++;
+                }
+
+                // Se ainda não colocamos todas as frutas e não há mais casas livres, aumentamos a área
+                if (frutasColocadas < qtsFrutaCai) {
+                    tamanhoArea += 2; // Aumenta o tamanho da área (de 3x3 para 5x5, etc.)
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Fraco demais para atacar!");
+        }
     }
 
 
