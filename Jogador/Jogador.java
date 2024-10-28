@@ -104,6 +104,20 @@ public class Jogador {
      *
      * @return O número de movimentos
      */
+    
+    public Fruta removerFruta() {
+        for (int i = 0; i < mochila.getFrutas().length; i++) {
+            if (mochila.getFrutas()[i] != null) { // Verifica se há uma fruta na posição
+                Fruta frutaParaRemover = mochila.getFrutas()[i]; // Armazena a fruta
+                boolean removido = mochila.removerFruta(frutaParaRemover); // Chama o método de remoção na mochila
+                if (removido) {
+                    return frutaParaRemover; // Retorna a fruta removida
+                }
+            }
+        }
+        return null; // Retorna null se não houver frutas na mochila
+    }
+    
     public int getMovimento(){
         return this.movimentos;
     }

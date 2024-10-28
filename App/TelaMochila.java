@@ -1,6 +1,9 @@
 package App;
 
 import javax.swing.*;
+
+import Frutas.Abacate;
+import Frutas.Coco;
 import Frutas.Fruta;
 import Frutas.Maracuja;
 import Jogador.Jogador;
@@ -88,11 +91,11 @@ public class TelaMochila extends JFrame {
                         JOptionPane.showMessageDialog(null, "Não pode comer maracujá.");
                 		return;
                 	} else if (frutas[index] instanceof Fruta) {
-                		if (jogador.getComeuAbacate()) {
+                		if (jogador.getComeuAbacate() && frutas[index] instanceof Abacate) {
                 			JOptionPane.showMessageDialog(null, "Não pode comer abacate novamente");
                 			return; 
                 			
-                		} else if (jogador.getComeuCoco()) {
+                		} else if (jogador.getComeuCoco() && frutas[index] instanceof Coco) {
                 			JOptionPane.showMessageDialog(null, "Não pode comer coco novamente");
                 			return;
                 		} 
