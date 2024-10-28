@@ -6,6 +6,7 @@ import Floresta.Arvore;
 import Floresta.Grama;
 import Floresta.Local;
 import Frutas.Fruta;
+import Frutas.Maracuja;
 import Jogador.Jogador;
 
 import java.awt.*;
@@ -26,6 +27,8 @@ public class TelaControle {
     public TelaControle(Jogador jogadorAtual, Jogador jogadorProx, TelaJogo jogo, int qtdMaracuja) {
     	System.out.println("Movimentos inicial: " + jogadorAtual.getMovimento());
     	this.jogadorAtual = jogadorAtual;
+    	this.jogadorAtual.setSeMovimentou(false);
+    	this.jogadorAtual.setPodeSeMover(true);
     	this.jogadorProx = jogadorProx;
     	this.jogo = jogo;
     	this.qtdMaracuja = qtdMaracuja;
@@ -85,17 +88,18 @@ public class TelaControle {
         Local localAtual = (Local) mapa[jogadorAtual.getPosicao().y][jogadorAtual.getPosicao().x][0]; // Pega a posição atual do jogador no mapa
 
         if (localAtual instanceof Fruta) {
-            if ( jogadorAtual.pegarFruta((Fruta) localAtual) ) {
-            	localAtual = (Fruta) localAtual;
+        	Fruta frutaAtual = (Fruta) localAtual;
+        	
+            if ( jogadorAtual.pegarFruta(frutaAtual) ) {
             	mapa[jogadorAtual.getPosicao().y][jogadorAtual.getPosicao().x][0] = new Grama();
-            	System.out.println("Pegou a fruta " + localAtual.toString());
+            	System.out.println("Pegou a fruta " + frutaAtual.toString());
             }
             
         } else if (localAtual instanceof Arvore) {
             jogadorAtual.pegarFruta((Fruta) localAtual); // MUDAR PARA PEGAR ARVORE
         } else {
             // Caso seja grama ou outro objeto, nada acontece
-            System.out.println("Não há nada para catar aqui.");
+            JOptionPane.showMessageDialog(null, "Não tem nada para catar aqui!");
         }
     }
 
@@ -293,7 +297,7 @@ public class TelaControle {
 
         // Verifica se a nova posição está dentro dos limites do mapa
         if (novoX < 0 || novoX >= mapa[0].length || novoY < 0 || novoY >= mapa.length) {
-            System.out.println("Movimento inválido: fora dos limites do mapa!");
+            JOptionPane.showMessageDialog(null, "Movimento inválido: fora dos limites do mapa!");
             return; // Impede o movimento se estiver fora dos limites
         }
 
@@ -302,6 +306,13 @@ public class TelaControle {
 
         // Verifica se o jogador tem movimentos suficientes para se mover para o novo destino
         if (jogadorAtual.verificarMovimentos(novaPosicao, mapa)) {
+        	
+        	if (!jogadorAtual.getPodeSeMover()) {
+        		JOptionPane.showMessageDialog(null, "Jogador não pode se mover");
+        		return;
+        	}
+        	
+        	
             // Remove o jogador da posição antiga no mapa
             mapa[antigoY][antigoX][1] = null;
 
@@ -314,10 +325,9 @@ public class TelaControle {
 
             // Força a repintura do painel para atualizar o canto 2
             painelControle.repaint();
-
-            System.out.println("Movimentos restantes: " + jogadorAtual.getMovimento());
+            jogadorAtual.setSeMovimentou(true);
         } else {
-            System.out.println("Movimento inválido: não há movimentos suficientes.");
+            JOptionPane.showMessageDialog(null, "Movimento inválido: não há movimentos suficientes.");
         }
 
         // Verifica se os movimentos do jogador acabaram e alterna para o próximo jogador

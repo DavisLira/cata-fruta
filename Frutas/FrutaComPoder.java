@@ -66,7 +66,7 @@ public abstract class FrutaComPoder extends Fruta {
      * @param jogador O jogador que receberá o efeito de força
      */
     public void obterForca(Jogador jogador) {
-
+    	
     }
 
     /**
@@ -77,7 +77,7 @@ public abstract class FrutaComPoder extends Fruta {
      * @param jogador O jogador que receberá o efeito de antidoto
      */
     public void obterAntidoto(Jogador jogador) {
-        
+    	jogador.setPodeSeMover(true);
     }
     
     /**

@@ -2,6 +2,8 @@ package Jogador;
 
 import java.awt.Point;
 
+import javax.swing.JOptionPane;
+
 import Floresta.Pedra;
 import Frutas.Fruta;
 
@@ -16,6 +18,8 @@ public class Jogador {
     private int movimentos;
     private int forca = 1;
     private Mochila mochila;
+    private boolean podeMover = true;
+    private boolean moveu = false;
 
     /**
      * Construtor da classe Jogador
@@ -167,6 +171,22 @@ public class Jogador {
     	this.movimentos = this.movimentos * 2;
     }
     
+    public boolean getSeMovimentou() {
+    	return this.moveu;
+    }
+    
+    public void setSeMovimentou(boolean moveu) {
+    	this.moveu = moveu;
+    }
+    
+    public boolean getPodeSeMover() {
+    	return this.podeMover;
+    }
+    
+    public void setPodeSeMover(boolean podeMover) {
+    	this.podeMover = podeMover;
+    }
+    
     /**
      * Simula um lançamento de dados, retornando um valor aleatório entre 1 e 6
      *
@@ -274,7 +294,7 @@ public class Jogador {
 
         // Verifica se o novo local está dentro dos limites do mapa
         if (localNovo.x < 0 || localNovo.x >= floresta[0].length || localNovo.y < 0 || localNovo.y >= floresta.length) {
-            System.out.println("Movimento inválido: fora dos limites do mapa!");
+            JOptionPane.showMessageDialog(null, "Movimento inválido!");
             return this.posicao;  // Impede o movimento se estiver fora dos limites
         }
 
@@ -306,6 +326,9 @@ public class Jogador {
     public void comer(Fruta fruta) {
         this.mochila.removerFruta(fruta);
         System.out.println("comeu");
+        if (fruta.isBichada()) {
+        	this.setPodeSeMover(false);
+        }
         //fruta.comer(this);
     }
 

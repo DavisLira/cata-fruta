@@ -2,6 +2,7 @@ package App;
 
 import javax.swing.*;
 import Frutas.Fruta;
+import Frutas.Maracuja;
 import Jogador.Jogador;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -78,9 +79,18 @@ public class TelaMochila extends JFrame {
             frutaButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                	
+                	if (frutas[index] instanceof Maracuja) {
+                        JOptionPane.showMessageDialog(null, "Não pode comer maracujá.");
+                		return;
+                	}
+                	
                 	if (index >= frutas.length) {
                 		JOptionPane.showMessageDialog(null, "Espaço sem uso.");
                 	}else if (frutas[index] instanceof Fruta) {
+                        if (frutas[index].isBichada()) {
+                            JOptionPane.showMessageDialog(null, "A fruta estava bichada!");
+                        }
                         frutas[index].comer(jogador);
                         atualizarTela(); // Atualiza a tela após comer a fruta
                     } else if (index < capacidade) {
