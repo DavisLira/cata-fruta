@@ -61,14 +61,14 @@ public class TelaFormularioConfiguracao {
         fieldPedras = new JTextField();
         fieldPedras.setBounds(160, 40, 100, 20);
 
-        JLabel labelMaracuja = new JLabel("Maracuja - Início:");
-        labelMaracuja.setBounds(10, 70, 150, 20);
-        fieldMaracujaInicio = new JTextField();
-        fieldMaracujaInicio.setBounds(160, 70, 100, 20);
-        JLabel labelMaracujaTotal = new JLabel("Total:");
-        labelMaracujaTotal.setBounds(270, 70, 50, 20);
+        JLabel labelMaracujaTotal = new JLabel("Maracuja - Total:");
+        labelMaracujaTotal.setBounds(10, 70, 150, 20);
         fieldMaracujaTotal = new JTextField();
-        fieldMaracujaTotal.setBounds(320, 70, 100, 20);
+        fieldMaracujaTotal.setBounds(160, 70, 100, 20);
+        JLabel labelMaracujaInicio = new JLabel("Início:");
+        labelMaracujaInicio.setBounds(270, 70, 50, 20);
+        fieldMaracujaInicio = new JTextField();
+        fieldMaracujaInicio.setBounds(320, 70, 100, 20);
 
         // Laranja
         JLabel labelLaranja = new JLabel("Laranja - Árvores:");
@@ -139,10 +139,10 @@ public class TelaFormularioConfiguracao {
         telaForm.add(fieldDimensao);
         telaForm.add(labelPedras);
         telaForm.add(fieldPedras);
-        telaForm.add(labelMaracuja);
-        telaForm.add(fieldMaracujaInicio);
         telaForm.add(labelMaracujaTotal);
         telaForm.add(fieldMaracujaTotal);
+        telaForm.add(labelMaracujaInicio);
+        telaForm.add(fieldMaracujaInicio);
         telaForm.add(labelLaranja);
         telaForm.add(fieldLaranjaArvores);
         telaForm.add(labelLaranjaInicio);
@@ -204,8 +204,8 @@ public class TelaFormularioConfiguracao {
             // Verifica se os campos estão vazios e insere o valor padrão, se necessário
             String dimensao = fieldDimensao.getText().isEmpty() ? "6" : fieldDimensao.getText();
             String pedras = fieldPedras.getText().isEmpty() ? "7" : fieldPedras.getText();
-            String maracujaInicio = fieldMaracujaInicio.getText().isEmpty() ? "3" : fieldMaracujaInicio.getText();
-            String maracujaTotal = fieldMaracujaTotal.getText().isEmpty() ? "1" : fieldMaracujaTotal.getText();
+            String maracujaTotal = fieldMaracujaTotal.getText().isEmpty() ? "3" : fieldMaracujaTotal.getText();
+            String maracujaInicio = fieldMaracujaInicio.getText().isEmpty() ? "1" : fieldMaracujaInicio.getText();
             String laranjaArvores = fieldLaranjaArvores.getText().isEmpty() ? "2" : fieldLaranjaArvores.getText();
             String laranjaInicio = fieldLaranjaInicio.getText().isEmpty() ? "1" : fieldLaranjaInicio.getText();
             String abacateArvores = fieldAbacateArvores.getText().isEmpty() ? "2" : fieldAbacateArvores.getText();
@@ -251,7 +251,7 @@ public class TelaFormularioConfiguracao {
                 LinkedHashMap<String, String[]> frutas = new LinkedHashMap<>();
                 frutas.put("dimensao", new String[]{dimensao});
                 frutas.put("pedras", new String[]{pedras});
-                frutas.put("maracuja", new String[]{maracujaInicio, maracujaTotal});
+                frutas.put("maracuja", new String[]{maracujaTotal, maracujaInicio});
                 frutas.put("laranja", new String[]{laranjaArvores, laranjaInicio});
                 frutas.put("abacate", new String[]{abacateArvores, abacateInicio});
                 frutas.put("coco", new String[]{cocoArvores, cocoInicio});

@@ -92,6 +92,7 @@ public class TelaMochila extends JFrame {
                             JOptionPane.showMessageDialog(null, "A fruta estava bichada!");
                         }
                         jogador.resetarForca();
+                        System.out.println("Fruta: " + frutas[index]);
                         frutas[index].comer(jogador);
                         atualizarTela(); // Atualiza a tela após comer a fruta
                     } else if (index < capacidade) {

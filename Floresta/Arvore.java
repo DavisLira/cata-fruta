@@ -1,5 +1,8 @@
 package Floresta;
 
+import java.util.Random;
+
+import App.Menu;
 import Frutas.*;
 import Jogador.*;
 
@@ -10,7 +13,8 @@ import Jogador.*;
  */
 
 public class Arvore extends Local{
-	
+
+    Random random = new Random();
 	/**
      * A fruta que cresce nesta árvore.
      */
@@ -33,6 +37,15 @@ public class Arvore extends Local{
 		this.fruta = fruta;
 	}
 	
+	public void criarFruta(Fruta fruta, boolean bichada) {
+	    try {
+	        // Obtém o tipo da fruta e cria uma nova instância usando o construtor com o parâmetro boolean (bichada)
+	        this.fruta = fruta.getClass().getConstructor(boolean.class).newInstance(bichada);
+	    } catch (Exception e) {
+	        e.printStackTrace(); // Para tratar exceções caso o construtor não seja encontrado ou ocorra outro erro
+	    }
+	}
+	
 	/**
      * Permite que um jogador pegue a fruta desta árvore, caso ela esteja madura
      * Se a fruta for colhida, o estado de maturidade é resetado para 0
@@ -42,6 +55,10 @@ public class Arvore extends Local{
 	
 	public boolean darFruta(Jogador jogador) {
 		if (madura >= 5) {
+
+            int chance = random.nextInt(101);
+            boolean bichada = (chance <= Menu.arquivoHandler.getBichadas());
+			criarFruta(this.fruta, bichada);
 			if (jogador.pegarFruta(this.fruta)) {
 				madura = 0;
 				return true;

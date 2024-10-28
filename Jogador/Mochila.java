@@ -82,15 +82,19 @@ public class Mochila {
    
     
     public boolean checarVitoria(int maracujaJogo) {
+    	System.out.println("qtd total: " + maracujaJogo);
     	for(int i = 0; i < this.frutas.length; i++) {
     		if(this.frutas[i] instanceof Maracuja) {
     			quantidadeMaracuja++;
+    			System.out.println("qtd mochi: "+ quantidadeMaracuja);
     		}
     	}
-    	if (quantidadeMaracuja >= maracujaJogo/2 +1) {
+    	if (quantidadeMaracuja >= ((maracujaJogo/2) +1)) {
     		System.out.println("GANHOU");
     		return true;
     	}
+
+		quantidadeMaracuja = 0;
     	return false;
     }
     

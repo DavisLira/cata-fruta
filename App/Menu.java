@@ -13,7 +13,8 @@ public class Menu {
 	public static Jogador jogador1;
 	public static Jogador jogador2;
 	public static Jogador jogadorAtual = jogador1;
-	private static int qtdMaracuja = arquivoHandler.getMaracujaTotal();
+	private static int qtdMaracujaInicio = arquivoHandler.getMaracujaInicio();
+	private static int qtdMaracujaTotal = arquivoHandler.getMaracujaTotal();
 	
 	/**
      * O ponto de entrada principal do programa
@@ -37,9 +38,13 @@ public class Menu {
     }
     
     public static void iniciarJogo() {
+    	qtdMaracujaInicio = arquivoHandler.getMaracujaInicio();
+    	qtdMaracujaTotal = arquivoHandler.getMaracujaTotal();
+        System.out.println("INICIO: " + qtdMaracujaInicio);
+        System.out.println("TOTAL: " + qtdMaracujaTotal);
     	jogador1 = geracao.jogador1;
     	jogador2 = geracao.jogador2;
-    	new TelaControle(jogador1, jogador2, new TelaJogo(geracao.estadoMapa), qtdMaracuja);
+    	new TelaControle(jogador1, jogador2, new TelaJogo(geracao.estadoMapa), qtdMaracujaInicio, qtdMaracujaTotal, 0, 1);
     }
 
 }

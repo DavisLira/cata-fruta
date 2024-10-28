@@ -6,11 +6,16 @@ import Floresta.Arvore;
 import Floresta.Grama;
 import Floresta.Local;
 import Frutas.Fruta;
+import Frutas.Maracuja;
 import Jogador.Jogador;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Point;  // Para a classe Point
+import java.util.ArrayList;  // Para a classe ArrayList
+import java.util.List;  // Para a interface List
+
 
 public class TelaControle {
 	private JButton mochilaButton, fimTurnoButton, cataButton, setaCimaButton, setaEsqButton ,setaDirButton, setaBaixoButton;
@@ -21,10 +26,12 @@ public class TelaControle {
     private Jogador jogadorAtual;
     private Jogador jogadorProx;
     private TelaJogo jogo;
-    private int qtdMaracuja;
+    private int qtdMaracujaInicio;
+    private int qtdMaracujaTotal;
+    private int qtdMaracujaCriados;
+    private int rodada;
 
-    public TelaControle(Jogador jogadorAtual, Jogador jogadorProx, TelaJogo jogo, int qtdMaracuja) {
-    	System.out.println("Movimentos inicial: " + jogadorAtual.getMovimento());
+    public TelaControle(Jogador jogadorAtual, Jogador jogadorProx, TelaJogo jogo, int qtdMaracujaInicio, int qtdMaracujaTotal,int qtdMaracujaCriados, int rodada) {
     	this.jogadorAtual = jogadorAtual;
     	this.jogadorAtual.setSeMovimentou(false);
     	this.jogadorAtual.setPodeSeMover(true);
@@ -32,11 +39,16 @@ public class TelaControle {
     	this.jogadorProx = jogadorProx;
     	this.jogadorProx.resetarForca();
     	this.jogo = jogo;
-    	this.qtdMaracuja = qtdMaracuja;
+    	this.qtdMaracujaInicio = qtdMaracujaInicio;
+    	this.qtdMaracujaTotal = qtdMaracujaTotal;
+    	this.qtdMaracujaCriados = qtdMaracujaCriados;
+    	this.rodada = rodada;
         iniciarControle();
     }
 
     private void iniciarControle() {
+    	System.out.println("RODADA: " + rodada);
+    	
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         
         telaControle = new JFrame("Controles");
@@ -244,6 +256,10 @@ public class TelaControle {
             setaEsqButton.addActionListener(e -> moverJogador(new Point(-1, 0)));
             setaDirButton.addActionListener(e -> moverJogador(new Point(1, 0)));
             setaBaixoButton.addActionListener(e -> moverJogador(new Point(0, 1)));
+            
+
+        	fimTurnoButton.addActionListener(e -> finalizarTurno());
+        	cataButton.addActionListener(e -> catar());
         } else {
             // Se a mochila está aberta, removemos os listeners
             for (ActionListener al : setaCimaButton.getActionListeners()) {
@@ -257,6 +273,12 @@ public class TelaControle {
             }
             for (ActionListener al : setaBaixoButton.getActionListeners()) {
                 setaBaixoButton.removeActionListener(al);
+            }
+            for (ActionListener al : fimTurnoButton.getActionListeners()) {
+            	fimTurnoButton.removeActionListener(al);
+            }
+            for (ActionListener al : cataButton.getActionListeners()) {
+            	cataButton.removeActionListener(al);
             }
         }
     }
@@ -309,8 +331,6 @@ public class TelaControle {
     private void moverJogador(Point destino) {
         int antigoX = jogadorAtual.getPosicao().x;
         int antigoY = jogadorAtual.getPosicao().y;
-        
-        System.out.println("forca: " + jogadorAtual.getForca());
 
         // Calcula as novas coordenadas baseadas no movimento
         int novoX = antigoX + destino.x;
@@ -372,12 +392,12 @@ public class TelaControle {
         telaControle.dispose(); // Fecha a tela atual
         jogadorAtual.setMovimento(); // Rola novos movimentos para o próximo turno
         
+        // Obtém o mapa atual
+        Object[][][] mapa = Menu.geracao.estadoMapa;
+        
         if (jogadorAtual.getNumero() == 2) {
-            jogadorAtual.getMochila().checarVitoria(qtdMaracuja);
-            jogadorProx.getMochila().checarVitoria(qtdMaracuja);
-
-            // Obtém o mapa atual
-            Object[][][] mapa = Menu.geracao.estadoMapa;
+            jogadorProx.getMochila().checarVitoria(qtdMaracujaTotal);
+            jogadorAtual.getMochila().checarVitoria(qtdMaracujaTotal);
 
             for (int i = 0; i < mapa.length; i++) {
                 for (int j = 0; j < mapa.length; j++) {
@@ -387,9 +407,86 @@ public class TelaControle {
                 	}
                 }
             }
-            
+
+    		this.rodada = this.rodada + 1;
+        
+            if (rodada % 2 == 0) {
+                
+                Point lugarMaracuja = gerarMaracuja(mapa);
+
+                if (lugarMaracuja != null) {
+                	mapa[lugarMaracuja.y][lugarMaracuja.x][0] = new Maracuja(lugarMaracuja, false);
+                    jogo.atualizarMapa(mapa);
+                }
+            }
+        }
+
+        new TelaControle(jogadorProx, jogadorAtual, jogo, qtdMaracujaInicio, qtdMaracujaTotal, qtdMaracujaCriados, rodada); // Alterna para o próximo jogado
+    }
+    
+    public Point gerarMaracuja(Object[][][] mapa) {
+    	if (qtdMaracujaCriados + qtdMaracujaInicio == qtdMaracujaTotal) {
+    		System.out.println("Todos maracujás ja foram criados");
+    		return null;
+    	}
+    	
+    	
+    	
+        int numeroArvore = (int) (Math.random() * Menu.arquivoHandler.getArvores());
+        int contador = 0;
+
+        System.out.println("Número sorteado da árvore: " + numeroArvore);  // Verifica o número sorteado
+
+        for (int i = 0; i < mapa.length; i++) {
+            for (int j = 0; j < mapa[i].length; j++) {
+                if (mapa[i][j][0] instanceof Arvore) {
+                    System.out.println("Encontrou uma árvore na posição: [" + i + "," + j + "]");  // Verifica se encontrou uma árvore
+                    
+                    if (contador == numeroArvore) {
+                        System.out.println("Árvore selecionada na posição: [" + i + "," + j + "]");
+                        
+                        List<Point> casasLivres = new ArrayList<>();
+                        
+                        int[][] direcoes = {
+                            {-1, -1}, {-1, 0}, {-1, 1}, 
+                            {0, -1}, {0, 1}, 
+                            {1, -1}, {1, 0}, {1, 1}
+                        };
+
+                        for (int[] direcao : direcoes) {
+                            int novoI = i + direcao[0];
+                            int novoJ = j + direcao[1];
+
+                            // Verifica se o ponto está dentro dos limites da matriz
+                            if (novoI >= 0 && novoI < mapa.length && novoJ >= 0 && novoJ < mapa[0].length) {
+                                System.out.println("Verificando casa em [" + novoI + "," + novoJ + "]");  // Verifica as coordenadas ao redor
+                                
+                                if (mapa[novoI][novoJ][0] instanceof Grama) {
+                                    System.out.println("Casa livre encontrada em: [" + novoI + "," + novoJ + "]");
+                                    casasLivres.add(new Point(novoJ, novoI));
+                                }
+                            }
+                        }
+
+                        // Se houver casas livres
+                        if (!casasLivres.isEmpty()) {
+                            int indiceAleatorio = (int) (Math.random() * casasLivres.size());
+                            System.out.println("Casa escolhida: " + casasLivres.get(indiceAleatorio));
+                            qtdMaracujaCriados++;
+                            return casasLivres.get(indiceAleatorio);
+                        } else {
+                            System.out.println("Nenhuma casa livre ao redor da árvore.");
+                            return null;
+                        }
+                    }
+                    contador++;
+                }
+            }
         }
         
-        new TelaControle(jogadorProx, jogadorAtual, jogo, qtdMaracuja); // Alterna para o próximo jogado
+        System.out.println("Nenhuma árvore encontrada.");
+        return null;
     }
+
+
 }

@@ -87,6 +87,10 @@ public class TelaGeracao {
         }
     }
     
+    public int getMatriz() {
+    	return this.matriz;
+    }
+    
     public void dispose() {
     	telaGeracao.dispose();
     }
@@ -285,7 +289,7 @@ public class TelaGeracao {
             estadoMapa[(int) posicao.getY()][(int) posicao.getX()][0] = new Arvore(new Laranja(posicao, bichada));
         }
         
-        for (int i = 0; i < (Menu.arquivoHandler.getMaracujaTotal()); i++) {
+        for (int i = 0; i < (Menu.arquivoHandler.getMaracujaInicio()); i++) {
             Point posicao = posicoes.remove(0);
         	colocarElemento(g, maracujaImg, posicao, tamanhoImagem);
             

@@ -115,6 +115,11 @@ public class Arquivo {
 
     // Métodos de obtenção dos atributos individuais
 
+    public int getArvores() {
+    	return this.getAbacateiras() + this.getAmoreira() + this.getBananeira() 
+    		+ this.getCoqueiro() + this.getGoiabeira() + this.getLaranjeiras();
+    }
+    
     /**
      * Retorna a dimensão do jogo
      *
@@ -157,12 +162,12 @@ public class Arquivo {
 
     // Métodos de obtenção das frutas
 
-    public int getMaracujaVitoria() {
+    public int getMaracujaTotal() {
         String[] valores = this.Elementos.get("maracuja");
         return Integer.parseInt(valores[0]);
     }
 
-    public int getMaracujaTotal() {
+    public int getMaracujaInicio() {
         String[] valores = this.Elementos.get("maracuja");
         return Integer.parseInt(valores[1]);
     }

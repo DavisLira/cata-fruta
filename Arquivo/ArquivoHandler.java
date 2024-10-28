@@ -290,9 +290,9 @@ public class ArquivoHandler extends Arquivo {
         boolean arquivoCriado = this.criarArquivo();
 
         if (arquivoCriado || new File(this.getNomeArquivo()).exists()) {
-            this.__escreverNoArquivo("dimensao " + this.getBichadas());
+            this.__escreverNoArquivo("dimensao " + this.getDimensao());
             this.__escreverNoArquivo("pedras " + this.getPedras());
-            this.__escreverNoArquivo("maracuja " + this.getMaracujaVitoria() + " "+ this.getMaracujaTotal());
+            this.__escreverNoArquivo("maracuja " + this.getMaracujaTotal() + " "+ this.getMaracujaInicio());
             this.__escreverNoArquivo("laranja " + this.getLaranjeiras() + " "+ this.getLaranja());
             this.__escreverNoArquivo("abacate " + this.getAbacateiras() + " "+ this.getAbacate());
             this.__escreverNoArquivo("coco " + this.getCoqueiro() + " "+ this.getCoco());
