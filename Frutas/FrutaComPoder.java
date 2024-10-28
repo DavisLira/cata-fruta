@@ -56,7 +56,7 @@ public abstract class FrutaComPoder extends Fruta {
      * @param jogador O jogador que receberá o efeito de agilidade
      */
     public void obterAgilidade(Jogador jogador) {
-        
+        jogador.duplicarMov();
     }
 
     /**
@@ -103,5 +103,7 @@ public abstract class FrutaComPoder extends Fruta {
             default:
                 break;
         }
+
+        jogador.comer(this);
     }
 }

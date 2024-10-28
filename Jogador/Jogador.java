@@ -163,6 +163,10 @@ public class Jogador {
         this.movimentos = this.jogarDados();
     }
     
+    public void duplicarMov() {
+    	this.movimentos = this.movimentos * 2;
+    }
+    
     /**
      * Simula um lançamento de dados, retornando um valor aleatório entre 1 e 6
      *

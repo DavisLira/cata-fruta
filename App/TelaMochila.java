@@ -2,7 +2,6 @@ package App;
 
 import javax.swing.*;
 import Frutas.Fruta;
-import Frutas.FrutaSemPoder;
 import Jogador.Jogador;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -81,7 +80,7 @@ public class TelaMochila extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                 	if (index >= frutas.length) {
                 		JOptionPane.showMessageDialog(null, "Espaço sem uso.");
-                	}else if (frutas[index] instanceof FrutaSemPoder) {
+                	}else if (frutas[index] instanceof Fruta) {
                         frutas[index].comer(jogador);
                         atualizarTela(); // Atualiza a tela após comer a fruta
                     } else if (index < capacidade) {
