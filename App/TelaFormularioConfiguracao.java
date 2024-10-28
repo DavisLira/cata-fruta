@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.awt.*;
 
 /**
- * A classe TelaFormularioConfiguracao exibe um formulário de edição de configurações do jogo.
+ * A classe TelaFormularioConfiguracao exibe um formulário de edição de configurações do jogo
  */
 public class TelaFormularioConfiguracao {
 
@@ -20,14 +20,16 @@ public class TelaFormularioConfiguracao {
     private JTextField fieldBichadas, fieldMochila;
 
     /**
-     * Construtor para inicializar a tela de formulário de edição.
+     * Construtor para inicializar a tela de formulário de edição
+     * 
+     * @param caminho Caminho do arquivo de configuração a ser editado
      */
     public TelaFormularioConfiguracao(String caminho) {
         criarTelaFormulario();
     }
 
     /**
-     * Método para criar a interface do formulário e configurar seus componentes.
+     * Método para criar a interface do formulário e configurar seus componentes
      */
     private void criarTelaFormulario() {
         telaForm = new JFrame("Editar Configurações");

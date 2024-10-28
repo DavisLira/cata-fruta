@@ -3,14 +3,30 @@ package App;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Classe responsável pela criação de uma janela com botões de controle do jogo, incluindo opções
+ * para iniciar o jogo, gerar um novo cenário e voltar ao menu principal
+ */
 public class TelaBotoes {
 
     private JFrame telaBotoes;
 
+    /**
+     * Construtor que inicializa a janela de botões para o controle do jogo
+     *
+     * @param telaGeracao Instância da tela de geração que será usada para manipulação dos eventos
+     * @param painelJogo Painel de jogo onde os eventos dos botões terão efeito
+     */
     public TelaBotoes(TelaGeracao telaGeracao, JPanel painelJogo) {
         criarJanelaBotoes(telaGeracao, painelJogo);
     }
 
+    /**
+     * Cria a janela com os botões de controle e define suas ações
+     *
+     * @param telaGeracao Instância da tela de geração utilizada para manipular ações dos botões
+     * @param painelJogo Painel de jogo que pode ser atualizado ou reiniciado
+     */
     private void criarJanelaBotoes(TelaGeracao telaGeracao, JPanel painelJogo) {
         // Definir as dimensões da tela
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -46,7 +62,16 @@ public class TelaBotoes {
         telaBotoes.pack();
         telaBotoes.setVisible(true);
     }
-
+    
+    /**
+     * Cria um botão com uma imagem específica e ação definida
+     *
+     * @param caminhoImagem Caminho do arquivo da imagem a ser exibida no botão
+     * @param largura Largura do botão
+     * @param altura Altura do botão
+     * @param acao Ação a ser executada ao clicar no botão
+     * @return JButton configurado com imagem e ação
+     */
     private JButton criarBotao(String caminhoImagem, int largura, int altura, java.awt.event.ActionListener acao) {
         ImageIcon icon = new ImageIcon(Menu.class.getResource(caminhoImagem));
         Image image = icon.getImage();

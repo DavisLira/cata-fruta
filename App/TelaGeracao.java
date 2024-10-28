@@ -36,11 +36,16 @@ public class TelaGeracao {
     Object[][][] estadoMapa; // Matriz para armazenar o tipo de local e jogadores
     Random random = new Random();
 
-
+    /**
+     * Construtor que inicializa a geração da tela
+     */
     public TelaGeracao() {
         iniciarGeracao();
     }
     
+    /**
+     * Inicia a tela de geração do mapa e configura as propriedades da janela
+     */
     public void iniciarGeracao() {
         telaGeracao = new JFrame("Geração de mapa");
         telaGeracao.setUndecorated(true);
@@ -78,6 +83,11 @@ public class TelaGeracao {
         telaGeracao.setVisible(true);
     }
     
+    /**
+     * Utiliza a matriz do estado do mapa para exibir informações de cada posição
+     *
+     * @param estadoMapa Matriz representando o estado do mapa, incluindo tipo e jogadores
+     */
     public void utilizarMatriz(Object[][][] estadoMapa) {
         // Lógica para utilizar a matriz
         for (int i = 0; i < estadoMapa.length; i++) {
@@ -87,14 +97,25 @@ public class TelaGeracao {
         }
     }
     
+    /**
+     * Obtém a dimensão da matriz do mapa
+     *
+     * @return Dimensão da matriz do mapa
+     */
     public int getMatriz() {
     	return this.matriz;
     }
     
+    /**
+     * Fecha a tela de geração
+     */
     public void dispose() {
     	telaGeracao.dispose();
     }
     
+    /**
+     * Retorna para o menu inicial ao fechar a tela de geração
+     */
     public void voltarParaMenu() {
         telaGeracao.dispose();
         new TelaMenuInicial(); // Retorna ao menu inicial
@@ -103,21 +124,19 @@ public class TelaGeracao {
     /**
      * Gera o mapa do jogo, desenhando os elementos na tela usando gráficos
      *
-     * Este método preenche o mapa com grama e posiciona aleatoriamente 
-     * os jogadores, diferentes tipos de frutas e pedras de acordo com 
+     * Este método preenche o mapa com grama e posiciona aleatoriamente
+     * os jogadores, diferentes tipos de frutas e pedras de acordo com
      * as configurações especificadas. Ele utiliza um conjunto de pontos
      * para garantir que não haja sobreposição de elementos no mapa
      *
-     * O método carrega as imagens necessárias a partir dos recursos 
-     * do aplicativo, desenha o fundo do mapa e distribui os elementos 
+     * O método carrega as imagens necessárias a partir dos recursos
+     * do aplicativo, desenha o fundo do mapa e distribui os elementos
      * com base nas quantidades definidas em um arquivo de configuração
      *
-     * @param g O objeto Graphics utilizado para desenhar as imagens no mapa
-     * @param matriz A dimensão do mapa, representando o número de linhas e colunas
-     * @param tamanhoImagem O tamanho de cada imagem a ser desenhada no mapa
+     * @param g Objeto Graphics utilizado para desenhar as imagens no mapa
+     * @param matriz Dimensão do mapa, representando o número de linhas e colunas
+     * @param tamanhoImagem Tamanho de cada imagem a ser desenhada no mapa
      */
-    
-    
     private void gerarMapa(Graphics g, int matriz, int tamanhoImagem) {
     	// carrega as imagens
         ImageIcon abacateIcon = new ImageIcon(Menu.class.getResource("/sprites/abacate.jpg"));
@@ -308,6 +327,12 @@ public class TelaGeracao {
         }
     }
     
+    /**
+     * Gera uma lista de posições aleatórias para o mapa
+     *
+     * @param matriz Dimensão do mapa
+     * @return Lista de pontos aleatórios no mapa
+     */
     private List<Point> gerarPosicoesAleatorias(int matriz) {
         java.util.Set<Point> posicoesSet = new java.util.HashSet<>();
         for (int i = 0; i < matriz; i++) {
@@ -322,12 +347,12 @@ public class TelaGeracao {
     }
     
     /**
-     * Coloca uma imagem em uma posição específica na tela, redimensionando-a conforme necessário.
+     * Coloca uma imagem em uma posição específica na tela, redimensionando-a conforme necessário
      *
-     * @param g       O objeto Graphics usado para desenhar a imagem na tela.
-     * @param imagem  A imagem a ser desenhada.
-     * @param posicao O ponto onde a imagem será desenhada.
-     * @param tamanho O tamanho (largura e altura) que a imagem deve ter ao ser desenhada.
+     * @param g Objeto Graphics usado para desenhar a imagem na tela
+     * @param imagem Imagem a ser desenhada
+     * @param posicao Ponto onde a imagem será desenhada
+     * @param tamanho Tamanho (largura e altura) que a imagem deve ter ao ser desenhada
      */
     public static void colocarElemento(Graphics g, Image imagem, Point posicao, int tamanho) {
         int x = posicao.x * tamanho;

@@ -33,10 +33,20 @@ public class Menu {
     	new TelaBotoes(geracao, geracao.painelJogo);
     }
     
+    /**
+     * Abre o formulário de edição de configuração utilizando o caminho fornecido
+     *
+     * @param caminho Caminho do arquivo de configuração a ser editado
+     */
     public static void abrirFormularioEdicao(String caminho) {
         new TelaFormularioConfiguracao(caminho); // Abre o formulário de edição
     }
     
+    
+    /**
+     * Inicia o jogo carregando os dados iniciais e exibindo a interface de controle
+     * O jogo é inicializado com informações do arquivo de configuração e com os jogadores gerados
+     */
     public static void iniciarJogo() {
     	qtdMaracujaInicio = arquivoHandler.getMaracujaInicio();
     	qtdMaracujaTotal = arquivoHandler.getMaracujaTotal();

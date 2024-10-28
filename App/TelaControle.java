@@ -16,7 +16,9 @@ import java.awt.Point;  // Para a classe Point
 import java.util.ArrayList;  // Para a classe ArrayList
 import java.util.List;  // Para a interface List
 
-
+/**
+ * Controla as ações e a interface gráfica de comandos do jogo
+ */
 public class TelaControle {
 	private JButton mochilaButton, fimTurnoButton, cataButton, setaCimaButton, setaEsqButton ,setaDirButton, setaBaixoButton;
     private JFrame telaControle;
@@ -31,6 +33,17 @@ public class TelaControle {
     private int qtdMaracujaCriados;
     private int rodada;
 
+    /**
+     * Inicializa a tela de controle com o jogador atual, o próximo jogador, o estado do jogo, e informações da rodada
+     *
+     * @param jogadorAtual      jogador que está com o turno ativo
+     * @param jogadorProx       próximo jogador na sequência do turno
+     * @param jogo              tela principal do jogo
+     * @param qtdMaracujaInicio quantidade inicial de maracujás no jogo
+     * @param qtdMaracujaTotal  quantidade total de maracujás a serem gerados
+     * @param qtdMaracujaCriados quantidade de maracujás já criados
+     * @param rodada            número atual da rodada
+     */
     public TelaControle(Jogador jogadorAtual, Jogador jogadorProx, TelaJogo jogo, int qtdMaracujaInicio, int qtdMaracujaTotal,int qtdMaracujaCriados, int rodada) {
     	this.jogadorAtual = jogadorAtual;
     	this.jogadorAtual.setSeMovimentou(false);
@@ -46,6 +59,9 @@ public class TelaControle {
         iniciarControle();
     }
 
+    /**
+     * Inicia os componentes gráficos da tela de controle
+     */
     private void iniciarControle() {
     	System.out.println("RODADA: " + rodada);
     	
@@ -94,6 +110,9 @@ public class TelaControle {
         telaControle.setVisible(true);
     }
     
+    /**
+     * Tenta coletar uma fruta no local onde o jogador atual está posicionado
+     */
     public void catar() {
         // Obtém o mapa atual
         Object[][][] mapa = Menu.geracao.estadoMapa;
@@ -136,7 +155,9 @@ public class TelaControle {
         }
     }
 
-    
+    /**
+     * Configura os botões de controle e mapeia as teclas para movimentos e ações do jogador
+     */
     public void configurarControles() {
     	
         mochilaButton.addActionListener(e -> {
@@ -228,6 +249,16 @@ public class TelaControle {
         });
     }
     
+    /**
+     * Cria um botão de controle com uma imagem especificada, tamanho e posição
+     *
+     * @param caminhoImagem caminho da imagem do botão
+     * @param largura       largura do botão
+     * @param altura        altura do botão
+     * @param x             posição x do botão
+     * @param y             posição y do botão
+     * @return botão configurado
+     */
     public JButton criarBotaoControle(String caminhoImagem, int largura, int altura, int x, int y) {
         // Carregar a imagem a partir do caminho fornecido
         ImageIcon icon = new ImageIcon(Menu.class.getResource(caminhoImagem));
@@ -248,6 +279,9 @@ public class TelaControle {
         return botao;
     }
     
+    /**
+     * Atualiza o estado das setas de movimento dependendo do estado da mochila (aberta ou fechada)
+     */
     private void atualizarEstadoSetas() {
         if (!mochilaAberta) {
             // Se a mochila está fechada, os botões de seta estão ativos
@@ -282,7 +316,13 @@ public class TelaControle {
         }
     }
 
-
+    /**
+     * Gera as imagens de interface do jogador no painel de controle
+     *
+     * @param g            contexto gráfico
+     * @param matriz       dimensão da matriz de controle
+     * @param tamanhoImagem tamanho da imagem em pixels
+     */
     private void gerarImagens(Graphics g, int matriz, int tamanhoImagem) {
         ImageIcon canto2 = new ImageIcon(Menu.class.getResource(jogadorAtual.getDado()));
         ImageIcon canto4 = new ImageIcon(Menu.class.getResource(jogadorAtual.imgControle()));
@@ -294,12 +334,25 @@ public class TelaControle {
         colocarElemento(g, canto4Img, new Point(2,2), tamanhoImagem);
     }
 
+    /**
+     * Coloca um elemento gráfico na posição especificada dentro do painel de controle
+     *
+     * @param g          contexto gráfico
+     * @param imagem     imagem do elemento
+     * @param posicao    posição do elemento
+     * @param tamanho    tamanho do elemento
+     */
     public static void colocarElemento(Graphics g, Image imagem, Point posicao, int tamanho) {
         int x = posicao.x * tamanho;
         int y = posicao.y * tamanho;
         g.drawImage(imagem, x, y, tamanho, tamanho, null);
     }
 
+    /**
+     * Alterna a visibilidade da tela de mochila
+     *
+     * @param jogador jogador atual
+     */
     public void alternarMochila(Jogador jogador) {
         if (mochilaAberta) {
             fecharMochila();
@@ -308,6 +361,11 @@ public class TelaControle {
         }
     }
 
+    /**
+     * Abre a tela de mochila do jogador especificado
+     *
+     * @param jogador jogador atual
+     */
     public void abrirMochila(Jogador jogador) {
         // Toda vez que abrir a mochila, crie uma nova instância para garantir que ela seja atualizada
         telaMochila = new TelaMochila(jogador);
@@ -317,6 +375,9 @@ public class TelaControle {
         mochilaAberta = true;
     }
     
+    /**
+     * Fecha a tela de mochila, se estiver aberta
+     */
     public void fecharMochila() {
         if (telaMochila != null) {
             telaMochila.setVisible(false);
@@ -326,7 +387,11 @@ public class TelaControle {
         mochilaAberta = false;
     }
 
-
+    /**
+     * Move o jogador atual para a posição de destino especificada
+     *
+     * @param destino ponto de destino para o movimento
+     */
     private void moverJogador(Point destino) {
         int antigoX = jogadorAtual.getPosicao().x;
         int antigoY = jogadorAtual.getPosicao().y;
@@ -394,7 +459,9 @@ public class TelaControle {
         //}
     }
 
-
+    /**
+     * Finaliza o turno atual e configura a próxima rodada, verificando condições de vitória
+     */
     public void finalizarTurno() {
         telaControle.dispose(); // Fecha a tela atual
         jogadorAtual.setMovimento(); // Rola novos movimentos para o próximo turno
@@ -443,6 +510,12 @@ public class TelaControle {
         
     }
     
+    /**
+     * Gera um novo maracujá em uma posição válida adjacente a uma árvore no mapa
+     *
+     * @param mapa matriz de estado do mapa
+     * @return posição onde o maracujá foi gerado, ou null se não houver local válido
+     */
     public Point gerarMaracuja(Object[][][] mapa) {
     	if (qtdMaracujaCriados + qtdMaracujaInicio == qtdMaracujaTotal) {
     		return null;
