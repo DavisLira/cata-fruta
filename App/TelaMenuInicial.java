@@ -16,17 +16,10 @@ public class TelaMenuInicial {
 
     private JFrame menuInicial;
 
-    /**
-     * Construtor da classe TelaMenuInicial
-     * Inicia a exibição do menu inicial
-     */
     public TelaMenuInicial() {
         mostrarMenuInicial();
     }
 
-    /**
-     * Método que mostra o menu inicial do jogo
-     */
     public void mostrarMenuInicial() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         
@@ -51,55 +44,67 @@ public class TelaMenuInicial {
         };
         painelComFundo.setLayout(null);
         painelComFundo.setBounds(0, 0, 500, 575);
-
-        // Cria o botão "Ler Configs"
+        
         ImageIcon iconIniciar = new ImageIcon(Menu.class.getResource("/buttons/iniciar.png"));
         Image imageIniciar = iconIniciar.getImage();
-        Image imageIniciarRedimensionada = imageIniciar.getScaledInstance(330, 66, Image.SCALE_SMOOTH);
+        Image imageIniciarRedimensionada = imageIniciar.getScaledInstance(550, 110, Image.SCALE_SMOOTH);
         ImageIcon iconIniciarRedimensionado = new ImageIcon(imageIniciarRedimensionada);
         JButton botaoIniciar = new JButton(iconIniciarRedimensionado);
-        botaoIniciar.setBounds(85, 40, 330, 66);
+        botaoIniciar.setBounds(100, 40, 330, 66);
         botaoIniciar.setText(null);
         botaoIniciar.setBorderPainted(false);
         botaoIniciar.setFocusPainted(false);
         botaoIniciar.setContentAreaFilled(false);
         painelComFundo.add(botaoIniciar);
 
+        // Cria o botão "Ler Configs"
+        ImageIcon iconConfig = new ImageIcon(Menu.class.getResource("/buttons/config-btn.png"));
+        Image imageConfig = iconConfig.getImage();
+        Image imageConfigRedimensionada = imageConfig.getScaledInstance(300, 30, Image.SCALE_SMOOTH);
+        ImageIcon iconConfigRedimensionado = new ImageIcon(imageConfigRedimensionada);
+        JButton botaoConfig = new JButton(iconConfigRedimensionado);
+        botaoConfig.setBounds(100, 150, 300, 30);
+        botaoConfig.setText(null);
+        botaoConfig.setBorderPainted(false);
+        botaoConfig.setFocusPainted(false);
+        botaoConfig.setContentAreaFilled(false);
+        painelComFundo.add(botaoConfig);
+
         // Cria o botão "Editar Configs"
-        ImageIcon iconEditar = new ImageIcon(Menu.class.getResource("/buttons/editar_config.png"));
+        ImageIcon iconEditar = new ImageIcon(Menu.class.getResource("/buttons/editar-btn.png"));
         Image imageEditar = iconEditar.getImage();
-        Image imageEditarRedimensionada = imageEditar.getScaledInstance(330, 66, Image.SCALE_SMOOTH);
+        Image imageEditarRedimensionada = imageEditar.getScaledInstance(300, 30, Image.SCALE_SMOOTH);
         ImageIcon iconEditarRedimensionado = new ImageIcon(imageEditarRedimensionada);
         JButton botaoEditar = new JButton(iconEditarRedimensionado);
         botaoEditar.setText(null);
         botaoEditar.setBorderPainted(false);
         botaoEditar.setFocusPainted(false);
         botaoEditar.setContentAreaFilled(false);
-        botaoEditar.setBounds(85, 120, 330, 66);
+        botaoEditar.setBounds(100, 200, 300, 30);
         painelComFundo.add(botaoEditar);
 
-        ImageIcon iconEscolher = new ImageIcon(Menu.class.getResource("/buttons/escolher_config.png"));
+        ImageIcon iconEscolher = new ImageIcon(Menu.class.getResource("/buttons/escolher-btn.png"));
         Image imageEscolher = iconEscolher.getImage();
-        Image imageEscolherRedimensionada = imageEscolher.getScaledInstance(330, 66, Image.SCALE_SMOOTH);
+        Image imageEscolherRedimensionada = imageEscolher.getScaledInstance(300, 30, Image.SCALE_SMOOTH);
         ImageIcon iconEscolherRedimensionado = new ImageIcon(imageEscolherRedimensionada);
         JButton botaoEscolher = new JButton(iconEscolherRedimensionado);
         botaoEscolher.setText(null);
         botaoEscolher.setBorderPainted(false);
         botaoEscolher.setFocusPainted(false);
         botaoEscolher.setContentAreaFilled(false);
-        botaoEscolher.setBounds(85, 275, 330, 66);
+        botaoEscolher.setBounds(100, 250, 300, 30);
         painelComFundo.add(botaoEscolher);
 
-        ImageIcon iconBaixar = new ImageIcon(Menu.class.getResource("/buttons/baixar_config.png"));
+        ImageIcon iconBaixar = new ImageIcon(Menu.class.getResource("/buttons/baixar-btn.png"));
         Image imageBaixar = iconBaixar.getImage();
-        Image imageBaixarRedimensionada = imageBaixar.getScaledInstance(330, 66, Image.SCALE_SMOOTH);
+        Image imageBaixarRedimensionada = imageBaixar.getScaledInstance(300, 30, Image.SCALE_SMOOTH);
         ImageIcon iconBaixarRedimensionado = new ImageIcon(imageBaixarRedimensionada);
         JButton botaoBaixar = new JButton(iconBaixarRedimensionado);
         botaoBaixar.setText(null);
         botaoBaixar.setBorderPainted(false);
         botaoBaixar.setFocusPainted(false);
         botaoBaixar.setContentAreaFilled(false);
-        botaoBaixar.setBounds(85, 400, 330, 66);
+        botaoBaixar.setBounds(100, 300, 300, 30);
         painelComFundo.add(botaoBaixar);
 
         // Caminho do arquivo configs.txt
