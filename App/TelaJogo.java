@@ -9,6 +9,9 @@ import Jogador.Jogador;
 
 import java.awt.*;
 
+/**
+ * A classe TelaJogo representa a interface gráfica do jogo
+ */
 public class TelaJogo {
     private JFrame telaJogo;
     private JPanel painelJogo;
@@ -16,11 +19,19 @@ public class TelaJogo {
     private static int tamanhoImagem; // Tamanho de cada célula
     public Object[][][] estadoMapa; // Estado do mapa com objetos e jogadores
 
+    /**
+     * Construtor para inicializar a tela do jogo
+     * 
+     * @param estadoMapa Estado atual do mapa com objetos e jogadores
+     */
     public TelaJogo(Object[][][] estadoMapa) {
         this.estadoMapa = estadoMapa;
         iniciarJogo(); // Inicia a tela do jogo com base no estadoMapa
     }
 
+    /**
+     * Método para iniciar a interface do jogo
+     */
     public void iniciarJogo() {
         telaJogo = new JFrame("Tela de Jogo");
         telaJogo.setUndecorated(true); // Remove as bordas da janela
@@ -58,7 +69,12 @@ public class TelaJogo {
         telaJogo.setVisible(true); // Mostra a tela do jogo
     }
 
-    // Método para desenhar o mapa baseado no estado atual do mapa
+    /**
+     * Método para desenhar o mapa baseado no estado atual do mapa
+     * 
+     * @param g     Objeto Graphics usado para desenhar o mapa
+     * @param matriz Tamanho da matriz do mapa
+     */
     private void gerarMapa(Graphics g, int matriz) {
     	// carrega as imagens
         ImageIcon gramaIcon = new ImageIcon(Menu.class.getResource("/sprites/grama.jpg"));
@@ -117,17 +133,32 @@ public class TelaJogo {
         }
     }
     
+    /**
+     * Método para colocar um elemento no gráfico
+     * 
+     * @param g        Objeto Graphics usado para desenhar a imagem
+     * @param imagem   Imagem a ser desenhada
+     * @param posicao  Posição onde a imagem será desenhada
+     */
     public static void colocarElemento(Graphics g, Image imagem, Point posicao) {
         int x = posicao.x * tamanhoImagem;
         int y = posicao.y * tamanhoImagem;
         g.drawImage(imagem, x, y, tamanhoImagem, tamanhoImagem, null);
     }
     
+    /**
+     * Atualiza o estado do mapa com um novo estado
+     * 
+     * @param novoEstadoMapa Novo estado do mapa
+     */
     public void atualizarMapa(Object[][][] novoEstadoMapa) {
         this.estadoMapa = novoEstadoMapa; // Atualiza o estado do mapa
         painelJogo.repaint(); // Redesenha o painel com o novo estado do mapa
     }
 
+    /**
+     * Fecha a tela do jogo
+     */
 	public void dispose() {
 		telaJogo.dispose();
 	}

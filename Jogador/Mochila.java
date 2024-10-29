@@ -31,6 +31,9 @@ public class Mochila {
         return this.capacidade;
     }
     
+    /**
+     * Define a capacidade da mochila com base nas configurações do jogo
+     */
     public void setCapacidade() {
     	int tamanho = Menu.arquivoHandler.getMochila();
     	this.capacidade = tamanho;
@@ -80,7 +83,12 @@ public class Mochila {
         return false;
     }
    
-    
+    /**
+     * Verifica se o jogador ganhou com base na quantidade de frutas do tipo Maracujá
+     *
+     * @param maracujaJogo A quantidade total de maracujás necessários para ganhar
+     * @return true se o jogador ganhou, false caso contrário
+     */
     public boolean checarVitoria(int maracujaJogo) {
     	System.out.println("qtd total: " + maracujaJogo);
     	for(int i = 0; i < this.frutas.length; i++) {

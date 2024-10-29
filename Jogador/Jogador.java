@@ -37,7 +37,6 @@ public class Jogador {
         this.mochila = new Mochila();
     }
 
-    // GETTERS
     /**
      * Obtém o numero do jogador
      *
@@ -47,6 +46,11 @@ public class Jogador {
         return this.numero;
     }
     
+    /**
+     * Retorna a imagem de controle do jogador com base no seu número
+     *
+     * @return A string do caminho da imagem de controle
+     */
     public String imgControle() {
     	if (this.numero == 1) {
     		return "/Controles/jogador1_cntrl.png";
@@ -64,11 +68,17 @@ public class Jogador {
         return this.forca;
     }
     
+    /**
+     * Duplica a força do jogador e marca que comeu abacate
+     */
     public void duplicarForca() {
     	this.forca = (this.forca - 1) * 2;
     	this.comeuAbacate = true;
     }
     
+    /**
+     * Reseta a força do jogador com base nas frutas na mochila
+     */
     public void resetarForca() {
     	Fruta[] frutas = this.getMochila().getFrutas();
     	int forca = 1;
@@ -117,10 +127,20 @@ public class Jogador {
         return null; // Retorna null se não houver frutas na mochila
     }
     
+    /**
+     * Obtém o número de movimentos restantes do jogador
+     *
+     * @return O número de movimentos
+     */
     public int getMovimento(){
         return this.movimentos;
     }
     
+    /**
+     * Obtém a imagem do dado com base no número de movimentos
+     *
+     * @return O caminho da imagem do dado
+     */
     public String getDado() {
     	switch (this.movimentos) {
 			case 1: {
@@ -201,15 +221,24 @@ public class Jogador {
     	}
     }
     
+    /**
+     * Obtém a posição atual do jogador
+     *
+     * @return A posição do jogador
+     */
     public Point getPosicao() {
     	return this.posicao;
     }
     
+    /**
+     * Define a nova posição do jogador
+     *
+     * @param posicao A nova posição do jogador
+     */
     public void setPosicao(Point posicao) {
     	this.posicao = posicao;
     }
 
-    // SETTERS
     /**
      * Define o número de movimentos do jogador com um valor aleatório de 1 a 6
      */
@@ -217,23 +246,46 @@ public class Jogador {
         this.movimentos = this.jogarDados();
     }
     
+    /**
+     * Duplica o número de movimentos do jogador e marca que comeu coco
+     */
     public void duplicarMov() {
     	this.movimentos = this.movimentos * 2;
     	this.comeuCoco = true;
     }
     
+    /**
+     * Verifica se o jogador se movimentou
+     *
+     * @return true se o jogador se movimentou, false caso contrário
+     */
     public boolean getSeMovimentou() {
     	return this.moveu;
     }
     
+    /**
+     * Define se o jogador se movimentou
+     *
+     * @param moveu O estado do movimento
+     */
     public void setSeMovimentou(boolean moveu) {
     	this.moveu = moveu;
     }
     
+    /**
+     * Verifica se o jogador pode se mover
+     *
+     * @return true se o jogador pode se mover, false caso contrário
+     */
     public boolean getPodeSeMover() {
     	return this.podeMover;
     }
     
+    /**
+     * Define se o jogador pode se mover
+     *
+     * @param podeMover O estado da possibilidade de movimento
+     */
     public void setPodeSeMover(boolean podeMover) {
     	this.podeMover = podeMover;
     }
@@ -247,11 +299,23 @@ public class Jogador {
         return (int)(Math.random() * 11) + 2;
     }
     
+    /**
+     * Verifica se um objeto é uma pedra
+     *
+     * @param local O objeto a ser verificado
+     * @return true se o objeto for uma pedra, false caso contrário
+     */
     private boolean ePedra(Object local) {
         return local instanceof Pedra;
     }
-
     
+    /**
+     * Calcula a nova posição do jogador, pulando pedras até encontrar um bloco não pedroso
+     *
+     * @param destino A posição desejada
+     * @param floresta A matriz que representa a floresta
+     * @return A nova posição após pular pedras
+     */
     private Point pulaPedra(Point destino, Object[][][] floresta) {
         int movX = destino.x - this.getPosicao().x;
         int movY = destino.y - this.getPosicao().y;
@@ -369,41 +433,87 @@ public class Jogador {
         //fruta.comer(this);
     }
 
+    /**
+     * Obtém a mochila do jogador
+     *
+     * @return A mochila do jogador
+     */
 	public Mochila getMochila() {
 		return this.mochila;
 	}
 	
+	 /**
+     * Verifica se o jogador empurrou uma pedra na última movimentação
+     *
+     * @return true se o jogador empurrou uma pedra, false caso contrário
+     */
 	public boolean getEmpurrou() {
 		return this.empurrou;
 	}
 	
+	/**
+     * Define se o jogador empurrou uma pedra na última movimentação
+     *
+     * @param empurra O estado que indica se o jogador empurrou uma pedra
+     * @return O estado atualizado de empurrar
+     */
 	public boolean setEmpurrou(boolean empurra) {
 		return this.empurrou = empurra;
 	}
 	
+	 /**
+     * Retorna uma representação em String do jogador
+     * A representação inclui a letra 'J' e o número do jogador
+     *
+     * @return A representação em String do jogador
+     */
 	@Override
 	public String toString() {
 		return "J - " + this.numero;
 	}
 
+	/**
+     * Método para dropar frutas da mochila do jogador
+     * (Implementação futura necessária)
+     */
 	public void droparFrutas() {
 		
 	}
 
+	/**
+     * Define se o jogador comeu um abacate
+     *
+     * @param b O estado que indica se o jogador comeu abacate
+     */
 	public void setComeuAbacate(boolean b) {
 		this.comeuAbacate = b;
 		
 	}
 
+	/**
+     * Verifica se o jogador comeu um abacate
+     *
+     * @return true se o jogador comeu abacate, false caso contrário
+     */
 	public boolean getComeuAbacate() {
 		return this.comeuAbacate;
 	}
 	
+	/**
+     * Define se o jogador comeu um coco
+     *
+     * @param b O estado que indica se o jogador comeu coco
+     */
 	public void setComeuCoco(boolean b) {
 		this.comeuCoco = b;
 		
 	}
 
+	/**
+     * Verifica se o jogador comeu um coco
+     *
+     * @return true se o jogador comeu coco, false caso contrário
+     */
 	public boolean getComeuCoco() {
 		return this.comeuCoco;
 	}

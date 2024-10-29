@@ -16,10 +16,17 @@ public class TelaMenuInicial {
 
     private JFrame menuInicial;
 
+    /**
+     * Construtor da classe TelaMenuInicial
+     * Inicia a exibição do menu inicial
+     */
     public TelaMenuInicial() {
         mostrarMenuInicial();
     }
 
+    /**
+     * Método que mostra o menu inicial do jogo
+     */
     public void mostrarMenuInicial() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         

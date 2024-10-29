@@ -11,11 +11,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Classe que representa a tela da mochila do jogador
+ * Exibe as frutas armazenadas na mochila e permite interações
+ */
 public class TelaMochila extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel painelFrutas;
     private Jogador jogador; // Armazena o jogador para ser usado em atualizações
 
+    /**
+     * Construtor da classe TelaMochila
+     * Inicializa a tela da mochila do jogador e configura a interface gráfica
+     * 
+     * @param jogador O jogador cujas frutas serão exibidas
+     */
     public TelaMochila(Jogador jogador) {
         super("Mochila do jogador " + jogador.getNumero());
         this.jogador = jogador; // Inicializa o jogador
@@ -42,6 +52,10 @@ public class TelaMochila extends JFrame {
         this.pack();
     }
 
+    /**
+     * Atualiza a tela com o estado atual das frutas na mochila
+     * Remove todos os componentes anteriores e recria os botões para as frutas
+     */
     private void atualizarTela() {
         painelFrutas.removeAll(); // Remove todos os componentes anteriores
 
@@ -119,6 +133,9 @@ public class TelaMochila extends JFrame {
         painelFrutas.repaint();
     }
 
+    /**
+     * Exibe a tela da mochila
+     */
     public void exibir() {
         this.setVisible(true);
     }
